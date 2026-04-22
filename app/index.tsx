@@ -1,10 +1,19 @@
 import React from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Redirect } from 'expo-router'
 
 const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
+    function Index() {
+    const logado = false
+
+    if (!logado) {
+      return <Redirect href="/auth/register" />
+    }
+  }
   return (
+    Index());
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.welcome}>Bem vindo, usuário!</Text>
@@ -42,7 +51,7 @@ export default function HomeScreen() {
         <View style={styles.dot} />
       </View>
     </View>
-  );
+  ;
 }
 
 const styles = StyleSheet.create({
