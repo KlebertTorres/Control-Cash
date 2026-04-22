@@ -52,8 +52,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingTop: 60,
   },
-  header: { marginBottom: 30 },
-  welcome: { fontSize: 32, fontWeight: "400", color: "#000" },
+  header: { 
+    marginBottom: 30 
+  },
+  welcome: { 
+    fontSize: 32, fontWeight: "400", color: "#000" 
+  },
   headerLine: {
     height: 1,
     backgroundColor: "#000",
@@ -74,17 +78,21 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     width: "100%",
   },
-  progressBarFill: { backgroundColor: "red", height: "100%" },
-
+  progressBarFill: { 
+    backgroundColor: "red", height: "100%" 
+  },
   progressLabels: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 8,
     paddingHorizontal: 10,
   },
-  labelRed: { color: "red", fontWeight: "bold" },
-  labelGreen: { color: "#2d5a4c", fontWeight: "bold" },
-
+  labelRed: { 
+    color: "red", fontWeight: "bold" 
+  },
+  labelGreen: { 
+    color: "#2d5a4c", fontWeight: "bold" 
+  },
   cardContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -101,10 +109,15 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: "center",
   },
-  cardText: { fontSize: 14, color: "#000" },
-  arrow: { fontSize: 24, fontWeight: "bold", marginHorizontal: 15 },
-
-  pagination: { flexDirection: "row", justifyContent: "center", marginTop: 15 },
+  cardText: { 
+    fontSize: 14, color: "#000" 
+  },
+  arrow: { 
+    fontSize: 24, fontWeight: "bold", marginHorizontal: 15 
+  },
+  pagination: { 
+    flexDirection: "row", justifyContent: "center", marginTop: 15 
+  },
   dot: {
     width: 12,
     height: 12,
@@ -112,5 +125,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     marginHorizontal: 5,
   },
-  dotActive: { backgroundColor: "#2d5a4c" },
+  dotActive: { 
+    backgroundColor: "#2d5a4c" 
+  },
 });

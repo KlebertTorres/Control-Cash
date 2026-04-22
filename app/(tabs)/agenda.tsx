@@ -34,10 +34,18 @@ const styles = StyleSheet.create({
     padding: 25,
     paddingTop: 50,
   },
-  title: { fontSize: 32, color: "#000" },
-  line: { height: 1, backgroundColor: "#000", marginVertical: 10 },
-  calendarContainer: { alignItems: "center", marginBottom: 20 },
-  calendarText: { fontSize: 18, marginBottom: 10 },
+  title: { 
+    fontSize: 32, color: "#000" 
+  },
+  line: { 
+    height: 1, backgroundColor: "#000", marginVertical: 10 
+  },
+  calendarContainer: { 
+    alignItems: "center", marginBottom: 20 
+  },
+  calendarText: { 
+    fontSize: 18, marginBottom: 10 
+  },
   calendarBox: {
     width: "100%",
     height: 200,
@@ -45,7 +53,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 2,
   },
-  infoBox: { marginBottom: 25 },
-  dateText: { fontSize: 22, fontWeight: "500", color: "#000" },
-  detailText: { fontSize: 18, marginLeft: 20, color: "#333" },
+  infoBox: { 
+    marginBottom: 25 
+  },
+  dateText: { 
+    fontSize: 22, fontWeight: "500", color: "#000" 
+  },
+  detailText: { 
+    fontSize: 18, marginLeft: 20, color: "#333" 
+  },
 });
