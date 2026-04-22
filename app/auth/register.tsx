@@ -45,7 +45,7 @@ export default function Register() {
       />
       {errors.email &&
         <Text style = {styles.errorText}>
-        O email inválido.
+        O email é inválido.
         </Text>
       }
       <TextInput
@@ -57,7 +57,7 @@ export default function Register() {
       />
       {errors.user && 
         <Text style = {styles.errorText}>
-          O usuário inválido.
+          O usuário é inválido.
         </Text>
       }
       <TextInput
