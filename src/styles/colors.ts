@@ -14,6 +14,7 @@ export const Colors = {
   accentGreen: "#235347",
   lightGreen: "#8EB69B",
   softGreen: "#DAF1DE",
+  textColorPrimary: "#FFFFFF",
 };
 
 export const Fonts = Platform.select({
