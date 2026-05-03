@@ -1,30 +1,24 @@
 import { useRouter } from "expo-router";
 import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
-import { Colors } from "../constants/colors";
+import { Colors } from "../../constants/colors";
 
 export default function Login() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
-      {/* Logo */}
       <Text style={styles.emoji}>💸</Text>
-
-      {/* Title */}
       <Text style={styles.title}>Control Cash</Text>
       <Text style={styles.subtitle}>Mais dinheiro na sua mão</Text>
-
-      {/* Login label */}
       <Text style={styles.login}>Login</Text>
 
-      {/* Inputs */}
       <TextInput
         placeholder="Usuário"
         placeholderTextColor="#333"
@@ -37,15 +31,15 @@ export default function Login() {
         style={styles.input}
       />
 
-      {/* Button */}
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
 
-      {/* Footer */}
       <Text style={styles.footer}>
-        Ainda não possui conta?{' '}
-        <Text style={styles.link} onPress={() => router.push("/register")}>Criar conta</Text>
+        Ainda não possui conta?{" "}
+        <Text style={styles.link} onPress={() => router.push("/auth/register")}>
+          Criar conta
+        </Text>
       </Text>
     </View>
   );

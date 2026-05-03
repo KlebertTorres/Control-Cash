@@ -8889,3 +8889,5 @@ Account{name=..., path=..., type=PREDICT}
 2026-05-03 19:29:20.229 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/Users/Klebe/OneDrive/Área de Trabalho/controlcash/app)
 2026-05-03 19:29:26.042 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/Users/Klebe/OneDrive/Área de Trabalho/controlcash/app)
 2026-05-03 19:50:46.548 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/Users/Klebe/OneDrive/Área de Trabalho/controlcash/app)
+2026-05-03 19:54:42.045 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/Users/Klebe/OneDrive/Área de Trabalho/controlcash/.git)
+2026-05-03 19:58:21.915 [pool-3-thread-1] INFO  com.rs.mv.mvvs.client.catalog.from.scan.CurrentPathScanner - [client:400205]scan file in current open file directory(C:/Users/Klebe/OneDrive/Área de Trabalho/controlcash/.git)

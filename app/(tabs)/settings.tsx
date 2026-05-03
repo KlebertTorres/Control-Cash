@@ -1,19 +1,16 @@
-import React from "react";
-import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
 import { Colors } from "../../constants/colors";
 
 export default function SettingsScreen() {
   return (
     <View style={styles.container}>
-      {/* Header Section */}
       <View style={styles.header}>
         <Ionicons name="arrow-back" size={28} color="white" />
         <Text style={styles.headerTitle}>Configurações</Text>
       </View>
 
-      {/* Profile Section */}
       <View style={styles.profileSection}>
         <View style={styles.avatar} />
         <Text style={styles.username}>Usuário</Text>
@@ -22,7 +19,6 @@ export default function SettingsScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Menu Section */}
       <View style={styles.menu}>
         <View style={styles.menuItem}>
           <Ionicons name="moon-outline" size={24} color="black" />
@@ -47,7 +43,6 @@ export default function SettingsScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Logout Section */}
       <TouchableOpacity style={styles.logoutButton}>
         <Ionicons name="exit-outline" size={24} color="black" />
         <Text style={styles.logoutText}>Sair</Text>
@@ -57,13 +52,10 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-  // Container
   container: {
     flex: 1,
     backgroundColor: Colors.lightGreen,
   },
-
-  // Header
   header: {
     backgroundColor: Colors.accentGreen,
     height: 100,
@@ -77,8 +69,6 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginLeft: 15,
   },
-
-  // Profile
   profileSection: {
     alignItems: "center",
     marginVertical: 30,
@@ -100,8 +90,6 @@ const styles = StyleSheet.create({
     color: Colors.accentGreen,
     textDecorationLine: "underline",
   },
-
-  // Menu
   menu: {
     paddingHorizontal: 40,
   },
@@ -115,8 +103,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginLeft: 15,
   },
-
-  // Logout
   logoutButton: {
     flexDirection: "row",
     alignItems: "center",
