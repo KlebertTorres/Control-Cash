@@ -1,18 +1,22 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
+import { Colors } from "../../constants/colors";
+
 export default function AgendaScreen() {
   return (
     <ScrollView style={styles.container}>
+      {/* Header */}
       <Text style={styles.title}>Agenda</Text>
       <View style={styles.line} />
 
-      {/* Placeholder do Calendário */}
+      {/* Calendar Placeholder */}
       <View style={styles.calendarContainer}>
         <Text style={styles.calendarText}>Agosto 2025</Text>
         <View style={styles.calendarBox} />
       </View>
 
+      {/* Bills Info */}
       <View style={styles.infoBox}>
         <Text style={styles.dateText}>Dia 21 - R$ 670,00</Text>
         <Text style={styles.detailText}>• Aluguel - R$ 600,00</Text>
@@ -28,16 +32,34 @@ export default function AgendaScreen() {
 }
 
 const styles = StyleSheet.create({
+  // Container
   container: {
     flex: 1,
-    backgroundColor: "#98b8a0",
+    backgroundColor: Colors.lightGreen,
     padding: 25,
     paddingTop: 50,
   },
-  title: { fontSize: 32, color: "#000" },
-  line: { height: 1, backgroundColor: "#000", marginVertical: 10 },
-  calendarContainer: { alignItems: "center", marginBottom: 20 },
-  calendarText: { fontSize: 18, marginBottom: 10 },
+
+  // Header
+  title: {
+    fontSize: 32,
+    color: "#000",
+  },
+  line: {
+    height: 1,
+    backgroundColor: "#000",
+    marginVertical: 10,
+  },
+
+  // Calendar
+  calendarContainer: {
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  calendarText: {
+    fontSize: 18,
+    marginBottom: 10,
+  },
   calendarBox: {
     width: "100%",
     height: 200,
@@ -45,7 +67,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 2,
   },
-  infoBox: { marginBottom: 25 },
-  dateText: { fontSize: 22, fontWeight: "500", color: "#000" },
-  detailText: { fontSize: 18, marginLeft: 20, color: "#333" },
+
+  // Info Boxes
+  infoBox: {
+    marginBottom: 25,
+  },
+  dateText: {
+    fontSize: 22,
+    fontWeight: "500",
+    color: "#000",
+  },
+  detailText: {
+    fontSize: 18,
+    marginLeft: 20,
+    color: "#333",
+  },
 });

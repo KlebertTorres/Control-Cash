@@ -1,19 +1,23 @@
 import { useRouter } from "expo-router";
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
+
+import { Colors } from "../constants/colors";
 
 export default function Register() {
   const router = useRouter();
 
   return (
     <View style={styles.container}>
+      {/* Title */}
       <Text style={styles.title}>Cadastrar-se:</Text>
 
+      {/* Input Fields */}
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -37,10 +41,11 @@ export default function Register() {
         placeholderTextColor="#4f6d5e"
       />
 
+      {/* Buttons */}
       <View style={styles.buttonRow}>
         <TouchableOpacity
           style={styles.smallButton}
-          onPress={() => router.back()}
+          onPress={() => router.push("/login")}
         >
           <Text style={styles.buttonText}>Voltar</Text>
         </TouchableOpacity>
@@ -54,12 +59,15 @@ export default function Register() {
 }
 
 const styles = StyleSheet.create({
+  // Container
   container: {
     flex: 1,
-    backgroundColor: "#2d5a4c",
+    backgroundColor: Colors.accentGreen,
     padding: 30,
     justifyContent: "center",
   },
+
+  // Title
   title: {
     fontSize: 32,
     color: "#fff",
@@ -67,24 +75,31 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     fontWeight: "400",
   },
+
+  // Inputs
   input: {
-    backgroundColor: "#b5cdbd",
+    backgroundColor: Colors.lightGreen,
     borderRadius: 25,
     padding: 15,
     marginBottom: 15,
     fontSize: 16,
   },
+
+  // Buttons
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
   },
   smallButton: {
-    backgroundColor: "#0b1d1a",
+    backgroundColor: Colors.deepGreen,
     paddingVertical: 12,
     borderRadius: 10,
     width: "47%",
     alignItems: "center",
   },
-  buttonText: { color: "#fff", fontWeight: "bold" },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
 });
