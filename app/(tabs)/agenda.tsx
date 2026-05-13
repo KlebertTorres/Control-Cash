@@ -1,6 +1,6 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
-import { Colors } from "../../constants/colors";
+import { Colors } from "../../src/styles/cores";
 
 export default function AgendaScreen() {
   return (

@@ -1,13 +1,13 @@
 import { useRouter } from "expo-router";
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
-import { Colors } from "../../constants/colors";
+import { Colors } from "../../src/styles/cores";
 
 export default function Login() {
   const router = useRouter();
@@ -37,7 +37,7 @@ export default function Login() {
 
       <Text style={styles.footer}>
         Ainda não possui conta?{" "}
-        <Text style={styles.link} onPress={() => router.push("/auth/register")}>
+        <Text style={styles.link} onPress={() => router.push("./registro")}>
           Criar conta
         </Text>
       </Text>
