@@ -1,16 +1,26 @@
 import { useRouter } from "expo-router";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
+import { Pressable, StyleSheet, Text, TextInput, View, } from "react-native";
+import { auth } from '../../firebaseconfig';
 
 import { Colors } from "../../src/styles/cores";
 
 export default function Login() {
   const router = useRouter();
+  const [email, setEmail] = useState("")
+  const [senha, setSenha] = useState("")
+
+  const logar = async () => {
+    try{
+      const user = await signInWithEmailAndPassword( auth, email, senha )
+      if (user) router.replace('../(tabs)/home');
+      alert('Login bem sucedido! ')
+    } catch(erro: any){
+      console.log(erro)
+      alert('Login falho: ' + erro.message)
+    }
+  } 
 
   return (
     <View style={styles.container}>
@@ -23,17 +33,23 @@ export default function Login() {
         placeholder="Usuário"
         placeholderTextColor="#333"
         style={styles.input}
+        onChangeText={setEmail}
+        value={email}
       />
+
       <TextInput
         placeholder="Senha"
         placeholderTextColor="#333"
         secureTextEntry
         style={styles.input}
+        onChangeText={setSenha}
+        value={senha}
       />
 
-      <TouchableOpacity style={styles.button}>
+      <Pressable style={styles.button}
+        onPress = {() => logar() }>
         <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
+      </Pressable>
 
       <Text style={styles.footer}>
         Ainda não possui conta?{" "}
@@ -73,12 +89,13 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "85%",
-    backgroundColor: Colors.lightGreen,
+    backgroundColor: "#b5cdbd",
+    borderWidth: 2,
     borderRadius: 25,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    marginVertical: 8,
-    color: "#000",
+    borderColor: Colors.darkest,
+    padding: 15,
+    marginBottom: 15,
+    fontSize: 16,
   },
   button: {
     backgroundColor: Colors.deepGreen,
