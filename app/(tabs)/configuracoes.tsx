@@ -1,22 +1,40 @@
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
+import { signOut } from 'firebase/auth';
+import { Alert, Pressable, StyleSheet, Switch, Text, View } from "react-native";
+import { auth } from '../../firebaseconfig';
 
 import { Colors } from "../../src/styles/cores";
 
 export default function SettingsScreen() {
+  const router = useRouter();
+  const deslogar = async () => {
+    try {
+      await signOut(auth);
+      // O onAuthStateChanged em seu index.tsx detectará que o usuário foi deslogado
+      // e automaticamente redirecionará para a tela de login.
+      router.push("../auth/login")
+      Alert.alert("Sucesso", "Você foi deslogado com sucesso!");
+    } catch (error: any) {
+      console.error("Erro ao deslogar:", error.message);
+      Alert.alert("Erro", "Não foi possível deslogar. Tente novamente.");
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Ionicons name="arrow-back" size={28} color="white" />
+        <Pressable onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={28} color="white" />
+        </Pressable>
         <Text style={styles.headerTitle}>Configurações</Text>
       </View>
 
       <View style={styles.profileSection}>
         <View style={styles.avatar} />
         <Text style={styles.username}>Usuário</Text>
-        <TouchableOpacity>
+        <Pressable>
           <Text style={styles.editText}>✎ Editar</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
       <View style={styles.menu}>
@@ -32,21 +50,23 @@ export default function SettingsScreen() {
           <Switch value={true} trackColor={{ true: Colors.accentGreen }} />
         </View>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <Pressable style={styles.menuItem}>
           <Ionicons name="mail-outline" size={24} color="black" />
           <Text style={styles.menuText}>Contato</Text>
-        </TouchableOpacity>
+        </Pressable>
 
-        <TouchableOpacity style={styles.menuItem}>
+        <Pressable style={styles.menuItem}>
           <Ionicons name="alert-circle-outline" size={24} color="black" />
           <Text style={styles.menuText}>Relatar erros</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
 
-      <TouchableOpacity style={styles.logoutButton}>
+      <Pressable style={styles.logoutButton}
+        onPress = {() => deslogar()}
+      >
         <Ionicons name="exit-outline" size={24} color="black" />
         <Text style={styles.logoutText}>Sair</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 }

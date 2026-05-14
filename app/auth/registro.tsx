@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { Colors } from "../../src/styles/cores";
 import { validarRegistro } from "../../src/utils/validar";
+import { auth } from '../../firebaseconfig'
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Registrar() {
   const router = useRouter();
@@ -19,7 +21,18 @@ export default function Registrar() {
     confSenha: false,
   });
 
-  function validandoRegistro() {
+  const registrar = async () => {
+    try{
+      const user = await createUserWithEmailAndPassword( auth, email, senha )
+      if (user) router.replace('../(tabs)/home');
+      alert('Registro bem sucedido! ')
+    } catch(erro: any){
+      console.log(erro)
+      alert('Registro falho: ' + erro.message)
+    }
+  }
+
+  async function validandoRegistro() {
     const novosErros = validarRegistro(email, usuario, senha, confSenha);
 
     setErros(novosErros);
@@ -29,6 +42,7 @@ export default function Registrar() {
     if (temErro) return false;
 
     console.log("Novo registro: ", email, usuario, senha);
+    await registrar();
     return true;
   }
 
@@ -68,7 +82,7 @@ export default function Registrar() {
       />
       {erros.senha && (
         <Text style={styles.errorText}>
-          A senha deve ter 4 ou mais caracteres.
+          A senha deve ter 6 ou mais caracteres.
         </Text>
       )}
       <TextInput
