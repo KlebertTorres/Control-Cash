@@ -1,17 +1,20 @@
 import { useRouter } from "expo-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import { auth } from '../../src/services/firebaseconfig';
-import { Colors } from "../../src/styles/cores";
-import { validarRegistro } from "../../src/utils/validar";
+import { Registrar } from "@/src/services/authService";
+import { validarRegistro } from "@/src/utils/validar";
+import { useTheme } from "@/src/hooks/useTheme";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 
-export default function Registrar() {
+export default function RegistroScreen() {
   const router = useRouter();
+
+  const { darkMode } = useTheme();
+  const Colors = darkMode? DarkMode: LightMode;
 
   const [email, setEmail] = useState("");
   const [usuario, setUsuario] = useState("");
-  const [senha, setsenha] = useState("");
+  const [senha, setSenha] = useState("");
   const [confSenha, setConfSenha] = useState("");
 
   const [erros, setErros] = useState({
@@ -23,9 +26,9 @@ export default function Registrar() {
 
   const registrar = async () => {
     try{
-      const user = await createUserWithEmailAndPassword( auth, email, senha )
-      if (user) router.replace('../(tabs)/home');
-      alert('Registro bem sucedido! ')
+      const user = await Registrar( email, senha )
+      if (user) alert('Registro bem sucedido! ')
+        
     } catch(erro: any){
       console.log(erro)
       alert('Registro falho: ' + erro.message)
@@ -53,7 +56,7 @@ export default function Registrar() {
       </Text>
 
       <TextInput
-        style={[styles.input, erros.email && styles.inputError]}
+        style={[styles.input, {borderColor: Colors.darkest}, erros.email && styles.inputError]}
         placeholder="Email"
         placeholderTextColor="#4f6d5e"
         onChangeText={setEmail}
@@ -63,7 +66,7 @@ export default function Registrar() {
         <Text style={styles.errorText}>O email é inválido.</Text>
       )}
       <TextInput
-        style={[styles.input, erros.usuario && styles.inputError]}
+        style={[styles.input, {borderColor: Colors.darkest}, erros.email && styles.inputError]}
         placeholder="Usuário"
         placeholderTextColor="#4f6d5e"
         onChangeText={setUsuario}
@@ -73,11 +76,11 @@ export default function Registrar() {
         <Text style={styles.errorText}>O usuário é inválido.</Text>
       )}
       <TextInput
-        style={[styles.input, erros.senha && styles.inputError]}
+        style={[styles.input, {borderColor: Colors.darkest}, erros.email && styles.inputError]}
         placeholder="Senha"
         secureTextEntry
         placeholderTextColor="#4f6d5e"
-        onChangeText={setsenha}
+        onChangeText={setSenha}
         value={senha}
       />
       {erros.senha && (
@@ -86,7 +89,7 @@ export default function Registrar() {
         </Text>
       )}
       <TextInput
-        style={[styles.input, erros.confSenha && styles.inputError]}
+        style={[styles.input, {borderColor: Colors.darkest}, erros.email && styles.inputError]}
         placeholder="Confirmar senha"
         secureTextEntry
         placeholderTextColor="#4f6d5e"
@@ -136,7 +139,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#b5cdbd",
     borderWidth: 2,
     borderRadius: 25,
-    borderColor: Colors.darkest,
     padding: 15,
     marginBottom: 15,
     fontSize: 16,

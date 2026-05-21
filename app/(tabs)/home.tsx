@@ -1,15 +1,19 @@
 import { Dimensions, StyleSheet, Text, View } from "react-native";
-import { useAuth } from "../../src/hooks/useAuth";
-import { Colors } from "../../src/styles/cores";
+import { useAuth } from "@/src/hooks/useAuth";
+import { useTheme } from "@/src/hooks/useTheme";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 
 const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
 
+  const { darkMode } = useTheme();
+  const Colors = darkMode? DarkMode: LightMode;
+
   const { user } = useAuth();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: Colors.lightGreen}]}>
       {/* Header Section */}
       <View style={styles.header}>
         <Text style={styles.welcome}>Bem vindo, {user?.email}!</Text>
@@ -18,19 +22,19 @@ export default function HomeScreen() {
 
       {/* Balance Section */}
       <Text style={styles.sectionTitle}>Saldo</Text>
-      <View style={styles.progressBarBg}>
+      <View style={[styles.progressBarBg, {backgroundColor: Colors.accentGreen}]}>
         <View style={[styles.progressBarFill, { width: "22%" }]} />
       </View>
       <View style={styles.progressLabels}>
         <Text style={styles.labelRed}>22% utilizado</Text>
-        <Text style={styles.labelGreen}>78% disponível</Text>
+        <Text style={[styles.labelGreen, {color: Colors.accentGreen,}]}>78% disponível</Text>
       </View>
 
       {/* Bills Section */}
       <Text style={styles.sectionTitle}>Contas a Pagar</Text>
       <View style={styles.cardContainer}>
         <Text style={styles.arrow}>{"<"}</Text>
-        <View style={styles.card}>
+        <View style={[styles.card, {borderColor: Colors.accentGreen}]}>
           <Text style={styles.cardText}>Conta de Energia</Text>
           <Text style={styles.cardText}>Valor: R$ 100,00</Text>
           <Text style={styles.cardText}>Vencimento: 22/04/26</Text>
@@ -40,7 +44,7 @@ export default function HomeScreen() {
 
       {/* Pagination */}
       <View style={styles.pagination}>
-        <View style={[styles.dot, styles.dotActive]} />
+        <View style={[styles.dot, {backgroundColor: Colors.accentGreen}]} />
         <View style={styles.dot} />
         <View style={styles.dot} />
       </View>
@@ -52,7 +56,6 @@ const styles = StyleSheet.create({
   // Container
   container: {
     flex: 1,
-    backgroundColor: Colors.lightGreen,
     paddingHorizontal: 25,
     paddingTop: 60,
   },
@@ -83,7 +86,6 @@ const styles = StyleSheet.create({
 
   // Progress Bar
   progressBarBg: {
-    backgroundColor: Colors.accentGreen,
     height: 40,
     borderRadius: 20,
     overflow: "hidden",
@@ -104,7 +106,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   labelGreen: {
-    color: Colors.accentGreen,
     fontWeight: "bold",
   },
 
@@ -120,7 +121,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 25,
     borderWidth: 4,
-    borderColor: Colors.accentGreen,
     width: width * 0.6,
     height: 100,
     justifyContent: "center",
@@ -147,8 +147,5 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: "#fff",
     marginHorizontal: 5,
-  },
-  dotActive: {
-    backgroundColor: Colors.accentGreen,
   },
 });

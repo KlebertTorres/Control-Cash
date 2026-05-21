@@ -1,20 +1,22 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { signOut } from 'firebase/auth';
 import { Alert, Pressable, StyleSheet, Switch, Text, View } from "react-native";
-import { auth } from '../../src/services/firebaseconfig';
-
-import { Colors } from "../../src/styles/cores";
+import { Logout } from "@/src/services/authService";
+import { useTheme } from "@/src/hooks/useTheme";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 
 export default function SettingsScreen() {
   const router = useRouter();
+  const { darkMode, toggleTheme } = useTheme();
+
+  const Colors = darkMode? DarkMode: LightMode;
 
   const deslogar = async () => {
     try {
-      await signOut(auth);
+      await Logout();
       // O onAuthStateChanged em seu index.tsx detectará que o usuário foi deslogado
       // e automaticamente redirecionará para a tela de login.
-      router.push("../auth/login")
+
       Alert.alert("Sucesso", "Você foi deslogado com sucesso!");
     } catch (error: any) {
       console.error("Erro ao deslogar:", error.message);
@@ -23,8 +25,8 @@ export default function SettingsScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
+    <View style={[styles.container, {backgroundColor: Colors.lightGreen}]}>
+      <View style={[styles.header, {backgroundColor: Colors.accentGreen}]}>
         <Pressable onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={28} color="white" />
         </Pressable>
@@ -32,10 +34,10 @@ export default function SettingsScreen() {
       </View>
 
       <View style={styles.profileSection}>
-        <View style={styles.avatar} />
+        <View style={[styles.avatar,{borderColor: Colors.accentGreen}]} />
         <Text style={styles.username}>Usuário</Text>
         <Pressable>
-          <Text style={styles.editText}>✎ Editar</Text>
+          <Text style={[styles.editText, {color: Colors.accentGreen}]}>✎ Editar</Text>
         </Pressable>
       </View>
 
@@ -43,13 +45,17 @@ export default function SettingsScreen() {
         <View style={styles.menuItem}>
           <Ionicons name="moon-outline" size={24} color="black" />
           <Text style={styles.menuText}>Modo escuro</Text>
-          <Switch value={false} />
+          <Switch 
+            trackColor={{ true: Colors.accentGreen }}
+            value={darkMode} 
+            onValueChange={toggleTheme}
+          />
         </View>
 
         <View style={styles.menuItem}>
           <Ionicons name="notifications-outline" size={24} color="black" />
           <Text style={styles.menuText}>Notificações</Text>
-          <Switch value={true} trackColor={{ true: Colors.accentGreen }} />
+          <Switch value={true} />
         </View>
 
         <Pressable style={styles.menuItem}>
@@ -76,10 +82,8 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.lightGreen,
   },
   header: {
-    backgroundColor: Colors.accentGreen,
     height: 100,
     flexDirection: "row",
     alignItems: "center",
@@ -101,7 +105,6 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     backgroundColor: "#D1C4E9",
     borderWidth: 2,
-    borderColor: Colors.accentGreen,
   },
   username: {
     fontSize: 24,
@@ -109,7 +112,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   editText: {
-    color: Colors.accentGreen,
     textDecorationLine: "underline",
   },
   menu: {

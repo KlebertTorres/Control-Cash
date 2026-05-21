@@ -1,10 +1,14 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { View } from "react-native";
-
-import { Colors } from "../../src/styles/cores";
+import { useTheme } from "@/src/hooks/useTheme";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 
 export default function TabLayout() {
+
+  const { darkMode } = useTheme();
+  const Colors = darkMode? DarkMode: LightMode;
+
   return (
     <Tabs
       screenOptions={{

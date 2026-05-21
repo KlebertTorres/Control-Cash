@@ -1,16 +1,19 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View, } from "react-native";
-import { useAuth } from "../../src/hooks/useAuth"
-import { Login } from "../../src/services/authService"
-
-import { Colors } from "../../src/styles/cores";
+import { useAuth } from "@/src/hooks/useAuth"
+import { useTheme } from "@/src/hooks/useTheme"
+import { Login } from "@/src/services/authService"
+import { DarkMode, LightMode } from "@/src/styles/cores";
 
 export default function paginaLogin() {
   const router = useRouter();
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
   const { setUser } = useAuth();
+
+  const { darkMode } = useTheme();
+  const Colors = darkMode? DarkMode: LightMode;
 
   const logar = async () => {
     try{
@@ -30,7 +33,7 @@ export default function paginaLogin() {
   } 
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: Colors.accentGreen}]}>
       <Text style={styles.emoji}>💸</Text>
       <Text style={styles.title}>Control Cash</Text>
       <Text style={styles.subtitle}>Mais dinheiro na sua mão</Text>
@@ -39,7 +42,7 @@ export default function paginaLogin() {
       <TextInput
         placeholder="Usuário"
         placeholderTextColor="#333"
-        style={styles.input}
+        style={[styles.input, {borderColor: Colors.darkest}]}
         onChangeText={setEmail}
         value={email}
       />
@@ -48,12 +51,12 @@ export default function paginaLogin() {
         placeholder="Senha"
         placeholderTextColor="#333"
         secureTextEntry
-        style={styles.input}
+        style={[styles.input, {borderColor: Colors.darkest}]}
         onChangeText={setSenha}
         value={senha}
       />
 
-      <Pressable style={styles.button}
+      <Pressable style={[styles.button, {backgroundColor: Colors.deepGreen}]}
         onPress = {() => logar() }>
         <Text style={styles.buttonText}>Entrar</Text>
       </Pressable>
@@ -71,7 +74,6 @@ export default function paginaLogin() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.accentGreen,
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
@@ -99,13 +101,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#b5cdbd",
     borderWidth: 2,
     borderRadius: 25,
-    borderColor: Colors.darkest,
     padding: 15,
     marginBottom: 15,
     fontSize: 16,
   },
   button: {
-    backgroundColor: Colors.deepGreen,
     paddingVertical: 12,
     paddingHorizontal: 40,
     borderRadius: 10,
