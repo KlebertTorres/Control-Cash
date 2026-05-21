@@ -2,12 +2,13 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { signOut } from 'firebase/auth';
 import { Alert, Pressable, StyleSheet, Switch, Text, View } from "react-native";
-import { auth } from '../../firebaseconfig';
+import { auth } from '../../src/services/firebaseconfig';
 
 import { Colors } from "../../src/styles/cores";
 
 export default function SettingsScreen() {
   const router = useRouter();
+
   const deslogar = async () => {
     try {
       await signOut(auth);
@@ -20,6 +21,7 @@ export default function SettingsScreen() {
       Alert.alert("Erro", "Não foi possível deslogar. Tente novamente.");
     }
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>

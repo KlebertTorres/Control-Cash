@@ -1,10 +1,10 @@
 import { useRouter } from "expo-router";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { auth } from '../../src/services/firebaseconfig';
 import { Colors } from "../../src/styles/cores";
 import { validarRegistro } from "../../src/utils/validar";
-import { auth } from '../../firebaseconfig'
-import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function Registrar() {
   const router = useRouter();

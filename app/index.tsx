@@ -1,7 +1,7 @@
-import { Redirect } from 'expo-router'
-import { useEffect, useState } from 'react'
-import { onAuthStateChanged, User } from 'firebase/auth'
-import { auth } from "../firebaseconfig"
+import { Redirect } from 'expo-router';
+import { onAuthStateChanged, User } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+import { auth } from "../src/services/firebaseconfig";
 
 export default function Index() {
   const [user, setUser] = useState<User | null | undefined>(undefined); // undefined significa "ainda verificando"

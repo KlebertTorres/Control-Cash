@@ -1,15 +1,18 @@
 import { Dimensions, StyleSheet, Text, View } from "react-native";
-
+import { useAuth } from "../../src/hooks/useAuth";
 import { Colors } from "../../src/styles/cores";
 
 const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
+
+  const { user } = useAuth();
+
   return (
     <View style={styles.container}>
       {/* Header Section */}
       <View style={styles.header}>
-        <Text style={styles.welcome}>Bem vindo, usuário!</Text>
+        <Text style={styles.welcome}>Bem vindo, {user?.email}!</Text>
         <View style={styles.headerLine} />
       </View>
 

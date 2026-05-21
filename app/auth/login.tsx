@@ -1,21 +1,28 @@
 import { useRouter } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View, } from "react-native";
-import { auth } from '../../firebaseconfig';
+import { useAuth } from "../../src/hooks/useAuth"
+import { Login } from "../../src/services/authService"
 
 import { Colors } from "../../src/styles/cores";
 
-export default function Login() {
+export default function paginaLogin() {
   const router = useRouter();
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
+  const { setUser } = useAuth();
 
   const logar = async () => {
     try{
-      const user = await signInWithEmailAndPassword( auth, email, senha )
-      if (user) router.replace('../(tabs)/home');
-      alert('Login bem sucedido! ')
+      const resposta = await Login(email, senha)
+
+      if (resposta){
+        router.replace('../(tabs)/home');
+        
+        setUser(resposta.user)
+        alert('Login bem sucedido! ')
+      } 
+
     } catch(erro: any){
       console.log(erro)
       alert('Login falho: ' + erro.message)

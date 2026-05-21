@@ -1,16 +1,10 @@
-import { Slot } from "expo-router";
-import { StyleSheet, View } from "react-native";
+import { Stack } from "expo-router";
+import { AuthProvider } from "../src/contexts/AuthContext";
 
-export default function RootLayout() {
+export default function Layout() {
   return (
-    <View style={styles.container}>
-      <Slot />
-    </View>
+    <AuthProvider>
+      <Stack screenOptions={{ headerShown: false }} />
+    </AuthProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
