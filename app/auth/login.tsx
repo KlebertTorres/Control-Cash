@@ -1,16 +1,25 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View, } from "react-native";
+import { StyleSheet, Text, View, } from "react-native";
+import { InputField } from "@/src/components/InputField";
+import { SimpleButton } from "@/src/components/SimpleButton";
+import { ErrorText } from "@/src/components/ErrorText";
 import { useAuth } from "@/src/hooks/useAuth"
 import { useTheme } from "@/src/hooks/useTheme"
 import { Login } from "@/src/services/authService"
+import { validarLogin } from "@/src/utils/validar";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 
-export default function paginaLogin() {
+export default function LoginScreen() {
   const router = useRouter();
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
   const { setUser } = useAuth();
+
+  const [erros, setErros] = useState({
+  email: false,
+  senha: false,
+  });
 
   const { darkMode } = useTheme();
   const Colors = darkMode? DarkMode: LightMode;
@@ -32,6 +41,20 @@ export default function paginaLogin() {
     }
   } 
 
+  async function validandoLogin() {
+    const novosErros = validarLogin(email, senha);
+
+    setErros(novosErros);
+
+    const temErro = Object.values(novosErros).includes(true);
+
+    if (temErro) return false;
+
+    console.log("Novo Login: ", email, senha);
+    await logar();
+    return true;
+  }
+
   return (
     <View style={[styles.container, {backgroundColor: Colors.accentGreen}]}>
       <Text style={styles.emoji}>💸</Text>
@@ -39,27 +62,40 @@ export default function paginaLogin() {
       <Text style={styles.subtitle}>Mais dinheiro na sua mão</Text>
       <Text style={styles.login}>Login</Text>
 
-      <TextInput
-        placeholder="Usuário"
-        placeholderTextColor="#333"
-        style={[styles.input, {borderColor: Colors.darkest}]}
+      <InputField
+        style={{width: "85%"}}
+        placeholder="Email"
         onChangeText={setEmail}
         value={email}
+        erros={erros.email}
       />
 
-      <TextInput
+      <ErrorText 
+        text="O email é inválido." 
+        erro={erros.email}
+        padding="30"
+      >  
+      </ErrorText>
+
+      <InputField
+        style={{width: "85%"}}
         placeholder="Senha"
-        placeholderTextColor="#333"
-        secureTextEntry
-        style={[styles.input, {borderColor: Colors.darkest}]}
         onChangeText={setSenha}
         value={senha}
+        erros={erros.senha}
       />
 
-      <Pressable style={[styles.button, {backgroundColor: Colors.deepGreen}]}
-        onPress = {() => logar() }>
-        <Text style={styles.buttonText}>Entrar</Text>
-      </Pressable>
+      <ErrorText 
+        text="A senha é inválida." 
+        erro={erros.senha}
+        padding="30"
+      >    
+      </ErrorText>
+
+      <SimpleButton
+        onPress={() => validandoLogin()}
+        text="Entrar"
+      ></SimpleButton>
 
       <Text style={styles.footer}>
         Ainda não possui conta?{" "}
@@ -95,25 +131,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#fff",
     marginBottom: 15,
-  },
-  input: {
-    width: "85%",
-    backgroundColor: "#b5cdbd",
-    borderWidth: 2,
-    borderRadius: 25,
-    padding: 15,
-    marginBottom: 15,
-    fontSize: 16,
-  },
-  button: {
-    paddingVertical: 12,
-    paddingHorizontal: 40,
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
   },
   footer: {
     color: "#ccc",

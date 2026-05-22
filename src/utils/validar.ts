@@ -7,3 +7,11 @@ export function validarRegistro(email: string, usuario:string, senha:string, con
     }
     return Erros
 }
+
+export function validarLogin(email: string, senha:String){
+    const Erros = {
+        email: (!email.includes("@") || !email),
+        senha: (!senha),
+    }
+    return Erros
+}

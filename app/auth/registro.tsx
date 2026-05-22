@@ -1,6 +1,9 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { InputField } from "@/src/components/InputField"; 
+import { SimpleButton } from "@/src/components/SimpleButton";
+import { ErrorText } from "@/src/components/ErrorText";
 import { Registrar } from "@/src/services/authService";
 import { validarRegistro } from "@/src/utils/validar";
 import { useTheme } from "@/src/hooks/useTheme";
@@ -55,69 +58,68 @@ export default function RegistroScreen() {
         Cadastrar-se:
       </Text>
 
-      <TextInput
-        style={[styles.input, {borderColor: Colors.darkest}, erros.email && styles.inputError]}
+      <InputField
         placeholder="Email"
-        placeholderTextColor="#4f6d5e"
         onChangeText={setEmail}
         value={email}
+        erros={erros.email}
       />
-      {erros.email && (
-        <Text style={styles.errorText}>O email é inválido.</Text>
-      )}
-      <TextInput
-        style={[styles.input, {borderColor: Colors.darkest}, erros.email && styles.inputError]}
+
+      <ErrorText 
+      text="O email é inválido." 
+      erro={erros.email}
+      >  
+      </ErrorText>
+
+      <InputField
         placeholder="Usuário"
-        placeholderTextColor="#4f6d5e"
         onChangeText={setUsuario}
         value={usuario}
+        erros={erros.usuario}
       />
-      {erros.usuario && (
-        <Text style={styles.errorText}>O usuário é inválido.</Text>
-      )}
-      <TextInput
-        style={[styles.input, {borderColor: Colors.darkest}, erros.email && styles.inputError]}
+
+      <ErrorText 
+        text="O usuário é inválido." 
+        erro={erros.usuario}
+      >    
+      </ErrorText>
+
+      <InputField
         placeholder="Senha"
-        secureTextEntry
-        placeholderTextColor="#4f6d5e"
         onChangeText={setSenha}
         value={senha}
+        erros={erros.senha}
       />
-      {erros.senha && (
-        <Text style={styles.errorText}>
-          A senha deve ter 6 ou mais caracteres.
-        </Text>
-      )}
-      <TextInput
-        style={[styles.input, {borderColor: Colors.darkest}, erros.email && styles.inputError]}
+
+      <ErrorText 
+        text="A senha deve ter 6 ou mais caracteres." 
+        erro={erros.senha}
+      >    
+      </ErrorText>
+
+      <InputField
         placeholder="Confirmar senha"
-        secureTextEntry
-        placeholderTextColor="#4f6d5e"
         onChangeText={setConfSenha}
         value={confSenha}
+        erros={erros.confSenha}
       />
-      {erros.confSenha && (
-        <Text style={styles.errorText}>As senhas não conferem.</Text>
-      )}
+
+      <ErrorText 
+        text="As senhas não conferem." 
+        erro={erros.confSenha}
+      >  
+      </ErrorText>
 
       <View style={styles.buttonRow}>
-        <Pressable
-          style={[styles.smallButton, { backgroundColor: Colors.darkest }]}
+        <SimpleButton
           onPress={() => router.back()}
-        >
-          <Text style={[styles.buttonText, { color: Colors.textColorPrimary }]}>
-            Voltar
-          </Text>
-        </Pressable>
+          text="Voltar"
+        ></SimpleButton>
 
-        <Pressable
-          style={[styles.smallButton, { backgroundColor: Colors.darkest }]}
+        <SimpleButton
           onPress={() => validandoRegistro()}
-        >
-          <Text style={[styles.buttonText, { color: Colors.textColorPrimary }]}>
-            Criar Conta
-          </Text>
-        </Pressable>
+          text="Criar Conta"
+        ></SimpleButton>
       </View>
     </View>
   );
@@ -135,36 +137,9 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     fontWeight: "400",
   },
-  input: {
-    backgroundColor: "#b5cdbd",
-    borderWidth: 2,
-    borderRadius: 25,
-    padding: 15,
-    marginBottom: 15,
-    fontSize: 16,
-  },
-  inputError: {
-    borderColor: "#f65151",
-  },
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
-  },
-  smallButton: {
-    paddingVertical: 12,
-    borderRadius: 10,
-    width: "47%",
-    alignItems: "center",
-  },
-  buttonText: {
-    fontWeight: "bold",
-  },
-  errorText: {
-    color: "#f65151",
-    fontSize: 16,
-    paddingLeft: 18,
-    marginTop: -10,
-    marginBottom: 5,
   },
 });
