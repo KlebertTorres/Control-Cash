@@ -1,16 +1,39 @@
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import {
+    Alert,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
     View,
 } from "react-native";
-
 import { Colors } from "../../constants/colors";
+import { useAuth } from "../../src/context/AuthContext";
 
 export default function Login() {
   const router = useRouter();
+  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert("Erro", "Por favor, preencha todos os campos.");
+      return;
+    }
+
+    setLoading(true);
+    const success = await login(email, password);
+    setLoading(false);
+
+    if (success) {
+      router.replace("/(tabs)");
+    } else {
+      Alert.alert("Erro", "Email ou senha incorretos.");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -20,19 +43,31 @@ export default function Login() {
       <Text style={styles.login}>Login</Text>
 
       <TextInput
-        placeholder="Usuário"
+        placeholder="Email"
         placeholderTextColor="#333"
         style={styles.input}
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
       <TextInput
         placeholder="Senha"
         placeholderTextColor="#333"
         secureTextEntry
         style={styles.input}
+        value={password}
+        onChangeText={setPassword}
       />
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Entrar</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleLogin}
+        disabled={loading}
+      >
+        <Text style={styles.buttonText}>
+          {loading ? "Entrando..." : "Entrar"}
+        </Text>
       </TouchableOpacity>
 
       <Text style={styles.footer}>

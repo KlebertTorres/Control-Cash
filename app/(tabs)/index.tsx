@@ -1,37 +1,83 @@
-import React from "react";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
-
 import { Colors } from "../../constants/colors";
+import { useAuth } from "../../src/context/AuthContext";
+import { useTransactionStore } from "../../src/stores/transactionStore";
 
 const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
+  const { user } = useAuth();
+  const { getBalance, transactions } = useTransactionStore();
+
+  const balance = getBalance();
+  const totalIncome = transactions
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
+  const totalExpense = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const utilizationPercentage =
+    totalIncome > 0 ? (totalExpense / totalIncome) * 100 : 0;
+
+  const balanceColor = balance >= 0 ? Colors.accentGreen : "red";
+
   return (
     <View style={styles.container}>
       {/* Header Section */}
       <View style={styles.header}>
-        <Text style={styles.welcome}>Bem vindo, usuário!</Text>
+        <Text style={styles.welcome}>
+          Bem vindo, {user?.name || "Usuário"}!
+        </Text>
         <View style={styles.headerLine} />
       </View>
 
       {/* Balance Section */}
       <Text style={styles.sectionTitle}>Saldo</Text>
+      <Text style={[styles.balanceText, { color: balanceColor }]}>
+        R$ {balance.toFixed(2)}
+      </Text>
       <View style={styles.progressBarBg}>
-        <View style={[styles.progressBarFill, { width: "22%" }]} />
+        <View
+          style={[
+            styles.progressBarFill,
+            { width: `${Math.min(utilizationPercentage, 100)}%` },
+          ]}
+        />
       </View>
       <View style={styles.progressLabels}>
-        <Text style={styles.labelRed}>22% utilizado</Text>
-        <Text style={styles.labelGreen}>78% disponível</Text>
+        <Text style={styles.labelRed}>
+          {utilizationPercentage.toFixed(0)}% utilizado
+        </Text>
+        <Text style={styles.labelGreen}>
+          {(100 - utilizationPercentage).toFixed(0)}% disponível
+        </Text>
       </View>
 
       {/* Bills Section */}
-      <Text style={styles.sectionTitle}>Contas a Pagar</Text>
+      <Text style={styles.sectionTitle}>Últimas Transações</Text>
       <View style={styles.cardContainer}>
         <Text style={styles.arrow}>{"<"}</Text>
         <View style={styles.card}>
-          <Text style={styles.cardText}>Conta de Energia</Text>
-          <Text style={styles.cardText}>Valor: R$ 100,00</Text>
-          <Text style={styles.cardText}>Vencimento: 22/04/26</Text>
+          {transactions.length > 0 ? (
+            <>
+              <Text style={styles.cardText}>
+                {transactions[transactions.length - 1].description}
+              </Text>
+              <Text style={styles.cardText}>
+                Valor: R${" "}
+                {transactions[transactions.length - 1].amount.toFixed(2)}
+              </Text>
+              <Text style={styles.cardText}>
+                Tipo:{" "}
+                {transactions[transactions.length - 1].type === "income"
+                  ? "Ganho"
+                  : "Gasto"}
+              </Text>
+            </>
+          ) : (
+            <Text style={styles.cardText}>Nenhuma transação ainda</Text>
+          )}
         </View>
         <Text style={styles.arrow}>{">"}</Text>
       </View>
@@ -71,12 +117,17 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 
-  // Sections
   sectionTitle: {
     fontSize: 28,
     textAlign: "center",
     marginVertical: 20,
     color: "#000",
+  },
+  balanceText: {
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 10,
+    fontWeight: "bold",
   },
 
   // Progress Bar

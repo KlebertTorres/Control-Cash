@@ -1,10 +1,15 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
-import { View } from "react-native";
-
+import { Tabs, useRouter } from "expo-router";
+import { TouchableOpacity } from "react-native";
 import { Colors } from "../../constants/colors";
 
 export default function TabLayout() {
+  const router = useRouter();
+
+  const handleAddPress = () => {
+    router.push("/add-transaction");
+  };
+
   return (
     <Tabs
       screenOptions={{
@@ -43,7 +48,8 @@ export default function TabLayout() {
         options={{
           title: "",
           tabBarIcon: () => (
-            <View
+            <TouchableOpacity
+              onPress={handleAddPress}
               style={{
                 backgroundColor: "#e0e0e0",
                 width: 55,
@@ -57,7 +63,7 @@ export default function TabLayout() {
               }}
             >
               <Ionicons name="add" size={35} color={Colors.accentGreen} />
-            </View>
+            </TouchableOpacity>
           ),
         }}
       />

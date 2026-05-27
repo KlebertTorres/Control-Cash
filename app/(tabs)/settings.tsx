@@ -1,19 +1,44 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
-
 import { Colors } from "../../constants/colors";
+import { useAuth } from "../../src/context/AuthContext";
+import { useTheme } from "../../src/context/ThemeContext";
 
 export default function SettingsScreen() {
+  const router = useRouter();
+  const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
+
+  const handleLogout = async () => {
+    await logout();
+    router.replace("/auth/login");
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Ionicons name="arrow-back" size={28} color="white" />
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: theme === "dark" ? "#333" : Colors.lightGreen },
+      ]}
+    >
+      <View style={[styles.header, { backgroundColor: Colors.accentGreen }]}>
+        <TouchableOpacity onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={28} color="white" />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Configurações</Text>
       </View>
 
       <View style={styles.profileSection}>
         <View style={styles.avatar} />
-        <Text style={styles.username}>Usuário</Text>
+        <Text
+          style={[
+            styles.username,
+            { color: theme === "dark" ? "#fff" : "#000" },
+          ]}
+        >
+          {user?.name || "Usuário"}
+        </Text>
         <TouchableOpacity>
           <Text style={styles.editText}>✎ Editar</Text>
         </TouchableOpacity>
@@ -21,31 +46,90 @@ export default function SettingsScreen() {
 
       <View style={styles.menu}>
         <View style={styles.menuItem}>
-          <Ionicons name="moon-outline" size={24} color="black" />
-          <Text style={styles.menuText}>Modo escuro</Text>
-          <Switch value={false} />
+          <Ionicons
+            name="moon-outline"
+            size={24}
+            color={theme === "dark" ? "#fff" : "black"}
+          />
+          <Text
+            style={[
+              styles.menuText,
+              { color: theme === "dark" ? "#fff" : "#000" },
+            ]}
+          >
+            Modo escuro
+          </Text>
+          <Switch
+            value={theme === "dark"}
+            onValueChange={toggleTheme}
+            trackColor={{ true: Colors.accentGreen }}
+          />
         </View>
 
         <View style={styles.menuItem}>
-          <Ionicons name="notifications-outline" size={24} color="black" />
-          <Text style={styles.menuText}>Notificações</Text>
+          <Ionicons
+            name="notifications-outline"
+            size={24}
+            color={theme === "dark" ? "#fff" : "black"}
+          />
+          <Text
+            style={[
+              styles.menuText,
+              { color: theme === "dark" ? "#fff" : "#000" },
+            ]}
+          >
+            Notificações
+          </Text>
           <Switch value={true} trackColor={{ true: Colors.accentGreen }} />
         </View>
 
         <TouchableOpacity style={styles.menuItem}>
-          <Ionicons name="mail-outline" size={24} color="black" />
-          <Text style={styles.menuText}>Contato</Text>
+          <Ionicons
+            name="mail-outline"
+            size={24}
+            color={theme === "dark" ? "#fff" : "black"}
+          />
+          <Text
+            style={[
+              styles.menuText,
+              { color: theme === "dark" ? "#fff" : "#000" },
+            ]}
+          >
+            Contato
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.menuItem}>
-          <Ionicons name="alert-circle-outline" size={24} color="black" />
-          <Text style={styles.menuText}>Relatar erros</Text>
+          <Ionicons
+            name="alert-circle-outline"
+            size={24}
+            color={theme === "dark" ? "#fff" : "black"}
+          />
+          <Text
+            style={[
+              styles.menuText,
+              { color: theme === "dark" ? "#fff" : "#000" },
+            ]}
+          >
+            Relatar erros
+          </Text>
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.logoutButton}>
-        <Ionicons name="exit-outline" size={24} color="black" />
-        <Text style={styles.logoutText}>Sair</Text>
+      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+        <Ionicons
+          name="exit-outline"
+          size={24}
+          color={theme === "dark" ? "#fff" : "black"}
+        />
+        <Text
+          style={[
+            styles.logoutText,
+            { color: theme === "dark" ? "#fff" : "#000" },
+          ]}
+        >
+          Sair
+        </Text>
       </TouchableOpacity>
     </View>
   );

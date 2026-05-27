@@ -1,16 +1,26 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+    Alert,
+    Pressable,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+} from "react-native";
 import { Colors } from "../../constants/colors";
+import { useAuth } from "../../src/context/AuthContext";
 import { validateRegister } from "../../src/utils/validate";
 
 export default function Register() {
   const router = useRouter();
+  const { register } = useAuth();
 
   const [email, setEmail] = useState("");
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [errors, setErrors] = useState({
     email: false,
@@ -19,18 +29,23 @@ export default function Register() {
     confPassword: false,
   });
 
-  function validateRegist() {
+  const handleRegister = async () => {
     const newErrors = validateRegister(email, user, password, confPassword);
-
     setErrors(newErrors);
 
     const haveError = Object.values(newErrors).includes(true);
+    if (haveError) return;
 
-    if (haveError) return false;
+    setLoading(true);
+    const success = await register(user, email, password);
+    setLoading(false);
 
-    console.log("Novo registro: ", email, user, password);
-    return true;
-  }
+    if (success) {
+      router.replace("/onboarding");
+    } else {
+      Alert.alert("Erro", "Falha ao criar conta. Tente novamente.");
+    }
+  };
 
   return (
     <View style={[styles.container, { backgroundColor: Colors.accentGreen }]}>
@@ -44,20 +59,20 @@ export default function Register() {
         placeholderTextColor="#4f6d5e"
         onChangeText={setEmail}
         value={email}
+        keyboardType="email-address"
+        autoCapitalize="none"
       />
       {errors.email && (
         <Text style={styles.errorText}>O email é inválido.</Text>
       )}
       <TextInput
         style={[styles.input, errors.user && styles.inputError]}
-        placeholder="Usuário"
+        placeholder="Nome"
         placeholderTextColor="#4f6d5e"
         onChangeText={setUser}
         value={user}
       />
-      {errors.user && (
-        <Text style={styles.errorText}>O usuário é inválido.</Text>
-      )}
+      {errors.user && <Text style={styles.errorText}>O nome é inválido.</Text>}
       <TextInput
         style={[styles.input, errors.password && styles.inputError]}
         placeholder="Senha"
@@ -95,10 +110,11 @@ export default function Register() {
 
         <Pressable
           style={[styles.smallButton, { backgroundColor: Colors.darkest }]}
-          onPress={() => validateRegist()}
+          onPress={handleRegister}
+          disabled={loading}
         >
           <Text style={[styles.buttonText, { color: Colors.textColorPrimary }]}>
-            Criar Conta
+            {loading ? "Criando..." : "Criar Conta"}
           </Text>
         </Pressable>
       </View>

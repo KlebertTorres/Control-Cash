@@ -1,28 +1,50 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-
 import { Colors } from "../../constants/colors";
+import { useTransactionStore } from "../../src/stores/transactionStore";
 
 export default function AgendaScreen() {
+  const { transactions } = useTransactionStore();
+
+  // Group transactions by date
+  const transactionsByDate = transactions.reduce(
+    (acc, transaction) => {
+      const date = transaction.date.split("T")[0]; // Get YYYY-MM-DD
+      if (!acc[date]) acc[date] = [];
+      acc[date].push(transaction);
+      return acc;
+    },
+    {} as Record<string, typeof transactions>,
+  );
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.title}>Agenda</Text>
       <View style={styles.line} />
 
       <View style={styles.calendarContainer}>
-        <Text style={styles.calendarText}>Agosto 2025</Text>
+        <Text style={styles.calendarText}>Calendário</Text>
         <View style={styles.calendarBox} />
       </View>
 
-      <View style={styles.infoBox}>
-        <Text style={styles.dateText}>Dia 21 - R$ 670,00</Text>
-        <Text style={styles.detailText}>• Aluguel - R$ 600,00</Text>
-        <Text style={styles.detailText}>• Água - R$ 70,00</Text>
-      </View>
-
-      <View style={styles.infoBox}>
-        <Text style={styles.dateText}>Dia 22 - R$ 100,00</Text>
-        <Text style={styles.detailText}>• Energia - R$ 100,00</Text>
-      </View>
+      {Object.keys(transactionsByDate).length > 0 ? (
+        Object.entries(transactionsByDate).map(([date, dayTransactions]) => (
+          <View key={date} style={styles.infoBox}>
+            <Text style={styles.dateText}>
+              {new Date(date).toLocaleDateString("pt-BR")} - R${" "}
+              {dayTransactions.reduce((sum, t) => sum + t.amount, 0).toFixed(2)}
+            </Text>
+            {dayTransactions.map((transaction) => (
+              <Text key={transaction.id} style={styles.detailText}>
+                • {transaction.description} - R$ {transaction.amount.toFixed(2)}
+              </Text>
+            ))}
+          </View>
+        ))
+      ) : (
+        <View style={styles.infoBox}>
+          <Text style={styles.dateText}>Nenhuma transação ainda</Text>
+        </View>
+      )}
     </ScrollView>
   );
 }
