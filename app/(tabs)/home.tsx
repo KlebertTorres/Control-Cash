@@ -2,7 +2,7 @@ import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
-import { useTransactionStore } from "@/src/stores/transactionStore";
+import { useTransactionStore } from "@/src/hooks/useTransactionStore";
 
 const { width } = Dimensions.get("window");
 

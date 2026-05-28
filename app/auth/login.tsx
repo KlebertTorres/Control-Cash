@@ -74,13 +74,13 @@ export default function LoginScreen() {
         text="O email é inválido." 
         erro={erros.email}
         padding="30"
-      >  
-      </ErrorText>
-
+      />  
+      
       <InputField
         style={{width: "85%"}}
         placeholder="Senha"
         onChangeText={setSenha}
+        secureTextEntry={true}
         value={senha}
         erros={erros.senha}
       />
@@ -89,13 +89,12 @@ export default function LoginScreen() {
         text="A senha é inválida." 
         erro={erros.senha}
         padding="30"
-      >    
-      </ErrorText>
+      />  
 
       <SimpleButton
         onPress={() => validandoLogin()}
         text="Entrar"
-      ></SimpleButton>
+      />
 
       <Text style={styles.footer}>
         Ainda não possui conta?{" "}

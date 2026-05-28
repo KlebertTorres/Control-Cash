@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { useTransactionStore } from "@/src/stores/transactionStore";
+import { useTransactionStore } from "@/src/hooks/useTransactionStore";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 

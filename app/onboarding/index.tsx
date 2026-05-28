@@ -1,15 +1,8 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from "react-native";
-import { useOnboardingStore } from "../../src/stores/onboardingStore";
-import { useTransactionStore } from "../../src/stores/transactionStore";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useOnBoarding } from "@/src/hooks/useOnBoarding";
+import { useTransactionStore } from "@/src/hooks/useTransactionStore";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 
@@ -19,7 +12,7 @@ export default function Onboarding() {
   const { darkMode } = useTheme();
   const Colors = darkMode? DarkMode: LightMode;
 
-  const { completeOnboarding } = useOnboardingStore();
+  const { completeOnboarding } = useOnBoarding();
   const { addTransaction } = useTransactionStore();
 
   const [step, setStep] = useState(0);
@@ -172,7 +165,7 @@ export default function Onboarding() {
     }
 
     completeOnboarding(numericData);
-    router.replace("/(tabs)");
+    router.replace("/(tabs)/home");
   };
 
   const currentStep = steps[step];

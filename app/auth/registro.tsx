@@ -68,8 +68,7 @@ export default function RegistroScreen() {
       <ErrorText 
       text="O email é inválido." 
       erro={erros.email}
-      >  
-      </ErrorText>
+      />  
 
       <InputField
         placeholder="Usuário"
@@ -81,8 +80,7 @@ export default function RegistroScreen() {
       <ErrorText 
         text="O usuário é inválido." 
         erro={erros.usuario}
-      >    
-      </ErrorText>
+      />  
 
       <InputField
         placeholder="Senha"
@@ -94,8 +92,7 @@ export default function RegistroScreen() {
       <ErrorText 
         text="A senha deve ter 6 ou mais caracteres." 
         erro={erros.senha}
-      >    
-      </ErrorText>
+      />  
 
       <InputField
         placeholder="Confirmar senha"
@@ -107,8 +104,7 @@ export default function RegistroScreen() {
       <ErrorText 
         text="As senhas não conferem." 
         erro={erros.confSenha}
-      >  
-      </ErrorText>
+      />  
 
       <View style={styles.buttonRow}>
         <SimpleButton

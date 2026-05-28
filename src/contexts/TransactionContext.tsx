@@ -1,38 +1,11 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useState } from "react";
+import { Transaction, TransactionContextType } from "../types/TransactionsType";
 
-export interface Transaction {
-  id: string;
-  type: "income" | "expense";
-  amount: number;
-  description: string;
-  date: string; // ISO date string
-  category: string;
-}
-
-interface TransactionContextType {
-  transactions: Transaction[];
-  addTransaction: (transaction: Omit<Transaction, "id">) => void;
-  removeTransaction: (id: string) => void;
-  getBalance: () => number;
-  getTransactionsByDate: (date: string) => Transaction[];
-  getMonthlyBalance: (month: string) => number; // YYYY-MM
-}
-
-const TransactionContext = createContext<TransactionContextType | undefined>(
+export const TransactionStoreContext = createContext<TransactionContextType | undefined>(
   undefined,
 );
 
-export const useTransactionStore = () => {
-  const context = useContext(TransactionContext);
-  if (!context) {
-    throw new Error(
-      "useTransactionStore must be used within a TransactionProvider",
-    );
-  }
-  return context;
-};
-
-export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
+export const TransactionStoreProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -72,7 +45,7 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return (
-    <TransactionContext.Provider
+    <TransactionStoreContext.Provider
       value={{
         transactions,
         addTransaction,
@@ -83,6 +56,6 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
       }}
     >
       {children}
-    </TransactionContext.Provider>
+    </TransactionStoreContext.Provider>
   );
 };

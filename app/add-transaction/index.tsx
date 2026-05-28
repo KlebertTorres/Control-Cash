@@ -1,16 +1,11 @@
+import { useTheme } from "@/src/hooks/useTheme";
+import { useTransactionStore } from "@/src/hooks/useTransactionStore";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import {
-    Alert,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from "react-native";
-import { useTransactionStore } from "../../src/stores/transactionStore";
-import { useTheme } from "@/src/hooks/useTheme";
-import { DarkMode, LightMode } from "@/src/styles/cores";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { InputField } from "@/src/components/InputField";
+import { SimpleButton } from "@/src/components/SimpleButton";
 
 export default function AddTransaction() {
   const router = useRouter();
@@ -20,7 +15,7 @@ export default function AddTransaction() {
 
   const { addTransaction } = useTransactionStore();
 
-  const [type, setType] = useState<"income" | "expense">("income");
+  const [type, setType] = useState<"income" | "expense">("expense");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -54,61 +49,35 @@ export default function AddTransaction() {
       <Text style={styles.title}>Adicionar Transação</Text>
 
       <View style={styles.typeContainer}>
-        <TouchableOpacity
-          style={[
-            styles.typeButton,
-            type === "income" && {backgroundColor: Colors.lightGreen},
-          ]}
-          onPress={() => setType("income")}
-        >
-          <Text
-            style={[
-              styles.typeText,
-              type === "income" && styles.typeTextActive,
-            ]}
-          >
-            Ganho
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.typeButton,
-            type === "expense" && {backgroundColor: Colors.deepGreen}
-          ]}
+        <SimpleButton
           onPress={() => setType("expense")}
-        >
-          <Text
-            style={[
-              styles.typeText,
-              type === "expense" && styles.typeTextActive,
-            ]}
-          >
-            Gasto
-          </Text>
-        </TouchableOpacity>
+          text="Gasto"
+          type="income"
+          currentType={type}
+        /> 
+        <SimpleButton
+          onPress={() => setType("income")}
+          text="Ganho"
+          type="expense"
+          currentType={type}
+        /> 
       </View>
 
-      <TextInput
-        style={[styles.input, {backgroundColor: Colors.lightGreen}]}
+      <InputField
         placeholder="Valor (R$)"
-        placeholderTextColor="#666"
         value={amount}
         onChangeText={setAmount}
         keyboardType="numeric"
       />
 
-      <TextInput
-        style={[styles.input, {backgroundColor: Colors.lightGreen}]}
+      <InputField
         placeholder="Descrição"
-        placeholderTextColor="#666"
         value={description}
         onChangeText={setDescription}
       />
 
-      <TextInput
-        style={[styles.input, {backgroundColor: Colors.lightGreen}]}
+      <InputField
         placeholder="Categoria"
-        placeholderTextColor="#666"
         value={category}
         onChangeText={setCategory}
       />
@@ -149,21 +118,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 25,
-  },
-  typeText: {
-    color: "#000",
-    fontWeight: "bold",
-  },
-  typeTextActive: {
-    color: "#fff",
-  },
-  input: {
-    borderRadius: 25,
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    marginVertical: 8,
-    color: "#000",
-    fontSize: 16,
   },
   saveButton: {
     paddingVertical: 15,
