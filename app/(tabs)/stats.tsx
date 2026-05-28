@@ -1,8 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
-import { Colors } from "../../../constants/colors";
-import { useTransactionStore } from "../../../src/stores/transactionStore";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { useTransactionStore } from "@/src/stores/transactionStore";
+import { useTheme } from "@/src/hooks/useTheme";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 
 export default function StatsScreen() {
+
+  const { darkMode } = useTheme();
+  const Colors = darkMode? DarkMode: LightMode;
+
   const { transactions, getBalance } = useTransactionStore();
 
   const totalIncome = transactions
@@ -16,10 +21,10 @@ export default function StatsScreen() {
   const balance = getBalance();
 
   const maxValue = Math.max(totalIncome, totalExpense, Math.abs(balance), 1);
-  const getBarWidth = (value: number) => `${(value / maxValue) * 100}%`;
+  const getBarWidth = (value: number): `${number}%` => `${(value / maxValue) * 100}%`;
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={[styles.container, {backgroundColor: Colors.lightGreen}]}>
       <Text style={styles.title}>Estatísticas</Text>
 
       <View style={styles.statCard}>
@@ -92,16 +97,15 @@ export default function StatsScreen() {
           <Text style={styles.graphValue}>R$ {balance.toFixed(2)}</Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.lightGreen,
-    padding: 20,
-    paddingTop: 60,
+    padding: 25,
+    paddingTop: 50,
   },
   title: {
     fontSize: 24,

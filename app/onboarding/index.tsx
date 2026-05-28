@@ -8,12 +8,17 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { Colors } from "../../constants/colors";
 import { useOnboardingStore } from "../../src/stores/onboardingStore";
 import { useTransactionStore } from "../../src/stores/transactionStore";
+import { useTheme } from "@/src/hooks/useTheme";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 
 export default function Onboarding() {
   const router = useRouter();
+
+  const { darkMode } = useTheme();
+  const Colors = darkMode? DarkMode: LightMode;
+
   const { completeOnboarding } = useOnboardingStore();
   const { addTransaction } = useTransactionStore();
 
@@ -182,7 +187,7 @@ export default function Onboarding() {
         {currentStep.fields?.map((field) => (
           <TextInput
             key={field.key}
-            style={styles.input}
+            style={[styles.input, {backgroundColor: Colors.lightGreen}]}
             placeholder={field.label}
             placeholderTextColor="#666"
             value={data[field.key]}
@@ -200,7 +205,7 @@ export default function Onboarding() {
           </View>
         ))}
 
-        <TouchableOpacity style={styles.button} onPress={handleNext}>
+        <TouchableOpacity style={[styles.button, {backgroundColor: Colors.deepGreen}]} onPress={handleNext}>
           <Text style={styles.buttonText}>
             {step < steps.length - 1 ? "Próximo" : "Finalizar"}
           </Text>
@@ -217,7 +222,6 @@ export default function Onboarding() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.accentGreen,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -245,7 +249,6 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "85%",
-    backgroundColor: Colors.lightGreen,
     borderRadius: 25,
     paddingHorizontal: 15,
     paddingVertical: 12,
@@ -274,7 +277,6 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
   button: {
-    backgroundColor: Colors.deepGreen,
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 25,

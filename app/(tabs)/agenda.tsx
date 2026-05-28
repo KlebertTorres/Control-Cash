@@ -1,8 +1,13 @@
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { Colors } from "../../constants/colors";
 import { useTransactionStore } from "../../src/stores/transactionStore";
+import { useTheme } from "@/src/hooks/useTheme";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 
 export default function AgendaScreen() {
+
+  const { darkMode } = useTheme();
+  const Colors = darkMode? DarkMode: LightMode;
+
   const { transactions } = useTransactionStore();
 
   // Group transactions by date
@@ -17,7 +22,7 @@ export default function AgendaScreen() {
   );
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={[styles.container, {backgroundColor: Colors.lightGreen}]}>
       <Text style={styles.title}>Agenda</Text>
       <View style={styles.line} />
 
@@ -52,7 +57,6 @@ export default function AgendaScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.lightGreen,
     padding: 25,
     paddingTop: 50,
   },

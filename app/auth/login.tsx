@@ -1,78 +1,105 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import {
-    Alert,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-} from "react-native";
-import { Colors } from "../../constants/colors";
-import { useAuth } from "../../src/context/AuthContext";
+import { StyleSheet, Text, View, } from "react-native";
+import { InputField } from "@/src/components/InputField";
+import { SimpleButton } from "@/src/components/SimpleButton";
+import { ErrorText } from "@/src/components/ErrorText";
+import { useAuth } from "@/src/hooks/useAuth"
+import { useTheme } from "@/src/hooks/useTheme"
+import { Login } from "@/src/services/authService"
+import { validarLogin } from "@/src/utils/validar";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 
-export default function Login() {
+export default function LoginScreen() {
   const router = useRouter();
-  const { login } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("")
+  const [senha, setSenha] = useState("")
+  const { setUser } = useAuth();
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert("Erro", "Por favor, preencha todos os campos.");
-      return;
+  const [erros, setErros] = useState({
+  email: false,
+  senha: false,
+  });
+
+  const { darkMode } = useTheme();
+  const Colors = darkMode? DarkMode: LightMode;
+
+  const logar = async () => {
+    try{
+      const resposta = await Login(email, senha)
+
+      if (resposta){
+        router.replace('../(tabs)/home');
+        
+        setUser(resposta.user)
+        alert('Login bem sucedido! ')
+      } 
+
+    } catch(erro: any){
+      console.log(erro)
+      alert('Login falho: ' + erro.message)
     }
+  } 
 
-    setLoading(true);
-    const success = await login(email, password);
-    setLoading(false);
+  async function validandoLogin() {
+    const novosErros = validarLogin(email, senha);
 
-    if (success) {
-      router.replace("/(tabs)");
-    } else {
-      Alert.alert("Erro", "Email ou senha incorretos.");
-    }
-  };
+    setErros(novosErros);
+
+    const temErro = Object.values(novosErros).includes(true);
+
+    if (temErro) return false;
+
+    console.log("Novo Login: ", email, senha);
+    await logar();
+    return true;
+  }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: Colors.accentGreen}]}>
       <Text style={styles.emoji}>💸</Text>
       <Text style={styles.title}>Control Cash</Text>
       <Text style={styles.subtitle}>Mais dinheiro na sua mão</Text>
       <Text style={styles.login}>Login</Text>
 
-      <TextInput
+      <InputField
+        style={{width: "85%"}}
         placeholder="Email"
-        placeholderTextColor="#333"
-        style={styles.input}
-        value={email}
         onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        placeholder="Senha"
-        placeholderTextColor="#333"
-        secureTextEntry
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
+        value={email}
+        erros={erros.email}
       />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleLogin}
-        disabled={loading}
-      >
-        <Text style={styles.buttonText}>
-          {loading ? "Entrando..." : "Entrar"}
-        </Text>
-      </TouchableOpacity>
+      <ErrorText 
+        text="O email é inválido." 
+        erro={erros.email}
+        padding="30"
+      >  
+      </ErrorText>
+
+      <InputField
+        style={{width: "85%"}}
+        placeholder="Senha"
+        onChangeText={setSenha}
+        value={senha}
+        erros={erros.senha}
+      />
+
+      <ErrorText 
+        text="A senha é inválida." 
+        erro={erros.senha}
+        padding="30"
+      >    
+      </ErrorText>
+
+      <SimpleButton
+        onPress={() => validandoLogin()}
+        text="Entrar"
+      ></SimpleButton>
 
       <Text style={styles.footer}>
         Ainda não possui conta?{" "}
-        <Text style={styles.link} onPress={() => router.push("/auth/register")}>
+        <Text style={styles.link} onPress={() => router.push("./registro")}>
           Criar conta
         </Text>
       </Text>
@@ -83,7 +110,6 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.accentGreen,
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
@@ -105,26 +131,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#fff",
     marginBottom: 15,
-  },
-  input: {
-    width: "85%",
-    backgroundColor: Colors.lightGreen,
-    borderRadius: 25,
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    marginVertical: 8,
-    color: "#000",
-  },
-  button: {
-    backgroundColor: Colors.deepGreen,
-    paddingVertical: 12,
-    paddingHorizontal: 40,
-    borderRadius: 10,
-    marginTop: 10,
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
   },
   footer: {
     color: "#ccc",

@@ -8,11 +8,16 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { Colors } from "../../constants/colors";
 import { useTransactionStore } from "../../src/stores/transactionStore";
+import { useTheme } from "@/src/hooks/useTheme";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 
 export default function AddTransaction() {
   const router = useRouter();
+
+  const { darkMode } = useTheme();
+  const Colors = darkMode? DarkMode: LightMode;
+
   const { addTransaction } = useTransactionStore();
 
   const [type, setType] = useState<"income" | "expense">("income");
@@ -45,14 +50,14 @@ export default function AddTransaction() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: Colors.accentGreen }]}>
       <Text style={styles.title}>Adicionar Transação</Text>
 
       <View style={styles.typeContainer}>
         <TouchableOpacity
           style={[
             styles.typeButton,
-            type === "income" && styles.typeButtonActive,
+            type === "income" && {backgroundColor: Colors.lightGreen},
           ]}
           onPress={() => setType("income")}
         >
@@ -68,7 +73,7 @@ export default function AddTransaction() {
         <TouchableOpacity
           style={[
             styles.typeButton,
-            type === "expense" && styles.typeButtonActive,
+            type === "expense" && {backgroundColor: Colors.deepGreen}
           ]}
           onPress={() => setType("expense")}
         >
@@ -84,7 +89,7 @@ export default function AddTransaction() {
       </View>
 
       <TextInput
-        style={styles.input}
+        style={[styles.input, {backgroundColor: Colors.lightGreen}]}
         placeholder="Valor (R$)"
         placeholderTextColor="#666"
         value={amount}
@@ -93,7 +98,7 @@ export default function AddTransaction() {
       />
 
       <TextInput
-        style={styles.input}
+        style={[styles.input, {backgroundColor: Colors.lightGreen}]}
         placeholder="Descrição"
         placeholderTextColor="#666"
         value={description}
@@ -101,14 +106,14 @@ export default function AddTransaction() {
       />
 
       <TextInput
-        style={styles.input}
+        style={[styles.input, {backgroundColor: Colors.lightGreen}]}
         placeholder="Categoria"
         placeholderTextColor="#666"
         value={category}
         onChangeText={setCategory}
       />
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
+      <TouchableOpacity style={[styles.saveButton, {backgroundColor: Colors.deepGreen}]} onPress={handleSave}>
         <Text style={styles.saveButtonText}>Salvar</Text>
       </TouchableOpacity>
 
@@ -125,7 +130,6 @@ export default function AddTransaction() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.accentGreen,
     padding: 20,
     justifyContent: "center",
   },
@@ -142,13 +146,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   typeButton: {
-    backgroundColor: Colors.lightGreen,
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 25,
-  },
-  typeButtonActive: {
-    backgroundColor: Colors.deepGreen,
   },
   typeText: {
     color: "#000",
@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   input: {
-    backgroundColor: Colors.lightGreen,
     borderRadius: 25,
     paddingHorizontal: 15,
     paddingVertical: 12,
@@ -167,7 +166,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   saveButton: {
-    backgroundColor: Colors.deepGreen,
     paddingVertical: 15,
     borderRadius: 25,
     marginTop: 20,

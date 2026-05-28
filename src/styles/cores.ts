@@ -1,13 +1,6 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
-
 import { Platform } from "react-native";
 
-// constants/Colors.ts
-
-export const Colors = {
+export const DarkMode = {
   darkest: "#051F20",
   deepGreen: "#0B2B26",
   mediumGreen: "#163832",
@@ -16,6 +9,17 @@ export const Colors = {
   softGreen: "#DAF1DE",
   textColorPrimary: "#FFFFFF",
 };
+
+export const LightMode = {
+  darkest: "#9bc6c8",
+  deepGreen: "#457c73",
+  mediumGreen: "#436f67",
+  accentGreen: "#7a8f8a",
+  lightGreen: "#52715c",
+  softGreen: "#353a36",
+  textColorPrimary: "#000000",
+};
+
 
 export const Fonts = Platform.select({
   ios: {

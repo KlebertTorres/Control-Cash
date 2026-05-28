@@ -1,11 +1,16 @@
 import { Dimensions, StyleSheet, Text, View } from "react-native";
-import { Colors } from "../../constants/colors";
-import { useAuth } from "../../src/context/AuthContext";
-import { useTransactionStore } from "../../src/stores/transactionStore";
+import { useAuth } from "@/src/hooks/useAuth";
+import { useTheme } from "@/src/hooks/useTheme";
+import { DarkMode, LightMode } from "@/src/styles/cores";
+import { useTransactionStore } from "@/src/stores/transactionStore";
 
 const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
+
+  const { darkMode } = useTheme();
+  const Colors = darkMode? DarkMode: LightMode;
+
   const { user } = useAuth();
   const { getBalance, transactions } = useTransactionStore();
 
@@ -23,7 +28,7 @@ export default function HomeScreen() {
   const balanceColor = balance >= 0 ? Colors.accentGreen : "red";
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: Colors.lightGreen}]}>
       {/* Header Section */}
       <View style={styles.header}>
         <Text style={styles.welcome}>
@@ -37,7 +42,7 @@ export default function HomeScreen() {
       <Text style={[styles.balanceText, { color: balanceColor }]}>
         R$ {balance.toFixed(2)}
       </Text>
-      <View style={styles.progressBarBg}>
+      <View style={[styles.progressBarBg, {backgroundColor: Colors.accentGreen}]}>
         <View
           style={[
             styles.progressBarFill,
@@ -49,7 +54,7 @@ export default function HomeScreen() {
         <Text style={styles.labelRed}>
           {utilizationPercentage.toFixed(0)}% utilizado
         </Text>
-        <Text style={styles.labelGreen}>
+        <Text style={[styles.labelGreen, {color: Colors.accentGreen}]}>
           {(100 - utilizationPercentage).toFixed(0)}% disponível
         </Text>
       </View>
@@ -58,7 +63,7 @@ export default function HomeScreen() {
       <Text style={styles.sectionTitle}>Últimas Transações</Text>
       <View style={styles.cardContainer}>
         <Text style={styles.arrow}>{"<"}</Text>
-        <View style={styles.card}>
+        <View style={[styles.card, {borderColor: Colors.accentGreen}]}>
           {transactions.length > 0 ? (
             <>
               <Text style={styles.cardText}>
@@ -84,7 +89,7 @@ export default function HomeScreen() {
 
       {/* Pagination */}
       <View style={styles.pagination}>
-        <View style={[styles.dot, styles.dotActive]} />
+        <View style={[styles.dot, {backgroundColor: Colors.accentGreen}]} />
         <View style={styles.dot} />
         <View style={styles.dot} />
       </View>
@@ -96,7 +101,6 @@ const styles = StyleSheet.create({
   // Container
   container: {
     flex: 1,
-    backgroundColor: Colors.lightGreen,
     paddingHorizontal: 25,
     paddingTop: 60,
   },
@@ -132,7 +136,6 @@ const styles = StyleSheet.create({
 
   // Progress Bar
   progressBarBg: {
-    backgroundColor: Colors.accentGreen,
     height: 40,
     borderRadius: 20,
     overflow: "hidden",
@@ -153,7 +156,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   labelGreen: {
-    color: Colors.accentGreen,
     fontWeight: "bold",
   },
 
@@ -169,7 +171,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 25,
     borderWidth: 4,
-    borderColor: Colors.accentGreen,
     width: width * 0.6,
     height: 100,
     justifyContent: "center",
@@ -196,8 +197,5 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: "#fff",
     marginHorizontal: 5,
-  },
-  dotActive: {
-    backgroundColor: Colors.accentGreen,
   },
 });
