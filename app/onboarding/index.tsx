@@ -5,6 +5,8 @@ import { useOnBoarding } from "@/src/hooks/useOnBoarding";
 import { useTransactionStore } from "@/src/hooks/useTransactionStore";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
+import { InputField } from "@/src/components/InputField";
+import { SimpleButton } from "@/src/components/SimpleButton";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -99,13 +101,19 @@ export default function Onboarding() {
     },
   ];
 
-  const handleNext = () => {
-    if (step < steps.length - 1) {
-      setStep(step + 1);
-    } else {
-      handleFinish();
-    }
-  };
+    const handleNext = () => {
+        if (step < steps.length - 1) {
+        setStep(step + 1);
+        } else {
+        handleFinish();
+        }
+    };
+
+    const handleBack = () => {
+        if (step > 0) {
+            setStep(step - 1);
+        }
+    };
 
   const handleFinish = () => {
     const numericData = {
@@ -171,24 +179,23 @@ export default function Onboarding() {
   const currentStep = steps[step];
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor: Colors.lightGreen}]}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.emoji}>📊</Text>
         <Text style={styles.title}>{currentStep.title}</Text>
         <Text style={styles.description}>{currentStep.description}</Text>
 
         {currentStep.fields?.map((field) => (
-          <TextInput
-            key={field.key}
-            style={[styles.input, {backgroundColor: Colors.lightGreen}]}
-            placeholder={field.label}
-            placeholderTextColor="#666"
-            value={data[field.key]}
-            onChangeText={(value) =>
-              setData((prev) => ({ ...prev, [field.key]: value }))
-            }
-            keyboardType="numeric"
-          />
+            <InputField
+                style={{width: "85%"}}
+                key={field.key}
+                placeholder={field.label}
+                onChangeText={(value:any) =>
+                    setData((prev) => ({ ...prev, [field.key]: value }))
+                }  
+                value={data[field.key]}
+                keyboardType="numeric"
+            />
         ))}
 
         {currentStep.tutorial?.map((item) => (
@@ -198,11 +205,19 @@ export default function Onboarding() {
           </View>
         ))}
 
-        <TouchableOpacity style={[styles.button, {backgroundColor: Colors.deepGreen}]} onPress={handleNext}>
-          <Text style={styles.buttonText}>
-            {step < steps.length - 1 ? "Próximo" : "Finalizar"}
-          </Text>
-        </TouchableOpacity>
+        <SimpleButton 
+            styleButton={styles.button} 
+            onPress={handleNext}
+            styleText={styles.buttonText}
+            text={step < steps.length - 1 ? "Próximo" : "Finalizar"}
+        />
+
+        {step > 0 && <SimpleButton 
+            styleButton={styles.button} 
+            onPress={handleBack}
+            styleText={styles.buttonText}
+            text="Voltar"
+        />}
 
         <Text style={styles.stepIndicator}>
           {step + 1} de {steps.length}
@@ -221,6 +236,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
+    paddingTop: 100
   },
   emoji: {
     fontSize: 60,
@@ -239,15 +255,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 30,
     paddingHorizontal: 20,
-  },
-  input: {
-    width: "85%",
-    borderRadius: 25,
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    marginVertical: 8,
-    color: "#000",
-    fontSize: 16,
   },
   tutorialCard: {
     width: "100%",
@@ -273,7 +280,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 25,
-    marginTop: 20,
+    marginTop: 10,
   },
   buttonText: {
     color: "#fff",

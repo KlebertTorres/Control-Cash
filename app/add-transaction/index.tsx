@@ -1,11 +1,11 @@
+import { InputField } from "@/src/components/InputField";
+import { SimpleButton } from "@/src/components/SimpleButton";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useTransactionStore } from "@/src/hooks/useTransactionStore";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { InputField } from "@/src/components/InputField";
-import { SimpleButton } from "@/src/components/SimpleButton";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function AddTransaction() {
   const router = useRouter();
@@ -82,16 +82,16 @@ export default function AddTransaction() {
         onChangeText={setCategory}
       />
 
-      <TouchableOpacity style={[styles.saveButton, {backgroundColor: Colors.deepGreen}]} onPress={handleSave}>
+      <Pressable style={[styles.saveButton, {backgroundColor: Colors.deepGreen}]} onPress={handleSave}>
         <Text style={styles.saveButtonText}>Salvar</Text>
-      </TouchableOpacity>
+      </Pressable>
 
-      <TouchableOpacity
+      <Pressable
         style={styles.cancelButton}
         onPress={() => router.back()}
       >
         <Text style={styles.cancelButtonText}>Cancelar</Text>
-      </TouchableOpacity>
+      </Pressable>
     </View>
   );
 }

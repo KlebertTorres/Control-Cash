@@ -2,8 +2,10 @@ import { Redirect } from 'expo-router';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { auth } from "../src/services/firebaseconfig";
+import { useOnBoarding } from '@/src/hooks/useOnBoarding';
 
 export default function Index() {
+  const { hasCompletedOnboarding } = useOnBoarding();
   const [user, setUser] = useState<User | null | undefined>(undefined); // undefined significa "ainda verificando"
 
   useEffect(() => {
@@ -20,11 +22,16 @@ export default function Index() {
     return null;
   };
 
-  // Se 'user' não for null (usuário logado), redireciona para a home
-  if (user){
-    return <Redirect href="./(tabs)/home" />;
+  // Se 'user' for null (usuário não logado), redireciona para o login
+  if (!user){
+    return <Redirect href="./auth/login" />
   }
 
-  // Se 'user' for null (usuário não logado), redireciona para o login
-  return <Redirect href="./auth/login" />
+  // Se 'hasCompletedOnboarding' for null (tutorial feito), redireciona para o onboarding
+  if(!hasCompletedOnboarding){
+    return <Redirect href="./onboarding" />;
+    }
+
+  // tudo certo, redireciona para home
+  return <Redirect href="./(tabs)/home" />;
 }

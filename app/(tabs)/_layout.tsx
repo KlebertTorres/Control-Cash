@@ -11,7 +11,7 @@ export default function TabLayout() {
   const Colors = darkMode? DarkMode: LightMode;
 
   const handleAddPress = () => {
-    router.push("../add-transaction/index");
+    router.push("/add-transaction");
   };
 
   return (

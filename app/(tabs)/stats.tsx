@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 25,
-    paddingTop: 50,
+    paddingTop: 80,
   },
   title: {
     fontSize: 24,
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 16,
     padding: 16,
+    marginBottom: 100
   },
   graphRow: {
     marginBottom: 14,
