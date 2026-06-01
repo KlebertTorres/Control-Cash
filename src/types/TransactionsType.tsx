@@ -1,10 +1,11 @@
 export interface Transaction {
-  id: string;
+  id?: string;
   type: "income" | "expense";
   amount: number;
   description: string;
   date: string; // ISO date string
-  category: string;
+  categoryId: string;
+  categoryName: string;
 }
 
 export interface TransactionContextType {

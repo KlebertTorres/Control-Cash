@@ -28,11 +28,9 @@ export default function LoginScreen() {
     try{
       const resposta = await Login(email, senha)
 
-      if (resposta){
-        router.replace('../(tabs)/home');
-        
-        setUser(resposta.user)
+      if (resposta !== null){      
         alert('Login bem sucedido! ')
+        router.replace("/");
       } 
 
     } catch(erro: any){

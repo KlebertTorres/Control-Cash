@@ -1,14 +1,14 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { useTransactionStore } from "@/src/hooks/useTransactionStore";
 import { useTheme } from "@/src/hooks/useTheme";
+import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function AgendaScreen() {
 
   const { darkMode } = useTheme();
   const Colors = darkMode? DarkMode: LightMode;
 
-  const { transactions } = useTransactionStore();
+  const { transactions } = useTransaction();
 
   // Group transactions by date
   const transactionsByDate = transactions.reduce(

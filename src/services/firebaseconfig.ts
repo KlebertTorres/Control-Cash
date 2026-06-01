@@ -1,26 +1,28 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getFirestore } from "firebase/firestore";
 import { initializeApp } from "firebase/app";
 import {
-  initializeAuth, getReactNativePersistence
+  getReactNativePersistence,
+  initializeAuth
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
-  apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
+  apiKey: "AIzaSyCVDzZaLivlt8WoiJiPCn3v2p9NeunFcyk",
+  authDomain: "control-cash-7cf29.firebaseapp.com",
+  projectId: "control-cash-7cf29",
+  storageBucket: "control-cash-7cf29.firebasestorage.app",
+  messagingSenderId: "173881826475",
+  appId: "1:173881826475:web:d441a04d475910ff3bebee",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+export const db = getFirestore(app);
+
 export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage)
 });
-export const db = getFirestore(app);

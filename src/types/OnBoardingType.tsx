@@ -8,6 +8,7 @@ export interface InitialData {
 
 export interface OnBoardingContextType {
   hasCompletedOnboarding: boolean;
+  loadingOnboarding: boolean;
   initialData: InitialData | null;
-  completeOnboarding: (data: InitialData) => void;
+  completeOnboarding: (data: InitialData) => Promise<void>;
 }

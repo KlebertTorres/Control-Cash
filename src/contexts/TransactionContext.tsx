@@ -1,11 +1,11 @@
 import { createContext, ReactNode, useState } from "react";
 import { Transaction, TransactionContextType } from "../types/TransactionsType";
 
-export const TransactionStoreContext = createContext<TransactionContextType | undefined>(
+export const TransactionContext = createContext<TransactionContextType | undefined>(
   undefined,
 );
 
-export const TransactionStoreProvider: React.FC<{ children: ReactNode }> = ({
+export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -45,7 +45,7 @@ export const TransactionStoreProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return (
-    <TransactionStoreContext.Provider
+    <TransactionContext.Provider
       value={{
         transactions,
         addTransaction,
@@ -56,6 +56,6 @@ export const TransactionStoreProvider: React.FC<{ children: ReactNode }> = ({
       }}
     >
       {children}
-    </TransactionStoreContext.Provider>
+    </TransactionContext.Provider>
   );
 };

@@ -1,7 +1,7 @@
 import { InputField } from "@/src/components/InputField";
 import { SimpleButton } from "@/src/components/SimpleButton";
 import { useTheme } from "@/src/hooks/useTheme";
-import { useTransactionStore } from "@/src/hooks/useTransactionStore";
+import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -13,7 +13,7 @@ export default function AddTransaction() {
   const { darkMode } = useTheme();
   const Colors = darkMode? DarkMode: LightMode;
 
-  const { addTransaction } = useTransactionStore();
+  const { addTransaction } = useTransaction();
 
   const [type, setType] = useState<"income" | "expense">("expense");
   const [amount, setAmount] = useState("");

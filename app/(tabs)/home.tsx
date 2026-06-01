@@ -1,8 +1,9 @@
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { SimpleButton } from "@/src/components/SimpleButton";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useTheme } from "@/src/hooks/useTheme";
+import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
-import { useTransactionStore } from "@/src/hooks/useTransactionStore";
+import { Dimensions, StyleSheet, Text, View } from "react-native";
 
 const { width } = Dimensions.get("window");
 
@@ -12,7 +13,7 @@ export default function HomeScreen() {
   const Colors = darkMode? DarkMode: LightMode;
 
   const { user } = useAuth();
-  const { getBalance, transactions } = useTransactionStore();
+  const { getBalance, transactions } = useTransaction();
 
   const balance = getBalance();
   const totalIncome = transactions

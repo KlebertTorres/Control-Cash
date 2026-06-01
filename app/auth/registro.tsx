@@ -7,10 +7,13 @@ import { ErrorText } from "@/src/components/ErrorText";
 import { Registrar } from "@/src/services/authService";
 import { validarRegistro } from "@/src/utils/validar";
 import { useTheme } from "@/src/hooks/useTheme";
+import { useAuth } from "@/src/hooks/useAuth";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 
 export default function RegistroScreen() {
   const router = useRouter();
+
+  const { setUser } = useAuth();
 
   const { darkMode } = useTheme();
   const Colors = darkMode? DarkMode: LightMode;
@@ -29,13 +32,16 @@ export default function RegistroScreen() {
 
   const registrar = async () => {
     try{
-      const user = await Registrar( email, senha )
-      if (user) alert('Registro bem sucedido! ')
+      const user = await Registrar( email, usuario, senha )
+      
+      if (user) {
+        alert('Registro bem sucedido! ')
+        router.replace("/");}
         
-    } catch(erro: any){
-      console.log(erro)
-      alert('Registro falho: ' + erro.message)
-    }
+      } catch(erro: any){
+        console.log(erro)
+        alert('Registro falho: ' + erro.message)
+      }
   }
 
   async function validandoRegistro() {
@@ -87,6 +93,7 @@ export default function RegistroScreen() {
         onChangeText={setSenha}
         value={senha}
         erros={erros.senha}
+        secureTextEntry={true}
       />
 
       <ErrorText 
@@ -99,6 +106,7 @@ export default function RegistroScreen() {
         onChangeText={setConfSenha}
         value={confSenha}
         erros={erros.confSenha}
+        secureTextEntry={true}
       />
 
       <ErrorText 

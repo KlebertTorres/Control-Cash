@@ -1,12 +1,12 @@
-import { useRouter } from "expo-router";
-import { useState } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useOnBoarding } from "@/src/hooks/useOnBoarding";
-import { useTransactionStore } from "@/src/hooks/useTransactionStore";
-import { useTheme } from "@/src/hooks/useTheme";
-import { DarkMode, LightMode } from "@/src/styles/cores";
 import { InputField } from "@/src/components/InputField";
 import { SimpleButton } from "@/src/components/SimpleButton";
+import { useOnBoarding } from "@/src/hooks/useOnBoarding";
+import { useTheme } from "@/src/hooks/useTheme";
+import { useTransaction } from "@/src/hooks/useTransaction";
+import { DarkMode, LightMode } from "@/src/styles/cores";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -15,7 +15,7 @@ export default function Onboarding() {
   const Colors = darkMode? DarkMode: LightMode;
 
   const { completeOnboarding } = useOnBoarding();
-  const { addTransaction } = useTransactionStore();
+  const { addTransaction } = useTransaction();
 
   const [step, setStep] = useState(0);
   const [data, setData] = useState({

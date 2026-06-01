@@ -2,7 +2,7 @@ import { StyleSheet, TextInput } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { DarkMode, LightMode } from "../styles/cores";
 
-export const InputField = ({ style, placeholder, onChangeText, value, erros, keyboardType, secureTextEntry, key }:any) => {
+export const InputField = ({ style, placeholder, onChangeText, value, erros, keyboardType, secureTextEntry, Key }:any) => {
 
     const { darkMode } = useTheme();
     const Colors = darkMode? DarkMode: LightMode;
@@ -20,7 +20,7 @@ export const InputField = ({ style, placeholder, onChangeText, value, erros, key
                 secureTextEntry={secureTextEntry}
                 autoCapitalize="none"
                 value={value}
-                key={key}
+                key={Key}
                 keyboardType={keyboardType}
         />
     );

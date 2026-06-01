@@ -1,13 +1,16 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Alert, Pressable, StyleSheet, Switch, Text, View } from "react-native";
-import { Logout } from "@/src/services/authService";
+import { Logout, DeletarConta } from "@/src/services/authService";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
+import { DeleteUserDoc } from "@/src/services/userService";
+import { useAuth } from "@/src/hooks/useAuth";
 
 export default function SettingsScreen() {
   const router = useRouter();
   const { darkMode, toggleTheme } = useTheme();
+  const { user } = useAuth();
 
   const Colors = darkMode? DarkMode: LightMode;
 
@@ -16,11 +19,21 @@ export default function SettingsScreen() {
       await Logout();
       // O onAuthStateChanged em seu index.tsx detectará que o usuário foi deslogado
       // e automaticamente redirecionará para a tela de login.
-      router.push("/auth/login");
       Alert.alert("Sucesso", "Você foi deslogado com sucesso!");
+      router.replace("/")
     } catch (error: any) {
       console.error("Erro ao deslogar:", error.message);
       Alert.alert("Erro", "Não foi possível deslogar. Tente novamente.");
+    }
+  };
+  const deletarUsuario = async () => {
+    try {
+      DeletarConta();
+      Alert.alert("Sucesso", "A conta foi deletada com sucesso!");
+      router.replace("/auth/login")
+    } catch (error: any) {
+      console.error("Erro ao deletar:", error.message);
+      Alert.alert("Erro", "Não foi possível deletar. Tente novamente.");
     }
   };
 
@@ -68,6 +81,13 @@ export default function SettingsScreen() {
           <Text style={styles.menuText}>Relatar erros</Text>
         </Pressable>
       </View>
+
+      <Pressable style={styles.logoutButton}
+        onPress = {() => deletarUsuario()}
+      >
+        <Ionicons name="trash-outline" size={24} color="black" />
+        <Text style={styles.logoutText}>Deletar Conta</Text>
+      </Pressable>
 
       <Pressable style={styles.logoutButton}
         onPress = {() => deslogar()}

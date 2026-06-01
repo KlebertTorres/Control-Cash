@@ -1,53 +1,74 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { createContext, ReactNode, useState, useEffect } from "react";
-import { OnBoardingContextType, InitialData } from "../types/OnBoardingType";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { GetUserDoc, UpdateUserDoc } from "../services/userService";
+import { InitialData, OnBoardingContextType } from "../types/OnBoardingType";
 
-export const OnBoardingContext = createContext<OnBoardingContextType | undefined>(
-  undefined,
-);
+export const OnBoardingContext =
+  createContext<OnBoardingContextType | undefined>(undefined);
 
 export const OnBoardingProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
-  const [initialData, setInitialData] = useState<InitialData | null>(null);
+  const { user } = useAuth();
 
-  async function carregarOnBoarding(){
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] =
+    useState(false);
 
-    const savedData = await AsyncStorage.getItem("@initialData");
-    const onBoarding = await AsyncStorage.getItem("@onboarding")
+  const [loadingOnboarding, setLoadingOnboarding] =
+    useState(true);
 
-    if(savedData){
-      setInitialData(JSON.parse(savedData));
-    }
+  const [initialData, setInitialData] =
+    useState<InitialData | null>(null);
 
-    if(onBoarding !== null){
-      setHasCompletedOnboarding(true)
+  async function carregarOnBoarding() {
+    try {
+      const onboarding =
+        await AsyncStorage.getItem(`@onboarding_${user?.uid}`);
+
+      if (onboarding) {
+        const userOnboarding = await GetUserDoc(user?.uid);
+        
+        if(userOnboarding?.tutorialComplete){
+          setHasCompletedOnboarding(true);
+        }else{
+          setHasCompletedOnboarding(false);
+        }
+
+      }else{
+        setHasCompletedOnboarding(false);
+      }
+      
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoadingOnboarding(false);
     }
   }
 
   useEffect(() => {
+    if (user?.uid) {
       carregarOnBoarding();
-  }, []);
+    }
+  }, [user?.uid]);
 
-  async function completeOnboarding(data: InitialData){
+  async function completeOnboarding(data: InitialData) {
     await AsyncStorage.setItem(
-      "@onboarding", "true"
+      `@onboarding_${user?.uid}`,
+      "true"
     );
-
-    await AsyncStorage.setItem(
-      "@initialData",
-      JSON.stringify(data)
-    );
+    user.tutorialComplete = true;
+    await UpdateUserDoc(user.uid, {tutorialComplete: true});
 
     setHasCompletedOnboarding(true);
     setInitialData(data);
-  };
+  }
 
   return (
     <OnBoardingContext.Provider
       value={{
         hasCompletedOnboarding,
+        loadingOnboarding,
         initialData,
         completeOnboarding,
       }}
