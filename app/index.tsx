@@ -1,31 +1,21 @@
 import { Redirect } from "expo-router";
 
 import { useAuth } from "@/src/hooks/useAuth";
-import { useOnBoarding } from "@/src/hooks/useOnBoarding";
+import { useTransaction } from "@/src/hooks/useTransaction";
 
 export default function Index() {
 
-  const {
-    user,
-    loading,
-  } = useAuth();
+  const { user, loading, } = useAuth();
 
-  const {
-    hasCompletedOnboarding,
-    loadingOnboarding,
-  } = useOnBoarding();
+  const { loadingTransactions } = useTransaction();
 
   console.log({
   user,
-  hasCompletedOnboarding,
   loading,
-  loadingOnboarding,
+  loadingTransactions
   });
 
-  if (
-    loading ||
-    loadingOnboarding
-  ) {
+  if (loading || loadingTransactions) {
     return null;
   }
 
@@ -35,7 +25,7 @@ export default function Index() {
     );
   }
 
-  if (!hasCompletedOnboarding) {
+  if (!user.tutorialComplete) {
     return (
       <Redirect href="/onboarding" />
     );

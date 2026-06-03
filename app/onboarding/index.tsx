@@ -1,20 +1,23 @@
 import { InputField } from "@/src/components/InputField";
 import { SimpleButton } from "@/src/components/SimpleButton";
-import { useOnBoarding } from "@/src/hooks/useOnBoarding";
 import { useTheme } from "@/src/hooks/useTheme";
+import { useAuth } from "@/src/hooks/useAuth";
 import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { UpdateUserDoc } from "@/src/services/userService";
+import { CreateCategoryDoc } from "@/src/services/categoryService";
 
 export default function Onboarding() {
   const router = useRouter();
 
+  const { user, setUser } = useAuth();
+
   const { darkMode } = useTheme();
   const Colors = darkMode? DarkMode: LightMode;
 
-  const { completeOnboarding } = useOnBoarding();
   const { addTransaction } = useTransaction();
 
   const [step, setStep] = useState(0);
@@ -115,7 +118,11 @@ export default function Onboarding() {
         }
     };
 
-  const handleFinish = () => {
+  const handleFinish = async () => {
+
+    const novaCategoria1 = await CreateCategoryDoc(user.uid, {name: "Casa", color: "red"});
+    const novaCategoria2 = await CreateCategoryDoc(user.uid, {name: "Renda", color: "blue"});
+
     const numericData = {
       salary: parseFloat(data.salary) || 0,
       extraIncome: parseFloat(data.extraIncome) || 0,
@@ -132,7 +139,8 @@ export default function Onboarding() {
         amount: numericData.salary,
         description: "Salário",
         date: now,
-        category: "Salário",
+        categoryId: novaCategoria2.id,
+        categoryName: novaCategoria2.name
       });
     }
     if (numericData.extraIncome > 0) {
@@ -141,7 +149,8 @@ export default function Onboarding() {
         amount: numericData.extraIncome,
         description: "Renda Extra",
         date: now,
-        category: "Extra",
+        categoryId: novaCategoria2.id,
+        categoryName: novaCategoria2.name
       });
     }
     if (numericData.waterBill > 0) {
@@ -150,7 +159,8 @@ export default function Onboarding() {
         amount: numericData.waterBill,
         description: "Conta de Água",
         date: now,
-        category: "Contas",
+        categoryId: novaCategoria1.id,
+        categoryName: novaCategoria1.name
       });
     }
     if (numericData.electricityBill > 0) {
@@ -159,7 +169,8 @@ export default function Onboarding() {
         amount: numericData.electricityBill,
         description: "Conta de Luz",
         date: now,
-        category: "Contas",
+        categoryId: novaCategoria1.id,
+        categoryName: novaCategoria1.name
       });
     }
     if (numericData.internetBill > 0) {
@@ -168,11 +179,18 @@ export default function Onboarding() {
         amount: numericData.internetBill,
         description: "Internet",
         date: now,
-        category: "Contas",
+        categoryId: novaCategoria1.id,
+        categoryName: novaCategoria1.name
       });
     }
 
-    completeOnboarding(numericData);
+    await UpdateUserDoc(user.uid, {tutorialComplete: true});
+    
+    setUser({
+      ...user,
+      tutorialComplete: true,
+    });
+
     router.replace("/(tabs)/home");
   };
 

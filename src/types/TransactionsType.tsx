@@ -10,6 +10,7 @@ export interface Transaction {
 
 export interface TransactionContextType {
   transactions: Transaction[];
+  loadingTransactions: boolean;
   addTransaction: (transaction: Omit<Transaction, "id">) => void;
   removeTransaction: (id: string) => void;
   getBalance: () => number;

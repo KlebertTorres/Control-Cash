@@ -20,7 +20,7 @@ export async function CreateTransactionDoc(uid: string, transaction: Omit<Transa
 
         console.log("Transação criada com sucesso!");
 
-        return docRef.id;
+        return {id: docRef.id, ...transaction};
 
     }catch(error){
         console.log("Falha ao criar a transação: ", error);
@@ -63,7 +63,12 @@ export async function GetTransactionsDoc(uid:string){
 
         return snapshot.docs.map((doc) => ({
             id: doc.id,
-            ...doc.data(),
+            type: doc.data().type,
+            amount: doc.data().amount,
+            description: doc.data().description,
+            date: doc.data().date,
+            categoryId:doc.data().categoryId,
+            categoryName: doc.data().categoryName,
         }));
         
     }catch(error){

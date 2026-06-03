@@ -1,36 +1,29 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createContext, useEffect, useState } from "react";
+import { createContext } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { UpdateUserDoc } from "../services/userService";
 
 export const ThemeContext = createContext({} as any);
 
 export function ThemeProvider({ children }: any){
 
-    const [darkMode, setdarkMode] = useState(true);
+    const { user, setUser } = useAuth();
 
-    async function carregarTema(){
-
-        const temaSalvo = 
-            await AsyncStorage.getItem("@theme");
-
-        if(temaSalvo !== null){
-            setdarkMode(JSON.parse(temaSalvo))
-        }
-    }
-
-    useEffect(() => {
-        carregarTema();
-    }, []);
+    const darkMode = user?.darkTheme ?? false;
 
     async function toggleTheme() {
+
+        if (!user) return;
         
         const novoTema = !darkMode;
 
-        setdarkMode(novoTema);
+        await UpdateUserDoc(user.uid, {darkTheme: novoTema});
 
-        await AsyncStorage.setItem(
-            "@theme",
-            JSON.stringify(novoTema)
-        );
+        setUser({
+            ...user,
+            darkTheme: novoTema,
+        });
+
+        console.log("Novo tema: ", novoTema);
     }
 
     return(
@@ -38,5 +31,4 @@ export function ThemeProvider({ children }: any){
             {children}
         </ThemeContext.Provider>
     )
-
 }

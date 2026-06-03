@@ -33,7 +33,7 @@ export function AuthProvider({children,}: { children: ReactNode; }) {
               uid: firebaseUser.uid,
               email: firebaseUser.email,
               name: userData?.name,
-              theme: userData?.theme,
+              darkTheme: userData?.darkTheme,
               monthlyLimit: userData?.monthlyLimit,
               tutorialComplete: userData?.tutorialComplete,
             });

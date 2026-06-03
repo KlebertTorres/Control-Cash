@@ -24,7 +24,7 @@ export async function CreateCategoryDoc(uid: string, categoryData: Omit<Category
 
         console.log("Categoria criada com sucesso!")
 
-        return docRef.id
+        return {id: docRef.id, ...categoryData}
 
     }catch(error){
         console.log("Erro ao criar categoria: ", error);
@@ -62,14 +62,15 @@ export async function GetCategoriesDoc(uid: string){
 
         const q = query(
             categoriesRef,
-            orderBy("description", "desc")
+            orderBy("name", "desc")
         )
 
         const snapshot = await getDocs(q)
 
-        snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
+        return snapshot.docs.map((doc) => ({
+        id: doc.id,
+        name: doc.data().name,
+        color: doc.data().color,
         }));
         
     }catch(error){

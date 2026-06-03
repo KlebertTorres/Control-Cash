@@ -1,5 +1,6 @@
 import { InputField } from "@/src/components/InputField";
 import { SimpleButton } from "@/src/components/SimpleButton";
+import { useCategory } from "@/src/hooks/useCategories";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
@@ -9,6 +10,8 @@ import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 
 export default function AddTransaction() {
   const router = useRouter();
+
+  const { categories } = useCategory();
 
   const { darkMode } = useTheme();
   const Colors = darkMode? DarkMode: LightMode;
@@ -37,7 +40,8 @@ export default function AddTransaction() {
       amount: numericAmount,
       description,
       date: new Date().toISOString(),
-      category,
+      categoryId: "algum aí",
+      categoryName: category,
     });
 
     Alert.alert("Sucesso", "Transação adicionada!");

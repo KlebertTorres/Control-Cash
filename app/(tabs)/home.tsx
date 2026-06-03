@@ -2,8 +2,9 @@ import { SimpleButton } from "@/src/components/SimpleButton";
 import { useAuth } from "@/src/hooks/useAuth";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useTransaction } from "@/src/hooks/useTransaction";
+import { GetCategoriesDoc } from "@/src/services/categoryService";
 import { DarkMode, LightMode } from "@/src/styles/cores";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 
 const { width } = Dimensions.get("window");
 
@@ -27,6 +28,8 @@ export default function HomeScreen() {
     totalIncome > 0 ? (totalExpense / totalIncome) * 100 : 0;
 
   const balanceColor = balance >= 0 ? Colors.accentGreen : "red";
+
+  const categorias = async() => await GetCategoriesDoc(user.uid);
 
   return (
     <View style={[styles.container, {backgroundColor: Colors.lightGreen}]}>
@@ -94,6 +97,8 @@ export default function HomeScreen() {
         <View style={styles.dot} />
         <View style={styles.dot} />
       </View>
+
+      <Pressable onPress={() => categorias()}><Text>"olá"</Text></Pressable>
     </View>
   );
 }

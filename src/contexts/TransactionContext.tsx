@@ -1,5 +1,7 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 import { Transaction, TransactionContextType } from "../types/TransactionsType";
+import { CreateTransactionDoc, GetTransactionsDoc, GetTransactionDoc, DeleteTransactionDoc } from "@/src/services/transactionService"
+import { useAuth } from "../hooks/useAuth";
 
 export const TransactionContext = createContext<TransactionContextType | undefined>(
   undefined,
@@ -8,17 +10,41 @@ export const TransactionContext = createContext<TransactionContextType | undefin
 export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const { user } = useAuth();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [loadingTransactions, setLoadingTransactions] = useState(true);
 
-  const addTransaction = (transaction: Omit<Transaction, "id">) => {
-    const newTransaction: Transaction = {
-      ...transaction,
-      id: Date.now().toString(),
-    };
+  const loadTransactions = async () => {
+    try{
+      setLoadingTransactions(true);
+      
+      const transactionsData = await GetTransactionsDoc(user.uid);
+      
+      setTransactions(transactionsData);
+    }catch(error){
+      console.log(error);
+    }finally {
+      setLoadingTransactions(false);
+    }
+  }
+
+  useEffect(() => {
+    if (!user?.uid) {
+      setTransactions([]);
+      setLoadingTransactions(false);
+      return;
+    }
+
+    loadTransactions();
+  }, [user?.uid]);
+
+  const addTransaction = async (transactionData: Omit<Transaction, "id">) => {
+    const newTransaction = await CreateTransactionDoc(user.uid, transactionData);
     setTransactions((prev) => [...prev, newTransaction]);
   };
 
-  const removeTransaction = (id: string) => {
+  const removeTransaction = async (id: string) => {
+    await DeleteTransactionDoc(user.uid, id);
     setTransactions((prev) => prev.filter((t) => t.id !== id));
   };
 
@@ -48,6 +74,7 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
     <TransactionContext.Provider
       value={{
         transactions,
+        loadingTransactions,
         addTransaction,
         removeTransaction,
         getBalance,

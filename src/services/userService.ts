@@ -10,7 +10,7 @@ export async function CreateUserDoc(user: UserData) {
       uid: user.uid,
       name: user.name,
       email: user.email,
-      theme: false,
+      darkTheme: false,
       tutorialComplete: false,
       monthlyLimit: 0,
       createdAt: serverTimestamp(),

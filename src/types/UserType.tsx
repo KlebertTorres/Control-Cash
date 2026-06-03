@@ -3,7 +3,7 @@ export interface UserData {
   name: string;
   email: string;
 
-  theme?: boolean;
+  darkTheme?: boolean;
   tutorialComplete?: boolean;
   monthlyLimit?: number;
 }
