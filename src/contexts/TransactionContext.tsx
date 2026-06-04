@@ -1,7 +1,7 @@
+import { CreateTransactionDoc, DeleteTransactionDoc, GetTransactionsDoc, UpdateTransactionDoc } from "@/src/services/transactionService";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { Transaction, TransactionContextType } from "../types/TransactionsType";
-import { CreateTransactionDoc, GetTransactionsDoc, GetTransactionDoc, DeleteTransactionDoc } from "@/src/services/transactionService"
 import { useAuth } from "../hooks/useAuth";
+import { Transaction, TransactionContextType } from "../types/TransactionType";
 
 export const TransactionContext = createContext<TransactionContextType | undefined>(
   undefined,
@@ -46,6 +46,22 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
   const removeTransaction = async (id: string) => {
     await DeleteTransactionDoc(user.uid, id);
     setTransactions((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  const updateTransaction = async (id:string, transactionData: Partial<Transaction>) => {
+    await  UpdateTransactionDoc(user.uid, id, transactionData);
+
+    setTransactions(
+      (prev) => (prev.map((transaction) =>
+        transaction.id === id ?
+        {
+          ...transaction,
+          ...transactionData
+        }
+        : transaction
+        )
+      )
+    );
   };
 
   const getBalance = () => {
@@ -110,6 +126,7 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
         loadingTransactions,
         addTransaction,
         removeTransaction,
+        updateTransaction,
         getBalance,
         getTransactionsByCategory,
         getTransactionsByDate,

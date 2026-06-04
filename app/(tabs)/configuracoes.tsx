@@ -1,16 +1,17 @@
+import { useCategory } from "@/src/hooks/useCategories";
+import { useTheme } from "@/src/hooks/useTheme";
+import { useTransaction } from "@/src/hooks/useTransaction";
+import { DeletarConta, Logout } from "@/src/services/authService";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Alert, Pressable, StyleSheet, Switch, Text, View } from "react-native";
-import { Logout, DeletarConta } from "@/src/services/authService";
-import { useTheme } from "@/src/hooks/useTheme";
-import { DarkMode, LightMode } from "@/src/styles/cores";
-import { DeleteUserDoc } from "@/src/services/userService";
-import { useAuth } from "@/src/hooks/useAuth";
+import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
 
 export default function SettingsScreen() {
   const router = useRouter();
   const { darkMode, toggleTheme } = useTheme();
-  const { user } = useAuth();
+  const { categories } = useCategory();
+  const { transactions } = useTransaction();
 
   const Colors = darkMode? DarkMode: LightMode;
 
@@ -28,7 +29,8 @@ export default function SettingsScreen() {
   };
   const deletarUsuario = async () => {
     try {
-      DeletarConta();
+      DeletarConta(transactions, categories);
+
       Alert.alert("Sucesso", "A conta foi deletada com sucesso!");
       router.replace("/auth/login")
     } catch (error: any) {
@@ -38,11 +40,8 @@ export default function SettingsScreen() {
   };
 
   return (
-    <View style={[styles.container, {backgroundColor: Colors.lightGreen}]}>
-      <View style={[styles.header, {backgroundColor: Colors.accentGreen}]}>
-        <Pressable onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={28} color="white" />
-        </Pressable>
+    <ScrollView style={[styles.container, {backgroundColor: Colors.lightGreen}]}>
+      <View style={styles.header}>
         <Text style={styles.headerTitle}>Configurações</Text>
       </View>
 
@@ -59,6 +58,7 @@ export default function SettingsScreen() {
           <Ionicons name="moon-outline" size={24} color="black" />
           <Text style={styles.menuText}>Modo escuro</Text>
           <Switch 
+            style={styles.switch}
             trackColor={{ true: Colors.accentGreen }}
             value={darkMode} 
             onValueChange={toggleTheme}
@@ -68,7 +68,10 @@ export default function SettingsScreen() {
         <View style={styles.menuItem}>
           <Ionicons name="notifications-outline" size={24} color="black" />
           <Text style={styles.menuText}>Notificações</Text>
-          <Switch value={true} />
+          <Switch
+            style={styles.switch}
+            value={true} 
+          />
         </View>
 
         <Pressable style={styles.menuItem}>
@@ -80,14 +83,12 @@ export default function SettingsScreen() {
           <Ionicons name="alert-circle-outline" size={24} color="black" />
           <Text style={styles.menuText}>Relatar erros</Text>
         </Pressable>
-      </View>
 
-      <Pressable style={styles.logoutButton}
-        onPress = {() => deletarUsuario()}
-      >
-        <Ionicons name="trash-outline" size={24} color="black" />
-        <Text style={styles.logoutText}>Deletar Conta</Text>
-      </Pressable>
+        <Pressable style={styles.menuItem}>
+          <Ionicons name="help" size={24} color="black" />
+          <Text style={styles.menuText}>Ajuda</Text>
+        </Pressable>
+      </View>
 
       <Pressable style={styles.logoutButton}
         onPress = {() => deslogar()}
@@ -95,7 +96,14 @@ export default function SettingsScreen() {
         <Ionicons name="exit-outline" size={24} color="black" />
         <Text style={styles.logoutText}>Sair</Text>
       </Pressable>
-    </View>
+      
+      <Pressable style={styles.logoutButton}
+        onPress = {() => deletarUsuario()}
+      >
+        <Ionicons name="trash-outline" size={24} color="black" />
+        <Text style={styles.logoutText}>Deletar Conta</Text>
+      </Pressable>
+    </ScrollView>
   );
 }
 
@@ -105,15 +113,14 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 100,
-    flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
     paddingTop: 30,
+    marginTop: 50,
   },
   headerTitle: {
-    color: "white",
-    fontSize: 24,
-    marginLeft: 15,
+    color: "#000000",
+    fontSize: 32,
   },
   profileSection: {
     alignItems: "center",
@@ -133,14 +140,15 @@ const styles = StyleSheet.create({
   },
   editText: {
     textDecorationLine: "underline",
+    marginBottom: 30,
   },
   menu: {
-    paddingHorizontal: 40,
+    paddingHorizontal: 60,
   },
   menuItem: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 15,
+    marginVertical: 20,
   },
   menuText: {
     flex: 1,
@@ -151,10 +159,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
+    marginTop: 20,
+    marginBottom: 30,
   },
   logoutText: {
     fontSize: 18,
     marginLeft: 10,
   },
+  switch: {
+    marginTop: -30,
+    marginBottom: -30,
+  }
 });

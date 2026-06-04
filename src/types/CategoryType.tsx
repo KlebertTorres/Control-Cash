@@ -1,5 +1,5 @@
 export interface Category {
-  id?: string;
+  id: string;
   name: string;
   color: string;
 }
@@ -9,4 +9,5 @@ export interface CategoryContextType {
   loadingCategories: boolean;
   addCategory: (category: Omit<Category, "id">) => void;
   removeCategory: (id:string) => void;
+  updateCategory: (id:string, category: Partial<Category>) => void;
 }

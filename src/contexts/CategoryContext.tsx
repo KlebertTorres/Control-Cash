@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { Category, CategoryContextType } from "../types/CategoryType";
 import { useAuth } from "../hooks/useAuth";
-import { CreateCategoryDoc, DeleteCategoryDoc, GetCategoriesDoc } from "../services/categoryService";
+import { CreateCategoryDoc, DeleteCategoryDoc, GetCategoriesDoc, UpdateCategoryDoc } from "../services/categoryService";
 
 export const CategoryContext = createContext<CategoryContextType | undefined>(
     undefined,
@@ -47,13 +47,30 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
         setCategories((prev) => prev.filter((c) => c.id !== id));
     }
 
+      const updateCategory = async (id:string, categoryData: Partial<Category>) => {
+        await  UpdateCategoryDoc(user.uid, id, categoryData);
+    
+        setCategories(
+          (prev) => (prev.map((category) =>
+            category.id === id ?
+            {
+              ...category,
+              ...categoryData
+            }
+            : category
+            )
+          )
+        );
+      };
+
     return (
         <CategoryContext.Provider
             value={({
                 categories,
                 loadingCategories,
                 addCategory,
-                removeCategory
+                removeCategory,
+                updateCategory,
             })}
         >
             {children}

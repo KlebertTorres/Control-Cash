@@ -3,6 +3,10 @@ import {
 } from "firebase/auth";
 import { auth } from "./firebaseconfig";
 import { CreateUserDoc, DeleteUserDoc, GetUserDoc } from "./userService";
+import { DeleteTransactionDoc } from "./transactionService";
+import { DeleteCategoryDoc } from "./categoryService";
+import { Transaction } from "../types/TransactionType";
+import { Category } from "../types/CategoryType";
 
 export async function Registrar( email: string, name: string, senha: string) {
     
@@ -62,18 +66,34 @@ export async function Logout() {
   await signOut(auth);
 }
 
-export async function DeletarConta(){
+export async function DeletarConta(transactions: Transaction[], categories: Category[]){
   const user = auth.currentUser;
 
   if(!user) return;
 
   try{
-    Logout()
+
+    for (const transaction of transactions) {
+      await DeleteTransactionDoc(
+        user.uid,
+        transaction.id
+      );
+    }
+
+    for (const category of categories) {
+      await DeleteCategoryDoc(
+        user.uid,
+        category.id
+      );
+    }
+
     //Apaga do firestore
     await DeleteUserDoc(user.uid);
-
+    
     //Apaga do authenticator
     await deleteUser(user)
+
+    Logout()
 
   }catch(error){
     console.error("Erro ao deletar:", error);

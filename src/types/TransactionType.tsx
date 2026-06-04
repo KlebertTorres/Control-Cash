@@ -1,5 +1,5 @@
 export interface Transaction {
-  id?: string;
+  id: string;
   type: "income" | "expense";
   amount: number;
   description: string;
@@ -12,6 +12,7 @@ export interface TransactionContextType {
   loadingTransactions: boolean;
   addTransaction: (transaction: Omit<Transaction, "id">) => void;
   removeTransaction: (id: string) => void;
+  updateTransaction: (id:string, transaction: Partial<Transaction>) => void;
   getBalance: () => number;
   getTransactionsByCategory: (categoryId: string) => Transaction[];
   getTransactionsByDate: (date: string) => Transaction[];

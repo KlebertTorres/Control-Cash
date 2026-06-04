@@ -1,5 +1,5 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, serverTimestamp, updateDoc } from "firebase/firestore";
-import { Transaction } from "../types/TransactionsType";
+import { Transaction } from "../types/TransactionType";
 import { db } from "./firebaseconfig";
 
 export async function CreateTransactionDoc(uid: string, transaction: Omit<Transaction, "id">){
