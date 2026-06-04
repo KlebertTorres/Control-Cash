@@ -56,6 +56,10 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
     }, 0);
   };
 
+  const getTransactionsByCategory = (categoryId: string) => {
+    return transactions.filter((t) => t.categoryId === categoryId);
+  }
+
   const getTransactionsByDate = (date: string) => {
     return transactions.filter((t) => t.date.startsWith(date));
   };
@@ -70,6 +74,35 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
       }, 0);
   };
 
+  const getCategoryBalance = (categoryId: string) => {
+    return getTransactionsByCategory(categoryId)
+      .reduce((balance, transaction) => {
+        return transaction.type === "income"
+          ? balance + transaction.amount
+          : balance - transaction.amount;
+      }, 0);
+  };
+
+  const getTotalIncome = (month: string) => {
+    return transactions
+      .filter((t) => t.date.startsWith(month))
+      .reduce((balance, transaction) => {
+        return transaction.type === "income"
+          ? balance + transaction.amount
+          : balance;
+      }, 0);
+  };
+
+  const getTotalExpense = (month: string) => {
+    return transactions
+      .filter((t) => t.date.startsWith(month))
+      .reduce((balance, transaction) => {
+        return transaction.type === "income"
+          ? balance
+          : balance - transaction.amount;
+      }, 0);
+  };
+
   return (
     <TransactionContext.Provider
       value={{
@@ -78,8 +111,12 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
         addTransaction,
         removeTransaction,
         getBalance,
+        getTransactionsByCategory,
         getTransactionsByDate,
         getMonthlyBalance,
+        getTotalIncome,
+        getTotalExpense,
+        getCategoryBalance,
       }}
     >
       {children}

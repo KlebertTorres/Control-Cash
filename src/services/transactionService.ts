@@ -68,7 +68,6 @@ export async function GetTransactionsDoc(uid:string){
             description: doc.data().description,
             date: doc.data().date,
             categoryId:doc.data().categoryId,
-            categoryName: doc.data().categoryName,
         }));
         
     }catch(error){

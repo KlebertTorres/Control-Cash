@@ -120,7 +120,7 @@ export default function Onboarding() {
 
   const handleFinish = async () => {
 
-    const novaCategoria1 = await CreateCategoryDoc(user.uid, {name: "Casa", color: "red"});
+    const novaCategoria1 = await CreateCategoryDoc(user.uid, {name: "Moradia", color: "red"});
     const novaCategoria2 = await CreateCategoryDoc(user.uid, {name: "Renda", color: "blue"});
 
     const numericData = {
@@ -140,7 +140,6 @@ export default function Onboarding() {
         description: "Salário",
         date: now,
         categoryId: novaCategoria2.id,
-        categoryName: novaCategoria2.name
       });
     }
     if (numericData.extraIncome > 0) {
@@ -150,7 +149,6 @@ export default function Onboarding() {
         description: "Renda Extra",
         date: now,
         categoryId: novaCategoria2.id,
-        categoryName: novaCategoria2.name
       });
     }
     if (numericData.waterBill > 0) {
@@ -160,7 +158,6 @@ export default function Onboarding() {
         description: "Conta de Água",
         date: now,
         categoryId: novaCategoria1.id,
-        categoryName: novaCategoria1.name
       });
     }
     if (numericData.electricityBill > 0) {
@@ -170,7 +167,6 @@ export default function Onboarding() {
         description: "Conta de Luz",
         date: now,
         categoryId: novaCategoria1.id,
-        categoryName: novaCategoria1.name
       });
     }
     if (numericData.internetBill > 0) {
@@ -180,7 +176,6 @@ export default function Onboarding() {
         description: "Internet",
         date: now,
         categoryId: novaCategoria1.id,
-        categoryName: novaCategoria1.name
       });
     }
 

@@ -40,8 +40,7 @@ export default function AddTransaction() {
       amount: numericAmount,
       description,
       date: new Date().toISOString(),
-      categoryId: "algum aí",
-      categoryName: category,
+      categoryId: category,
     });
 
     Alert.alert("Sucesso", "Transação adicionada!");
@@ -68,16 +67,16 @@ export default function AddTransaction() {
       </View>
 
       <InputField
+        placeholder="Descrição"
+        value={description}
+        onChangeText={setDescription}
+      />
+
+      <InputField
         placeholder="Valor (R$)"
         value={amount}
         onChangeText={setAmount}
         keyboardType="numeric"
-      />
-
-      <InputField
-        placeholder="Descrição"
-        value={description}
-        onChangeText={setDescription}
       />
 
       <InputField

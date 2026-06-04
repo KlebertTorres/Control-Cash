@@ -5,7 +5,6 @@ export interface Transaction {
   description: string;
   date: string; // ISO date string
   categoryId: string;
-  categoryName: string;
 }
 
 export interface TransactionContextType {
@@ -14,6 +13,10 @@ export interface TransactionContextType {
   addTransaction: (transaction: Omit<Transaction, "id">) => void;
   removeTransaction: (id: string) => void;
   getBalance: () => number;
+  getTransactionsByCategory: (categoryId: string) => Transaction[];
   getTransactionsByDate: (date: string) => Transaction[];
   getMonthlyBalance: (month: string) => number; // YYYY-MM
+  getCategoryBalance: (categoryId: string) => number;
+  getTotalIncome: (month: string) => number;
+  getTotalExpense: (month: string) => number;
 }
