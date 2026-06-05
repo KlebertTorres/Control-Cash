@@ -73,7 +73,8 @@ export async function GetCategoriesDoc(uid: string){
         color: doc.data().color,
         }));
         
-    }catch(error){
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    }catch(_){
         console.log("Erro ao buscar categorias");
         return [];
     }

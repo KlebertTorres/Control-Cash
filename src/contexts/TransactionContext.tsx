@@ -1,5 +1,5 @@
 import { CreateTransactionDoc, DeleteTransactionDoc, GetTransactionsDoc, UpdateTransactionDoc } from "@/src/services/transactionService";
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useState, useCallback } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { Transaction, TransactionContextType } from "../types/TransactionType";
 
@@ -14,7 +14,7 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loadingTransactions, setLoadingTransactions] = useState(true);
 
-  const loadTransactions = async () => {
+  const loadTransactions = useCallback(async () => {
     try{
       setLoadingTransactions(true);
       
@@ -26,7 +26,7 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
     }finally {
       setLoadingTransactions(false);
     }
-  }
+  }, [user.uid]);
 
   useEffect(() => {
     if (!user?.uid) {
@@ -36,7 +36,7 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
     }
 
     loadTransactions();
-  }, [user?.uid]);
+  }, [user?.uid, loadTransactions]);
 
   const addTransaction = async (transactionData: Omit<Transaction, "id">) => {
     const newTransaction = await CreateTransactionDoc(user.uid, transactionData);

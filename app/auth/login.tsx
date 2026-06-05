@@ -28,7 +28,8 @@ export default function LoginScreen() {
     try{
       const resposta = await Login(email, senha)
 
-      if (resposta !== null){      
+      if (resposta !== null){
+        setUser(resposta);      
         alert('Login bem sucedido! ')
         router.replace("/");
       } 

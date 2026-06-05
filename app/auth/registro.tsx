@@ -1,19 +1,19 @@
+import { ErrorText } from "@/src/components/ErrorText";
+import { InputField } from "@/src/components/InputField";
+import { SimpleButton } from "@/src/components/SimpleButton";
+import { useAuth } from "@/src/hooks/useAuth";
+import { useTheme } from "@/src/hooks/useTheme";
+import { Registrar } from "@/src/services/authService";
+import { DarkMode, LightMode } from "@/src/styles/cores";
+import { validarRegistro } from "@/src/utils/validar";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { InputField } from "@/src/components/InputField"; 
-import { SimpleButton } from "@/src/components/SimpleButton";
-import { ErrorText } from "@/src/components/ErrorText";
-import { Registrar } from "@/src/services/authService";
-import { validarRegistro } from "@/src/utils/validar";
-import { useTheme } from "@/src/hooks/useTheme";
-import { useAuth } from "@/src/hooks/useAuth";
-import { DarkMode, LightMode } from "@/src/styles/cores";
 
 export default function RegistroScreen() {
   const router = useRouter();
 
-  const { setUser } = useAuth();
+  const { user } = useAuth();
 
   const { darkMode } = useTheme();
   const Colors = darkMode? DarkMode: LightMode;

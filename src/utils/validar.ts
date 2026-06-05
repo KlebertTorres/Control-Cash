@@ -1,4 +1,4 @@
-export function validarRegistro(email: string, usuario:string, senha:string, confSenha:string){
+export function validarRegistro(email: string, usuario: string, senha: string, confSenha: string){
     const Erros = {
         email: (!email.includes("@") || !email),
         usuario: !usuario,
@@ -8,7 +8,7 @@ export function validarRegistro(email: string, usuario:string, senha:string, con
     return Erros
 }
 
-export function validarLogin(email: string, senha:String){
+export function validarLogin(email: string, senha: string){
     const Erros = {
         email: (!email.includes("@") || !email),
         senha: (!senha),

@@ -1,7 +1,7 @@
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { Category, CategoryContextType } from "../types/CategoryType";
+import { createContext, ReactNode, useEffect, useState, useCallback } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { CreateCategoryDoc, DeleteCategoryDoc, GetCategoriesDoc, UpdateCategoryDoc } from "../services/categoryService";
+import { Category, CategoryContextType } from "../types/CategoryType";
 
 export const CategoryContext = createContext<CategoryContextType | undefined>(
     undefined,
@@ -14,7 +14,7 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
     const [categories, setCategories] = useState<Category[]>([]);
     const [loadingCategories, setLoadingCategories] = useState(true);
 
-    const loadCategories = async () => {
+    const loadCategories = useCallback(async () => {
         try{
             setLoadingCategories(true);
 
@@ -26,7 +26,7 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
         } finally{
             setLoadingCategories(false);
         }
-    }
+    }, [user.uid]);
 
     useEffect(() => {
         if(!user?.uid) {
@@ -35,7 +35,7 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
         }
 
         loadCategories();
-    }, [user?.uid]);
+    }, [user?.uid, loadCategories]);
 
     const addCategory = async (categoryData: Omit<Category, "id">) => {
         const newCategory = await CreateCategoryDoc(user.uid, categoryData);
@@ -63,17 +63,22 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
         );
       };
 
-    return (
-        <CategoryContext.Provider
-            value={({
-                categories,
-                loadingCategories,
-                addCategory,
-                removeCategory,
-                updateCategory,
-            })}
-        >
-            {children}
-        </CategoryContext.Provider>
-    )
+      const getSubCategories = (parentId: string): Category[] => {
+        return categories.filter((cat) => cat.parentId === parentId);
+      };
+
+      return (
+          <CategoryContext.Provider
+              value={({
+                  categories,
+                  loadingCategories,
+                  addCategory,
+                  removeCategory,
+                  updateCategory,
+                  getSubCategories,
+              })}
+          >
+              {children}
+          </CategoryContext.Provider>
+      )
 }
