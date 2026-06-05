@@ -39,7 +39,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({
 
     return (
       <TouchableOpacity
-        style={[styles.item, { borderBottomColor: Colors.border }]}
+        style={[styles.item, { borderBottomColor: Colors.darkest }]}
         onPress={() => onTransactionPress?.(item)}
       >
         <View
@@ -49,10 +49,10 @@ export const TransactionList: React.FC<TransactionListProps> = ({
           ]}
         />
         <View style={styles.content}>
-          <Text style={[styles.description, { color: Colors.text }]}>
+          <Text style={[styles.description, { color: Colors.textColorPrimary }]}>
             {item.description}
           </Text>
-          <Text style={[styles.category, { color: Colors.placeholder }]}>
+          <Text style={[styles.category, { color: "#4f6d5e" }]}>
             {category?.name || "Desconhecida"}
           </Text>
         </View>
@@ -71,7 +71,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({
         keyExtractor={(item) => item.id}
         scrollEnabled={false}
         ListEmptyComponent={
-          <Text style={[styles.emptyText, { color: Colors.placeholder }]}>
+          <Text style={[styles.emptyText, { color: "#4f6d5e" }]}>
             Nenhuma transação registrada
           </Text>
         }

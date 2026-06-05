@@ -64,7 +64,8 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
       }
       onSave();
       onClose();
-    } catch (_) {
+    } catch (error) {
+      console.error("Erro ao salvar:", error);
       Alert.alert("Erro", "Não foi possível salvar a transação");
     } finally {
       setLoading(false);
@@ -87,7 +88,8 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
               // TODO: implementar deleteTransaction
               onSave();
               onClose();
-            } catch (_) {
+            } catch (error) {
+              console.error("Erro ao deletar:", error);
               Alert.alert("Erro", "Não foi possível deletar a transação");
             } finally {
               setLoading(false);
@@ -100,8 +102,8 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 
   return (
     <Modal visible={visible} transparent animationType="slide">
-      <View style={[styles.container, { backgroundColor: Colors.background }]}>
-        <View style={[styles.header, { backgroundColor: Colors.primary }]}>
+      <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
+        <View style={[styles.header, { backgroundColor: Colors.textColorPrimary }]}>
           <TouchableOpacity onPress={onClose}>
             <Text style={styles.closeButton}>✕</Text>
           </TouchableOpacity>
@@ -112,35 +114,35 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
         </View>
 
         <ScrollView style={styles.content}>
-          <Text style={[styles.label, { color: Colors.text }]}>Descrição</Text>
+          <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Descrição</Text>
           <TextInput
-            style={[styles.input, { color: Colors.text, borderColor: Colors.border }]}
+            style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.darkest }]}
             placeholder="Descrição"
-            placeholderTextColor={Colors.placeholder}
+            placeholderTextColor={"#4f6d5e"}
             value={description}
             onChangeText={setDescription}
           />
 
-          <Text style={[styles.label, { color: Colors.text }]}>Valor</Text>
+          <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Valor</Text>
           <TextInput
-            style={[styles.input, { color: Colors.text, borderColor: Colors.border }]}
+            style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.darkest }]}
             placeholder="0.00"
-            placeholderTextColor={Colors.placeholder}
+            placeholderTextColor={"#4f6d5e"}
             value={amount}
             onChangeText={setAmount}
             keyboardType="decimal-pad"
           />
 
-          <Text style={[styles.label, { color: Colors.text }]}>Data</Text>
+          <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Data</Text>
           <TextInput
-            style={[styles.input, { color: Colors.text, borderColor: Colors.border }]}
+            style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.darkest }]}
             placeholder="YYYY-MM-DD"
-            placeholderTextColor={Colors.placeholder}
+            placeholderTextColor={"#4f6d5e"}
             value={date}
             onChangeText={setDate}
           />
 
-          <Text style={[styles.label, { color: Colors.text }]}>Categoria</Text>
+          <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Categoria</Text>
           <ScrollView horizontal style={styles.categoriesContainer}>
             {categories.map((cat) => (
               <TouchableOpacity

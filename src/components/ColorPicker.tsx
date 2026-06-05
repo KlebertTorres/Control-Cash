@@ -39,8 +39,8 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   const Colors = darkMode ? DarkMode : LightMode;
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.background }]}>
-      <View style={[styles.header, { backgroundColor: Colors.primary }]}>
+    <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
+      <View style={[styles.header, { backgroundColor: Colors.textColorPrimary }]}>
         <Text style={styles.title}>Escolher Cor</Text>
         <TouchableOpacity onPress={onClose}>
           <Text style={styles.closeButton}>✕</Text>
@@ -56,7 +56,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
               {
                 backgroundColor: color,
                 borderWidth: selectedColor === color ? 3 : 0,
-                borderColor: selectedColor === color ? Colors.text : "transparent",
+                borderColor: selectedColor === color ? Colors.textColorPrimary : "transparent",
               },
             ]}
             onPress={() => {

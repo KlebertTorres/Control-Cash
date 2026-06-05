@@ -10,7 +10,7 @@ import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Transaction } from "@/src/types/TransactionType";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function HomeScreen() {
   const { darkMode } = useTheme();
@@ -18,7 +18,7 @@ export default function HomeScreen() {
 
   const { user } = useAuth();
   const { getBalance, transactions, getTotalIncome, getTotalExpense } = useTransaction();
-  const { dashboardData, getDashboardData, loadingReports } = useReport();
+  const { dashboardData, getDashboardData } = useReport();
   const router = useRouter();
 
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
@@ -32,6 +32,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     loadDashboardData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadDashboardData = async () => {
@@ -46,7 +47,6 @@ export default function HomeScreen() {
   };
 
   const balanceColor = balance >= 0 ? Colors.accentGreen : "#FF6B6B";
-  const utilizationPercentage = monthlyIncome > 0 ? (monthlyExpense / monthlyIncome) * 100 : 0;
 
   const handleTransactionPress = (transaction: Transaction) => {
     setSelectedTransaction(transaction);
@@ -56,16 +56,21 @@ export default function HomeScreen() {
   const recentTransactions = transactions.slice(0, 5);
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.background }]}>
+    <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
-        refreshing={refreshing}
-        onRefresh={loadDashboardData}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={loadDashboardData}
+          />
+        }
       >
+      
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.welcome, { color: Colors.text }]}>
+          <Text style={[styles.welcome, { color: Colors.textColorPrimary }]}>
             Bem vindo, {user?.name || "Usuário"}! 👋
           </Text>
         </View>
@@ -81,7 +86,7 @@ export default function HomeScreen() {
 
         {/* Monthly Summary */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: Colors.text }]}>Resumo do Mês</Text>
+          <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>Resumo do Mês</Text>
           
           <DashboardCard
             title="Receitas"
@@ -140,9 +145,9 @@ export default function HomeScreen() {
         {/* Recent Transactions */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={[styles.sectionTitle, { color: Colors.text }]}>Últimas Movimentações</Text>
+            <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>Últimas Movimentações</Text>
             <TouchableOpacity onPress={() => router.push("/(tabs)/stats")}>
-              <Text style={[styles.viewAll, { color: Colors.primary }]}>Ver Mais →</Text>
+              <Text style={[styles.viewAll, { color: Colors.textColorPrimary }]}>Ver Mais →</Text>
             </TouchableOpacity>
           </View>
           <TransactionList 
@@ -154,10 +159,10 @@ export default function HomeScreen() {
 
         {/* Quick Actions */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: Colors.text }]}>Ações Rápidas</Text>
+          <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>Ações Rápidas</Text>
           <View style={styles.quickActionsGrid}>
             <TouchableOpacity
-              style={[styles.quickAction, { backgroundColor: Colors.primary }]}
+              style={[styles.quickAction, { backgroundColor: Colors.textColorPrimary }]}
               onPress={() => router.push("/add-transaction")}
             >
               <Text style={styles.quickActionIcon}>➕</Text>

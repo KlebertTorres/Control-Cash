@@ -1,4 +1,4 @@
-import { useCategory } from "@/src/hooks/useCategories";
+import { useCategories } from "@/src/hooks/useCategories";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useTransaction } from "@/src/hooks/useTransaction";
 import { DeletarConta, Logout } from "@/src/services/authService";
@@ -10,7 +10,7 @@ import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from "re
 export default function SettingsScreen() {
   const router = useRouter();
   const { darkMode, toggleTheme } = useTheme();
-  const { categories } = useCategory();
+  const { categories } = useCategories();
   const { transactions } = useTransaction();
 
   const Colors = darkMode? DarkMode: LightMode;

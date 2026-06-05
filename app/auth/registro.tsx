@@ -1,7 +1,6 @@
 import { ErrorText } from "@/src/components/ErrorText";
 import { InputField } from "@/src/components/InputField";
 import { SimpleButton } from "@/src/components/SimpleButton";
-import { useAuth } from "@/src/hooks/useAuth";
 import { useTheme } from "@/src/hooks/useTheme";
 import { Registrar } from "@/src/services/authService";
 import { DarkMode, LightMode } from "@/src/styles/cores";
@@ -12,8 +11,6 @@ import { StyleSheet, Text, View } from "react-native";
 
 export default function RegistroScreen() {
   const router = useRouter();
-
-  const { user } = useAuth();
 
   const { darkMode } = useTheme();
   const Colors = darkMode? DarkMode: LightMode;
