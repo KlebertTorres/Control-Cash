@@ -1,6 +1,6 @@
-import { db } from "./firebaseconfig";
-import { doc, collection, addDoc, getDoc, getDocs, updateDoc, deleteDoc, serverTimestamp, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, serverTimestamp, updateDoc } from "firebase/firestore";
 import { Category } from "../types/CategoryType";
+import { db } from "./firebaseconfig";
 
 export async function CreateCategoryDoc(uid: string, categoryData: Omit<Category, "id">){
     try{
