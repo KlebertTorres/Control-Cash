@@ -148,7 +148,7 @@ export default function StatsScreen() {
     }));
 
   const incomeExpenseData = [
-    { label: "Receita", value: totals.income, color: Colors.accentGreen },
+    { label: "Receita", value: totals.income, color: Colors.lightGreen },
     { label: "Despesa", value: totals.expense, color: "#FF6B6B" },
   ];
 
@@ -158,9 +158,9 @@ export default function StatsScreen() {
   }));
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.background }]}>
+    <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: Colors.primary }]}>
+      <View style={[styles.header, { backgroundColor: Colors.deepGreen }]}>
         <Text style={styles.headerTitle}>Estatísticas</Text>
       </View>
 
@@ -169,14 +169,15 @@ export default function StatsScreen() {
         <TouchableOpacity
           style={[
             styles.toggleButton,
-            monthView === "month" && { backgroundColor: Colors.primary },
+            monthView === "month" && { backgroundColor: Colors.mediumGreen },
           ]}
           onPress={() => setMonthView("month")}
         >
           <Text
             style={[
               styles.toggleText,
-              monthView === "month" && { color: "white" },
+              { color: Colors.lightGreen },
+              monthView === "month" && { color: Colors.textColorPrimary },
             ]}
           >
             Mês
@@ -185,14 +186,15 @@ export default function StatsScreen() {
         <TouchableOpacity
           style={[
             styles.toggleButton,
-            monthView === "year" && { backgroundColor: Colors.primary },
+            monthView === "year" && { backgroundColor: Colors.mediumGreen },
           ]}
           onPress={() => setMonthView("year")}
         >
           <Text
             style={[
               styles.toggleText,
-              monthView === "year" && { color: "white" },
+              { color: Colors.lightGreen },
+              monthView === "year" && { color: Colors.textColorPrimary },
             ]}
           >
             Ano
@@ -207,7 +209,7 @@ export default function StatsScreen() {
           <RefreshControl
             refreshing={refreshing}
             onRefresh={onRefresh}
-            tintColor={Colors.primary}
+            tintColor={Colors.textColorPrimary}
           />
         }
       >
@@ -220,16 +222,16 @@ export default function StatsScreen() {
             ]}
           >
             <Text style={styles.summaryLabel}>Receitas</Text>
-            <Text style={styles.summaryAmount}>R$ {totals.income.toFixed(2)}</Text>
+            <Text style={[styles.summaryAmount, { color: Colors.textColorPrimary }]}>R$ {totals.income.toFixed(2)}</Text>
           </View>
           <View
             style={[
               styles.summaryCard,
-              { backgroundColor: "#FF6B6B", opacity: 0.95 },
+              { backgroundColor: Colors.accentGreen, opacity: 0.95 },
             ]}
           >
             <Text style={styles.summaryLabel}>Despesas</Text>
-            <Text style={styles.summaryAmount}>R$ {totals.expense.toFixed(2)}</Text>
+            <Text style={[styles.summaryAmount, { color: "#FF6B6B" }]}>R$ {totals.expense.toFixed(2)}</Text>
           </View>
         </View>
 
@@ -245,16 +247,16 @@ export default function StatsScreen() {
             ]}
           >
             <Text style={styles.summaryLabel}>Saldo</Text>
-            <Text style={styles.summaryAmount}>R$ {totals.balance.toFixed(2)}</Text>
+            <Text style={[styles.summaryAmount, { color: Colors.textColorPrimary }]}>R$ {totals.balance.toFixed(2)}</Text>
           </View>
           <View
             style={[
               styles.summaryCard,
-              { backgroundColor: "#FFD700", opacity: 0.95 },
+              { backgroundColor: Colors.accentGreen, opacity: 0.95 },
             ]}
           >
-            <Text style={styles.summaryLabel}>Taxa Economias</Text>
-            <Text style={styles.summaryAmount}>
+            <Text style={styles.summaryLabel}>Taxa Economia</Text>
+            <Text style={[styles.summaryAmount, { color: "#FFD700" }]}>
               {totals.income > 0
                 ? (((totals.income - totals.expense) / totals.income) * 100).toFixed(
                     1
@@ -299,13 +301,13 @@ export default function StatsScreen() {
           <LineChart
             data={balanceTrendData}
             title="Evolução do Saldo (últimos 12 meses)"
-            lineColor={Colors.primary}
+            lineColor={Colors.textColorPrimary}
           />
         )}
 
         {/* Category Detailed Breakdown */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: Colors.text }]}>
+          <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>
             Detalhamento por Categoria
           </Text>
           {categoryBreakdown.length > 0 ? (
@@ -314,7 +316,7 @@ export default function StatsScreen() {
                 key={cat.id}
                 style={[
                   styles.categoryRow,
-                  { borderBottomColor: Colors.border },
+                  { borderBottomColor: Colors.darkest },
                 ]}
               >
                 <View style={styles.categoryLeft}>
@@ -324,7 +326,7 @@ export default function StatsScreen() {
                       { backgroundColor: cat.color },
                     ]}
                   />
-                  <Text style={[styles.categoryName, { color: Colors.text }]}>
+                  <Text style={[styles.categoryName, { color: Colors.textColorPrimary }]}>
                     {cat.name}
                   </Text>
                 </View>
@@ -333,7 +335,7 @@ export default function StatsScreen() {
                     <Text
                       style={[
                         styles.categoryValue,
-                        { color: Colors.accentGreen },
+                        { color: Colors.lightGreen },
                       ]}
                     >
                       +R$ {cat.income.toFixed(2)}
@@ -348,7 +350,7 @@ export default function StatsScreen() {
               </View>
             ))
           ) : (
-            <Text style={[styles.emptyText, { color: Colors.placeholder }]}>
+            <Text style={[styles.emptyText, { color: "#4f6d5e" }]}>
               Sem movimentações neste período
             </Text>
           )}
@@ -396,6 +398,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    padding: 20,
   },
   summaryRow: {
     flexDirection: "row",
@@ -405,7 +408,7 @@ const styles = StyleSheet.create({
   summaryCard: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingVertical: 10,
     borderRadius: 12,
     marginHorizontal: 6,
     alignItems: "center",
@@ -416,15 +419,14 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   summaryLabel: {
-    fontSize: 12,
+    fontSize: 14,
     color: "rgba(255, 255, 255, 0.8)",
     marginBottom: 8,
     fontWeight: "500",
   },
   summaryAmount: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
-    color: "white",
   },
   section: {
     paddingHorizontal: 12,

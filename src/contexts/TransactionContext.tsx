@@ -16,9 +16,11 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
 
   const loadTransactions = useCallback(async () => {
     try{
+      if (!user?.uid) return;
+
       setLoadingTransactions(true);
       
-      const transactionsData = await GetTransactionsDoc(user.uid);
+      const transactionsData = await GetTransactionsDoc(user?.uid);
       
       setTransactions(transactionsData);
     }catch(error){
@@ -26,7 +28,7 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
     }finally {
       setLoadingTransactions(false);
     }
-  }, [user.uid]);
+  }, [user?.uid]);
 
   useEffect(() => {
     if (!user?.uid) {

@@ -16,9 +16,11 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
 
     const loadCategories = useCallback(async () => {
         try{
+            if (!user?.uid) return;
+
             setLoadingCategories(true);
 
-            const categoriesData = await GetCategoriesDoc(user.uid);
+            const categoriesData = await GetCategoriesDoc(user?.uid);
 
             setCategories(categoriesData);
         }catch(error){
@@ -26,10 +28,11 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
         } finally{
             setLoadingCategories(false);
         }
-    }, [user.uid]);
+    }, [user?.uid]);
 
     useEffect(() => {
         if(!user?.uid) {
+            setCategories([]);
             setLoadingCategories(false);
             return;
         }
@@ -38,17 +41,17 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
     }, [user?.uid, loadCategories]);
 
     const addCategory = async (categoryData: Omit<Category, "id">) => {
-        const newCategory = await CreateCategoryDoc(user.uid, categoryData);
+        const newCategory = await CreateCategoryDoc(user?.uid, categoryData);
         setCategories((prev) => ([...prev, newCategory]));
     }
 
     const removeCategory = async (id: string) => {
-        await DeleteCategoryDoc(user.uid, id);
+        await DeleteCategoryDoc(user?.uid, id);
         setCategories((prev) => prev.filter((c) => c.id !== id));
     }
 
       const updateCategory = async (id:string, categoryData: Partial<Category>) => {
-        await  UpdateCategoryDoc(user.uid, id, categoryData);
+        await  UpdateCategoryDoc(user?.uid, id, categoryData);
     
         setCategories(
           (prev) => (prev.map((category) =>

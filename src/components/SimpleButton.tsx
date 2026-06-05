@@ -1,4 +1,4 @@
-import { StyleSheet, Text, Pressable } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { DarkMode, LightMode } from "../styles/cores";
 

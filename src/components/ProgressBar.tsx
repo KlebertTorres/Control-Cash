@@ -22,7 +22,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const Colors = darkMode ? DarkMode : LightMode;
 
   const percentage = total > 0 ? (value / total) * 100 : 0;
-  const displayPercentage = Math.min(percentage, 100);
+  const displayPercentage = Math.abs(Math.min(percentage, 100));
 
   return (
     <View style={styles.container}>
@@ -46,7 +46,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
         />
       </View>
       <Text style={[styles.value, { color: "#4f6d5e" }]}>
-        R$ {value.toFixed(2)} de R$ {total.toFixed(2)}
+        R$ {Math.abs(value)} de R$ {total.toFixed(2)}
       </Text>
     </View>
   );

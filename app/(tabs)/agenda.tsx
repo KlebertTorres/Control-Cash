@@ -11,7 +11,7 @@ export default function AgendaScreen() {
   const [selectedDate, setSelectedDate] = useState<string | undefined>();
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.background }]}>
+    <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
       <CalendarView 
         selectedDate={selectedDate}
         onDateSelect={setSelectedDate}
@@ -23,6 +23,6 @@ export default function AgendaScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 30,
   },
 });

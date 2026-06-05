@@ -21,9 +21,9 @@ export const BarChart: React.FC<BarChartProps> = ({
   const chartHeight = 200;
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.background }]}>
+    <View style={[styles.container, { backgroundColor: Colors.accentGreen }]}>
       {title && (
-        <Text style={[styles.title, { color: Colors.text }]}>{title}</Text>
+        <Text style={[styles.title, { color: Colors.textColorPrimary }]}>{title}</Text>
       )}
       <View style={styles.chart}>
         <View style={styles.barsContainer}>
@@ -34,7 +34,7 @@ export const BarChart: React.FC<BarChartProps> = ({
                 <Text
                   style={[
                     styles.barValue,
-                    { color: Colors.placeholder, fontSize: 10 },
+                    { color: Colors.textColorPrimary, fontSize: 10 },
                   ]}
                 >
                   {item.value > 0 ? `R$ ${item.value.toFixed(0)}` : "-"}
@@ -48,7 +48,7 @@ export const BarChart: React.FC<BarChartProps> = ({
                     },
                   ]}
                 />
-                <Text style={[styles.barLabel, { color: Colors.text }]}>
+                <Text style={[styles.barLabel, { color: Colors.textColorPrimary }]}>
                   {item.label}
                 </Text>
               </View>
@@ -56,7 +56,7 @@ export const BarChart: React.FC<BarChartProps> = ({
           })}
         </View>
         <View
-          style={[styles.axisLine, { backgroundColor: Colors.border }]}
+          style={[styles.axisLine, { backgroundColor: Colors.textColorPrimary }]}
         />
       </View>
     </View>
@@ -75,9 +75,9 @@ export const PieChart: React.FC<PieChartProps> = ({ data, title }) => {
   const total = data.reduce((sum, item) => sum + item.value, 0);
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.background }]}>
+    <View style={[styles.container, { backgroundColor: Colors.accentGreen }]}>
       {title && (
-        <Text style={[styles.title, { color: Colors.text }]}>{title}</Text>
+        <Text style={[styles.title, { color: Colors.textColorPrimary }]}>{title}</Text>
       )}
       <View style={styles.pieContainer}>
         <View style={styles.legend}>
@@ -93,13 +93,13 @@ export const PieChart: React.FC<PieChartProps> = ({ data, title }) => {
                   ]}
                 />
                 <Text
-                  style={[styles.legendLabel, { color: Colors.text }]}
+                  style={[styles.legendLabel, { color: Colors.textColorPrimary }]}
                   numberOfLines={1}
                 >
                   {item.label}
                 </Text>
                 <Text
-                  style={[styles.legendPercentage, { color: Colors.placeholder }]}
+                  style={[styles.legendPercentage, { color: Colors.textColorPrimary }]}
                 >
                   {percentage}%
                 </Text>
@@ -138,9 +138,9 @@ export const LineChart: React.FC<LineChartProps> = ({
   });
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.background }]}>
+    <View style={[styles.container, { backgroundColor: Colors.accentGreen }]}>
       {title && (
-        <Text style={[styles.title, { color: Colors.text }]}>{title}</Text>
+        <Text style={[styles.title, { color: Colors.textColorPrimary }]}>{title}</Text>
       )}
       <View style={[styles.lineContainer, { width }]}>
         {points.map((point, index) => (
@@ -151,14 +151,14 @@ export const LineChart: React.FC<LineChartProps> = ({
                 {
                   left: point.x - 4,
                   top: point.y - 4,
-                  backgroundColor: lineColor,
+                  backgroundColor: Colors.textColorPrimary,
                 },
               ]}
             />
             <Text
               style={[
                 styles.pointLabel,
-                { color: Colors.placeholder, fontSize: 10 },
+                { color: Colors.textColorPrimary, fontSize: 10 },
               ]}
             >
               {point.label}
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   bar: {
-    width: "100%",
+    width: "30%",
     borderRadius: 4,
     minHeight: 10,
   },

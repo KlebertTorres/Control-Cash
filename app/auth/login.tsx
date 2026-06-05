@@ -14,7 +14,6 @@ export default function LoginScreen() {
   const router = useRouter();
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
-  const { setUser } = useAuth();
 
   const [erros, setErros] = useState({
   email: false,
@@ -28,8 +27,7 @@ export default function LoginScreen() {
     try{
       const resposta = await Login(email, senha)
 
-      if (resposta !== null){
-        setUser(resposta);      
+      if (resposta !== null){      
         alert('Login bem sucedido! ')
         router.replace("/");
       } 

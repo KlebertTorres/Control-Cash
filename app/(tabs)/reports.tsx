@@ -6,12 +6,12 @@ import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { useEffect, useState } from "react";
 import {
-    RefreshControl,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 export default function ReportsScreen() {
@@ -115,30 +115,27 @@ export default function ReportsScreen() {
   const totalExpense = dashboardData?.monthlyExpense || 0;
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.background }]}>
+    <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: Colors.primary }]}>
+      <View style={[styles.header, { backgroundColor: Colors.accentGreen }]}>
         <Text style={styles.headerTitle}>Relatórios</Text>
       </View>
 
       {/* Period Selector */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.periodSelector}
-      >
+      <View style={styles.periodSelector}> 
         {(["daily", "weekly", "monthly", "annual"] as const).map((p) => (
           <TouchableOpacity
             key={p}
             style={[
               styles.periodButton,
-              period === p && { backgroundColor: Colors.primary },
+              period === p && { backgroundColor: Colors.accentGreen },
             ]}
             onPress={() => setPeriod(p)}
           >
             <Text
               style={[
                 styles.periodText,
+                { color: Colors.lightGreen },
                 period === p && { color: "white" },
               ]}
             >
@@ -152,7 +149,7 @@ export default function ReportsScreen() {
             </Text>
           </TouchableOpacity>
         ))}
-      </ScrollView>
+      </View>
 
       {/* Reports Content */}
       <ScrollView
@@ -161,7 +158,7 @@ export default function ReportsScreen() {
           <RefreshControl
             refreshing={refreshing || loadingReports}
             onRefresh={loadReports}
-            tintColor={Colors.primary}
+            tintColor={Colors.accentGreen}
           />
         }
       >
@@ -171,9 +168,9 @@ export default function ReportsScreen() {
             <Text style={styles.summaryLabel}>Receitas</Text>
             <Text style={styles.summaryValue}>R$ {totalIncome.toFixed(2)}</Text>
           </View>
-          <View style={[styles.summaryCard, { backgroundColor: "#FF6B6B" }]}>
+          <View style={[styles.summaryCard, { backgroundColor: Colors.accentGreen }]}>
             <Text style={styles.summaryLabel}>Despesas</Text>
-            <Text style={styles.summaryValue}>R$ {totalExpense.toFixed(2)}</Text>
+            <Text style={[styles.summaryValue, { color: "#FF6B6B" }]}>R$ {totalExpense.toFixed(2)}</Text>
           </View>
         </View>
 
@@ -187,14 +184,14 @@ export default function ReportsScreen() {
               },
             ]}
           >
-            <Text style={styles.summaryLabel}>Resultado</Text>
+            <Text style={styles.summaryLabel}>Saldo</Text>
             <Text style={styles.summaryValue}>
               R$ {(totalIncome - totalExpense).toFixed(2)}
             </Text>
           </View>
-          <View style={[styles.summaryCard, { backgroundColor: "#FFD700" }]}>
-            <Text style={styles.summaryLabel}>% Economia</Text>
-            <Text style={styles.summaryValue}>
+          <View style={[styles.summaryCard, { backgroundColor: Colors.accentGreen }]}>
+            <Text style={styles.summaryLabel}>Taxa Economia</Text>
+            <Text style={[styles.summaryValue, { color: "#FFD700" }]}>
               {totalIncome > 0
                 ? ((((totalIncome - totalExpense) / totalIncome) * 100).toFixed(1))
                 : "0"}
@@ -224,7 +221,7 @@ export default function ReportsScreen() {
           <LineChart
             data={monthlyTrendData}
             title="Evolução do Saldo (últimos 6 meses)"
-            lineColor={Colors.primary}
+            lineColor={Colors.accentGreen}
           />
         )}
 
@@ -237,7 +234,7 @@ export default function ReportsScreen() {
 
         {/* Detailed Breakdown */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: Colors.text }]}>
+          <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>
             Detalhamento por Categoria
           </Text>
           {categories
@@ -272,7 +269,7 @@ export default function ReportsScreen() {
                   key={cat.id}
                   style={[
                     styles.categoryRow,
-                    { borderBottomColor: Colors.border },
+                    { borderBottomColor: Colors.darkest },
                   ]}
                 >
                   <View style={styles.categoryInfo}>
@@ -282,7 +279,7 @@ export default function ReportsScreen() {
                         { backgroundColor: cat.color },
                       ]}
                     />
-                    <Text style={[styles.categoryName, { color: Colors.text }]}>
+                    <Text style={[styles.categoryName, { color: Colors.textColorPrimary }]}>
                       {cat.name}
                     </Text>
                   </View>
@@ -291,14 +288,14 @@ export default function ReportsScreen() {
                       style={[
                         styles.categoryAmount,
                         {
-                          color: amount >= 0 ? Colors.accentGreen : "#FF6B6B",
+                          color: amount >= 0 ? Colors.lightGreen : "#FF6B6B",
                         },
                       ]}
                     >
                       R$ {Math.abs(amount).toFixed(2)}
                     </Text>
                     <Text
-                      style={[styles.categoryPercentage, { color: Colors.placeholder }]}
+                      style={[styles.categoryPercentage, { color: "#4f6d5e" }]}
                     >
                       {percentage.toFixed(1)}%
                     </Text>
@@ -320,7 +317,7 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 20,
     paddingTop: 50,
   },
   headerTitle: {
@@ -331,6 +328,8 @@ const styles = StyleSheet.create({
   periodSelector: {
     paddingHorizontal: 12,
     paddingVertical: 12,
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   periodButton: {
     paddingHorizontal: 16,
@@ -341,12 +340,13 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
   },
   periodText: {
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: "600",
   },
   content: {
     flex: 1,
     paddingBottom: 20,
+    padding: 20,
   },
   summaryRow: {
     flexDirection: "row",
@@ -356,7 +356,7 @@ const styles = StyleSheet.create({
   summaryCard: {
     flex: 1,
     paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingVertical: 10,
     borderRadius: 12,
     marginHorizontal: 6,
     alignItems: "center",
@@ -367,12 +367,12 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   summaryLabel: {
-    fontSize: 12,
+    fontSize: 14,
     color: "rgba(255, 255, 255, 0.9)",
     marginBottom: 8,
   },
   summaryValue: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "bold",
     color: "white",
   },

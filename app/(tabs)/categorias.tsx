@@ -3,17 +3,8 @@ import { useCategories } from "@/src/hooks/useCategories";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { useState } from "react";
-import {
-    Alert,
-    Modal,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View
-} from "react-native";
-
+import { Alert, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+  
 // Icon mapping with emoji/unicode symbols
 const iconMap: Record<string, string> = {
   tag: "🏷️",
@@ -32,7 +23,7 @@ export default function CategoriesScreen() {
   const { darkMode } = useTheme();
   const Colors = darkMode ? DarkMode : LightMode;
 
-  const { categories, addCategory, deleteCategory, updateCategory } =
+  const { categories, addCategory, removeCategory, updateCategory } =
     useCategories();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -105,7 +96,7 @@ export default function CategoriesScreen() {
           text: "Excluir",
           onPress: async () => {
             try {
-              await deleteCategory(categoryId);
+              await removeCategory(categoryId);
             } catch (error) {
               Alert.alert("Erro", "Não foi possível excluir a categoria");
               console.error(error);
@@ -120,9 +111,9 @@ export default function CategoriesScreen() {
   const iconOptions = ["tag", "shopping", "utensils", "car", "home", "heart", "book", "dumbbell", "school", "briefcase"];
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.background }]}>
+    <View style={[styles.container, { backgroundColor: Colors.lightGreen }]}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: Colors.primary }]}>
+      <View style={[styles.header, { backgroundColor: Colors.accentGreen }]}>
         <Text style={styles.headerTitle}>Categorias</Text>
       </View>
 
@@ -136,7 +127,7 @@ export default function CategoriesScreen() {
               <View
                 style={[
                   styles.mainCategoryCard,
-                  { borderLeftColor: mainCat.color || Colors.primary },
+                  { borderLeftColor: mainCat.color || Colors.accentGreen },
                 ]}
               >
                 <View style={styles.categoryLeft}>
@@ -147,11 +138,11 @@ export default function CategoriesScreen() {
                     ]}
                   />
                   <View style={styles.categoryInfo}>
-                    <Text style={[styles.categoryName, { color: Colors.text }]}>
+                    <Text style={[styles.categoryName, { color: Colors.textColorPrimary }]}>
                       {mainCat.name}
                     </Text>
                     {subCategories.length > 0 && (
-                      <Text style={[styles.subcategoryCount, { color: Colors.placeholder }]}>
+                      <Text style={[styles.subcategoryCount, { color: "#4f6d5e" }]}>
                         {subCategories.length} subcategorias
                       </Text>
                     )}
@@ -162,7 +153,7 @@ export default function CategoriesScreen() {
                     style={styles.actionButton}
                     onPress={() => openEditModal(mainCat)}
                   >
-                    <Text style={{ fontSize: 18, color: Colors.primary }}>✏️</Text>
+                    <Text style={{ fontSize: 18, color: Colors.accentGreen }}>✏️</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.actionButton}
@@ -181,7 +172,7 @@ export default function CategoriesScreen() {
                       key={subCat.id}
                       style={[
                         styles.subcategoryCard,
-                        { borderLeftColor: subCat.color || Colors.primary },
+                        { borderLeftColor: subCat.color || Colors.accentGreen },
                       ]}
                     >
                       <View style={styles.categoryLeft}>
@@ -191,7 +182,7 @@ export default function CategoriesScreen() {
                             { backgroundColor: subCat.color },
                           ]}
                         />
-                        <Text style={[styles.categoryName, { color: Colors.text }]}>
+                        <Text style={[styles.categoryName, { color: Colors.textColorPrimary }]}>
                           {subCat.name}
                         </Text>
                       </View>
@@ -200,7 +191,7 @@ export default function CategoriesScreen() {
                           style={styles.actionButton}
                           onPress={() => openEditModal(subCat)}
                         >
-                          <Text style={{ fontSize: 16, color: Colors.primary }}>✏️</Text>
+                          <Text style={{ fontSize: 16, color: Colors.accentGreen }}>✏️</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                           style={styles.actionButton}
@@ -220,10 +211,10 @@ export default function CategoriesScreen() {
 
       {/* Add Button */}
       <TouchableOpacity
-        style={[styles.fab, { backgroundColor: Colors.primary }]}
+        style={[styles.fab, { backgroundColor: Colors.accentGreen }]}
         onPress={openAddModal}
       >
-        <Text style={{ fontSize: 28, color: "white" }}>➕</Text>
+        <Text style={{ fontSize: 48, color: Colors.textColorPrimary }}>+</Text>
       </TouchableOpacity>
 
       {/* Modal */}
@@ -235,18 +226,18 @@ export default function CategoriesScreen() {
       >
         <View style={styles.modalOverlay}>
           <View
-            style={[styles.modalContent, { backgroundColor: Colors.background }]}
+            style={[styles.modalContent, { backgroundColor: Colors.lightGreen }]}
           >
             {/* Modal Header */}
             <View style={styles.modalHeader}>
               <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                <Text style={{ fontSize: 28, color: Colors.text }}>✕</Text>
+                <Text style={{ fontSize: 28, color: Colors.textColorPrimary }}>✕</Text>
               </TouchableOpacity>
-              <Text style={[styles.modalTitle, { color: Colors.text }]}>
+              <Text style={[styles.modalTitle, { color: Colors.textColorPrimary }]}>
                 {isEditMode ? "Editar Categoria" : "Nova Categoria"}
               </Text>
               <TouchableOpacity onPress={handleSave}>
-                <Text style={[styles.saveButton, { color: Colors.primary }]}>
+                <Text style={[styles.saveButton, { color: Colors.accentGreen }]}>
                   Salvar
                 </Text>
               </TouchableOpacity>
@@ -254,35 +245,36 @@ export default function CategoriesScreen() {
 
             <ScrollView style={styles.modalBody} showsVerticalScrollIndicator={false}>
               {/* Name Input */}
-              <Text style={[styles.inputLabel, { color: Colors.text }]}>
+              <Text style={[styles.inputLabel, { color: Colors.textColorPrimary }]}>
                 Nome da Categoria
               </Text>
               <TextInput
                 style={[
                   styles.textInput,
                   {
-                    borderColor: Colors.border,
-                    color: Colors.text,
-                    backgroundColor: Colors.cardBackground,
+                    borderColor: Colors.darkest,
+                    color: Colors.textColorPrimary,
+                    backgroundColor: Colors.accentGreen,
                   },
                 ]}
                 placeholder="Digite o nome..."
-                placeholderTextColor={Colors.placeholder}
+                placeholderTextColor={"#4f6d5e"}
                 value={categoryName}
                 onChangeText={setCategoryName}
               />
 
               {/* Color Picker */}
-              <Text style={[styles.inputLabel, { color: Colors.text }]}>
+              <Text style={[styles.inputLabel, { color: Colors.textColorPrimary }]}>
                 Selecione a Cor
               </Text>
               <ColorPicker
                 selectedColor={selectedColor}
                 onColorSelect={setSelectedColor}
+                onClose={() => {}}
               />
 
               {/* Icon Selector */}
-              <Text style={[styles.inputLabel, { color: Colors.text }]}>
+              <Text style={[styles.inputLabel, { color: Colors.textColorPrimary }]}>
                 Selecione o Ícone
               </Text>
               <View style={styles.iconGrid}>
@@ -292,7 +284,7 @@ export default function CategoriesScreen() {
                     style={[
                       styles.iconOption,
                       selectedIcon === icon && {
-                        borderColor: Colors.primary,
+                        borderColor: Colors.accentGreen,
                         borderWidth: 2,
                       },
                     ]}
@@ -301,7 +293,7 @@ export default function CategoriesScreen() {
                     <Text
                       style={{
                         fontSize: 28,
-                        color: selectedIcon === icon ? Colors.primary : Colors.text,
+                        color: selectedIcon === icon ? Colors.accentGreen : Colors.textColorPrimary,
                       }}
                     >
                       {iconMap[icon]}
@@ -314,10 +306,10 @@ export default function CategoriesScreen() {
               <View
                 style={[
                   styles.previewCard,
-                  { backgroundColor: Colors.cardBackground },
+                  { backgroundColor: Colors.accentGreen, borderColor: Colors.darkest },
                 ]}
               >
-                <Text style={[styles.previewLabel, { color: Colors.placeholder }]}>
+                <Text style={[styles.previewLabel, { color: "#4f6d5e" }]}>
                   Prévia
                 </Text>
                 <View style={styles.previewContent}>
@@ -327,10 +319,10 @@ export default function CategoriesScreen() {
                       { backgroundColor: selectedColor },
                     ]}
                   />
-                  <Text style={[styles.previewIcon, { fontSize: 24, color: Colors.text }]}>
+                  <Text style={[styles.previewIcon, { fontSize: 24, color: Colors.textColorPrimary }]}>
                     {iconMap[selectedIcon]}
                   </Text>
-                  <Text style={[styles.previewText, { color: Colors.text }]}>
+                  <Text style={[styles.previewText, { color: Colors.textColorPrimary }]}>
                     {categoryName || "Categoria"}
                   </Text>
                 </View>

@@ -4,7 +4,7 @@ export interface Category {
   color: string;
   icon?: string; // Ícone ou imagem da categoria
   parentId?: string; // ID da categoria pai (para subcategorias)
-  type?: "income" | "expense"; // Tipo de movimentação
+  type?: "income" | "expense" | "custom"; // Tipo de movimentação
   isDefault?: boolean; // Se é uma categoria padrão
 }
 

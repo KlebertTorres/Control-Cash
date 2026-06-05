@@ -97,16 +97,16 @@ export default function HomeScreen() {
           
           <DashboardCard
             title="Despesas"
-            value={`R$ ${monthlyExpense.toFixed(2)}`}
+            value={`R$ ${Math.abs(monthlyExpense).toFixed(2)}`}
             icon="📉"
-            color="#FF6B6B"
+            color={Colors.accentGreen}
           />
 
           <DashboardCard
             title="Economizado"
-            value={`R$ ${Math.max(0, monthlyIncome - monthlyExpense).toFixed(2)}`}
+            value={`R$ ${Math.max(0, monthlyIncome + monthlyExpense).toFixed(2)}`}
             icon="💰"
-            color="#FFD700"
+            color={Colors.accentGreen}
           />
         </View>
 
@@ -162,7 +162,7 @@ export default function HomeScreen() {
           <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>Ações Rápidas</Text>
           <View style={styles.quickActionsGrid}>
             <TouchableOpacity
-              style={[styles.quickAction, { backgroundColor: Colors.textColorPrimary }]}
+              style={[styles.quickAction, { backgroundColor: Colors.lightGreen }]}
               onPress={() => router.push("/add-transaction")}
             >
               <Text style={styles.quickActionIcon}>➕</Text>
@@ -211,10 +211,11 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 10,
   },
   scrollView: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 30,
   },
   header: {
     paddingHorizontal: 20,

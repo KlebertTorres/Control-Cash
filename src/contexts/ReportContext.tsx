@@ -18,7 +18,7 @@ export const ReportProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   ): Promise<Report> => {
     try {
       setLoadingReports(true);
-      const report = await GenerateReport(user.uid, period, startDate, endDate);
+      const report = await GenerateReport(user?.uid, period, startDate, endDate);
       setReports((prev) => [report, ...prev]);
       return report;
     } catch (error) {
@@ -32,7 +32,7 @@ export const ReportProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const getDashboardData = async (): Promise<DashboardData> => {
     try {
       setLoadingReports(true);
-      const data = await GetDashboardData(user.uid);
+      const data = await GetDashboardData(user?.uid);
       setDashboardData(data);
       return data;
     } catch (error) {

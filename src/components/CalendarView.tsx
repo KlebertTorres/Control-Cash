@@ -5,11 +5,11 @@ import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Transaction } from "@/src/types/TransactionType";
 import React, { useMemo, useState } from "react";
 import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from "react-native";
 
 type ViewMode = "month" | "week" | "day";
@@ -130,10 +130,10 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
           styles.dayCell,
           {
             backgroundColor: selected
-              ? Colors.primary
+              ? Colors.lightGreen
               : today
               ? Colors.accentGreen + "20"
-              : Colors.border,
+              : Colors.accentGreen,
             borderColor: today ? Colors.accentGreen : "transparent",
           },
         ]}
@@ -143,7 +143,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
           style={[
             styles.dayNumber,
             {
-              color: selected ? "white" : today ? Colors.accentGreen : Colors.text,
+              color: selected ? "white" : today ? Colors.accentGreen : Colors.textColorPrimary,
               fontWeight: today || selected ? "bold" : "normal",
             },
           ]}
@@ -161,7 +161,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
           </View>
         )}
         {hasTransactions && (
-          <Text style={[styles.transactionCount, { color: Colors.placeholder }]}>
+          <Text style={[styles.transactionCount, { color: "#4f6d5e" }]}>
             {dayTransactions.length}
           </Text>
         )}
@@ -170,9 +170,9 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.background }]}>
+    <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: Colors.primary }]}>
+      <View style={[styles.header, { backgroundColor: Colors.deepGreen }]}>
         <TouchableOpacity onPress={handlePrevMonth}>
           <Text style={styles.navButton}>◀</Text>
         </TouchableOpacity>
@@ -183,37 +183,37 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       </View>
 
       {/* View Mode Selector */}
-      <View style={[styles.modeSelector, { backgroundColor: Colors.border }]}>
+      <View style={[styles.modeSelector, { backgroundColor: Colors.darkest }]}>
         <TouchableOpacity
           style={[
             styles.modeButton,
-            viewMode === "day" && { backgroundColor: Colors.primary },
+            viewMode === "day" && { backgroundColor: Colors.accentGreen },
           ]}
           onPress={() => setViewMode("day")}
         >
-          <Text style={[styles.modeText, viewMode === "day" && { color: "white" }]}>
+          <Text style={[styles.modeText, { color: Colors.lightGreen },viewMode === "day" && { color: "white" }]}>
             Dia
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.modeButton,
-            viewMode === "week" && { backgroundColor: Colors.primary },
+            viewMode === "week" && { backgroundColor: Colors.accentGreen },
           ]}
           onPress={() => setViewMode("week")}
         >
-          <Text style={[styles.modeText, viewMode === "week" && { color: "white" }]}>
+          <Text style={[styles.modeText, { color: Colors.lightGreen }, viewMode === "week" && { color: "white" }]}>
             Semana
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.modeButton,
-            viewMode === "month" && { backgroundColor: Colors.primary },
+            viewMode === "month" && { backgroundColor: Colors.accentGreen },
           ]}
           onPress={() => setViewMode("month")}
         >
-          <Text style={[styles.modeText, viewMode === "month" && { color: "white" }]}>
+          <Text style={[styles.modeText, { color: Colors.lightGreen }, viewMode === "month" && { color: "white" }]}>
             Mês
           </Text>
         </TouchableOpacity>
@@ -227,7 +227,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"].map((day) => (
               <Text
                 key={day}
-                style={[styles.weekHeaderText, { color: Colors.placeholder }]}
+                style={[styles.weekHeaderText, { color: "#4f6d5e" }]}
               >
                 {day}
               </Text>
@@ -246,7 +246,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       {/* Transaction Details */}
       {selectedDate && (
         <ScrollView style={styles.detailsContainer}>
-          <Text style={[styles.detailsTitle, { color: Colors.text }]}>
+          <Text style={[styles.detailsTitle, { color: Colors.textColorPrimary }]}>
             Transações de {new Date(selectedDate).toLocaleDateString("pt-BR")}
           </Text>
           {getDayTransactions(parseInt(selectedDate.split("-")[2])).map((t) => {
@@ -254,7 +254,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             return (
               <View
                 key={t.id}
-                style={[styles.transactionItem, { borderBottomColor: Colors.border }]}
+                style={[styles.transactionItem, { borderBottomColor: Colors.darkest }]}
               >
                 <View
                   style={[
@@ -263,10 +263,10 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                   ]}
                 />
                 <View style={styles.transactionInfo}>
-                  <Text style={[styles.transactionDesc, { color: Colors.text }]}>
+                  <Text style={[styles.transactionDesc, { color: Colors.textColorPrimary }]}>
                     {t.description}
                   </Text>
-                  <Text style={[styles.transactionCat, { color: Colors.placeholder }]}>
+                  <Text style={[styles.transactionCat, { color: "#4f6d5e" }]}>
                     {category?.name}
                   </Text>
                 </View>
@@ -275,7 +275,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                     styles.transactionAmount,
                     {
                       color:
-                        t.type === "income" ? Colors.accentGreen : "#FF6B6B",
+                        t.type === "income" ? Colors.lightGreen : "#FF6B6B",
                     },
                   ]}
                 >
@@ -354,6 +354,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
   },
   dayCell: {
+    padding: 10,
     width: "14.28%",
     aspectRatio: 1,
     borderRadius: 8,

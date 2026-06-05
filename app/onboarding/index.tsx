@@ -132,7 +132,7 @@ export default function Onboarding() {
     };
 
     // Adicionar transações iniciais
-    const now = new Date().toISOString();
+    const now = new Date().toISOString().split("T")[0];;
     if (numericData.salary > 0) {
       addTransaction({
         type: "income",

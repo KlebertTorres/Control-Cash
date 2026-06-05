@@ -1,27 +1,24 @@
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
-import React from "react";
-import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-} from "react-native";
-
+import { useState } from "react";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+    
 const COLORS = [
+  "#795548", // Marrom
+  "#E91E63", // Rosa
   "#FF6B6B", // Vermelho
   "#FF8C00", // Laranja
   "#FFD700", // Ouro
   "#4CAF50", // Verde
+  "#1ABC9C", // Turquesa
   "#00BCD4", // Cyan
+  "#3498DB", // Azul Claro
   "#2196F3", // Azul
   "#9C27B0", // Roxo
-  "#E91E63", // Rosa
-  "#795548", // Marrom
   "#607D8B", // Cinza Azulado
-  "#1ABC9C", // Turquesa
-  "#3498DB", // Azul Claro
+  "#7c7c7c", // Cinza
+  "#000000", // Preto
+  "#FFFFFF", // Branco
 ];
 
 interface ColorPickerProps {
@@ -37,35 +34,43 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
 }) => {
   const { darkMode } = useTheme();
   const Colors = darkMode ? DarkMode : LightMode;
+  const [opened, setOpened] = useState(true);
 
   return (
     <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
-      <View style={[styles.header, { backgroundColor: Colors.textColorPrimary }]}>
+      <View style={[styles.header, { backgroundColor: Colors.accentGreen }]}>
         <Text style={styles.title}>Escolher Cor</Text>
-        <TouchableOpacity onPress={onClose}>
-          <Text style={styles.closeButton}>✕</Text>
+        <TouchableOpacity 
+          onPress={() => {
+            setOpened((prev) => !prev);}
+        }>
+          <Text style={styles.closeButton}>▼</Text>
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.colorGrid}>
-        {COLORS.map((color) => (
-          <TouchableOpacity
-            key={color}
-            style={[
-              styles.colorOption,
-              {
-                backgroundColor: color,
-                borderWidth: selectedColor === color ? 3 : 0,
-                borderColor: selectedColor === color ? Colors.textColorPrimary : "transparent",
-              },
-            ]}
-            onPress={() => {
-              onColorSelect(color);
-              onClose();
-            }}
-          />
-        ))}
-      </ScrollView>
+      {opened &&
+        <ScrollView style={styles.colorGrid}>
+          <View style={styles.colorGridFlex}>
+            {COLORS.map((color) => (
+              <TouchableOpacity
+                key={color}
+                style={[
+                  styles.colorOption,
+                  {
+                    backgroundColor: color,
+                    borderWidth: selectedColor === color ? 3 : 0,
+                    borderColor: selectedColor === color ? Colors.textColorPrimary : "transparent",
+                  },
+                ]}
+                onPress={() => {
+                  onColorSelect(color);
+                  onClose();
+                }}
+              />
+            ))}
+          </View>
+        </ScrollView>
+      }
     </View>
   );
 };
@@ -73,7 +78,6 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 40,
   },
   header: {
     flexDirection: "row",
@@ -95,8 +99,15 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
+  colorGridFlex: {
+    paddingLeft: 20,
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+  },
   colorOption: {
-    width: "30%",
+    width: "25%",
     aspectRatio: 1,
     borderRadius: 12,
     margin: "3.33%",

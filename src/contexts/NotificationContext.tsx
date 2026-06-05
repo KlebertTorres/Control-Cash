@@ -30,8 +30,8 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
   const loadNotifications = useCallback(async () => {
     try {
       setLoadingNotifications(true);
-      const notificationsData = await GetNotificationsDoc(user.uid);
-      const settingsData = await GetNotificationSettings(user.uid);
+      const notificationsData = await GetNotificationsDoc(user?.uid);
+      const settingsData = await GetNotificationSettings(user?.uid);
       setNotifications(notificationsData);
       setSettings(settingsData);
     } catch (error) {
@@ -39,7 +39,7 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
     } finally {
       setLoadingNotifications(false);
     }
-  }, [user.uid]);
+  }, [user?.uid]);
 
   useEffect(() => {
     if (!user?.uid) {
@@ -52,29 +52,29 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
   }, [user?.uid, loadNotifications]);
 
   const addNotification = async (notificationData: Omit<Notification, "id">) => {
-    const newNotification = await CreateNotificationDoc(user.uid, notificationData);
+    const newNotification = await CreateNotificationDoc(user?.uid, notificationData);
     setNotifications((prev) => [newNotification, ...prev]);
   };
 
   const removeNotification = async (id: string) => {
-    await DeleteNotificationDoc(user.uid, id);
+    await DeleteNotificationDoc(user?.uid, id);
     setNotifications((prev) => prev.filter((notif) => notif.id !== id));
   };
 
   const markAsRead = async (id: string) => {
-    await MarkNotificationAsRead(user.uid, id);
+    await MarkNotificationAsRead(user?.uid, id);
     setNotifications((prev) =>
       prev.map((notif) => (notif.id === id ? { ...notif, read: true } : notif))
     );
   };
 
   const markAllAsRead = async () => {
-    await MarkAllNotificationsAsRead(user.uid);
+    await MarkAllNotificationsAsRead(user?.uid);
     setNotifications((prev) => prev.map((notif) => ({ ...notif, read: true })));
   };
 
   const updateSettings = async (newSettings: Partial<NotificationSettings>) => {
-    await UpdateNotificationSettings(user.uid, newSettings);
+    await UpdateNotificationSettings(user?.uid, newSettings);
     setSettings((prev) => ({ ...prev, ...newSettings }));
   };
 
