@@ -30,12 +30,44 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
   const loadNotifications = useCallback(async () => {
     try {
       setLoadingNotifications(true);
+      if (!user?.uid) {
+        setNotifications([]);
+        setSettings({
+          enableOverdueNotifications: true,
+          enableUpcomingNotifications: true,
+          enableReceivedNotifications: true,
+          enableInstallmentNotifications: true,
+          daysBeforeNotify: 3,
+          enableSound: true,
+          enableVibration: true,
+        });
+        return;
+      }
+
       const notificationsData = await GetNotificationsDoc(user?.uid);
       const settingsData = await GetNotificationSettings(user?.uid);
-      setNotifications(notificationsData);
-      setSettings(settingsData);
+      setNotifications(notificationsData || []);
+      setSettings(settingsData || {
+        enableOverdueNotifications: true,
+        enableUpcomingNotifications: true,
+        enableReceivedNotifications: true,
+        enableInstallmentNotifications: true,
+        daysBeforeNotify: 3,
+        enableSound: true,
+        enableVibration: true,
+      });
     } catch (error) {
       console.error("Erro ao carregar notificações:", error);
+      setNotifications([]);
+      setSettings({
+        enableOverdueNotifications: true,
+        enableUpcomingNotifications: true,
+        enableReceivedNotifications: true,
+        enableInstallmentNotifications: true,
+        daysBeforeNotify: 3,
+        enableSound: true,
+        enableVibration: true,
+      });
     } finally {
       setLoadingNotifications(false);
     }

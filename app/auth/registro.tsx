@@ -19,6 +19,7 @@ export default function RegistroScreen() {
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
   const [confSenha, setConfSenha] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [erros, setErros] = useState({
     email: false,
@@ -30,18 +31,22 @@ export default function RegistroScreen() {
   const registrar = async () => {
     try{
       const user = await Registrar( email, usuario, senha )
-      
+
       if (user) {
         alert('Registro bem sucedido! ')
         router.replace("/");}
-        
+
       } catch(erro: any){
         console.log(erro)
         alert('Registro falho: ' + erro.message)
+      } finally {
+        setLoading(false);
       }
   }
 
   async function validandoRegistro() {
+    if (loading) return false;
+
     const novosErros = validarRegistro(email, usuario, senha, confSenha);
 
     setErros(novosErros);
@@ -50,6 +55,7 @@ export default function RegistroScreen() {
 
     if (temErro) return false;
 
+    setLoading(true);
     console.log("Novo registro: ", email, usuario, senha);
     await registrar();
     return true;
@@ -115,11 +121,13 @@ export default function RegistroScreen() {
         <SimpleButton
           onPress={() => router.back()}
           text="Voltar"
+          disabled={loading}
         ></SimpleButton>
 
         <SimpleButton
           onPress={() => validandoRegistro()}
-          text="Criar Conta"
+          text={loading ? "Criando..." : "Criar Conta"}
+          disabled={loading}
         ></SimpleButton>
       </View>
     </View>

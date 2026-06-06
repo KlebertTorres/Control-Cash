@@ -14,6 +14,7 @@ export default function LoginScreen() {
   const router = useRouter();
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
+  const [loading, setLoading] = useState(false);
 
   const [erros, setErros] = useState({
   email: false,
@@ -27,18 +28,22 @@ export default function LoginScreen() {
     try{
       const resposta = await Login(email, senha)
 
-      if (resposta !== null){      
+      if (resposta !== null){
         alert('Login bem sucedido! ')
         router.replace("/");
-      } 
+      }
 
     } catch(erro: any){
       console.log(erro)
       alert('Login falho: ' + erro.message)
+    } finally {
+      setLoading(false);
     }
-  } 
+  }
 
   async function validandoLogin() {
+    if (loading) return false;
+
     const novosErros = validarLogin(email, senha);
 
     setErros(novosErros);
@@ -47,6 +52,7 @@ export default function LoginScreen() {
 
     if (temErro) return false;
 
+    setLoading(true);
     console.log("Novo Login: ", email, senha);
     await logar();
     return true;
@@ -90,7 +96,8 @@ export default function LoginScreen() {
 
       <SimpleButton
         onPress={() => validandoLogin()}
-        text="Entrar"
+        text={loading ? "Carregando..." : "Entrar"}
+        disabled={loading}
       />
 
       <Text style={styles.footer}>

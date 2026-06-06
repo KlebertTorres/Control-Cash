@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { DarkMode, LightMode } from "../styles/cores";
 
-export const SimpleButton = ({ styleButton, styleText, onPress, text, currentType, type }: any) => {
+export const SimpleButton = ({ styleButton, styleText, onPress, text, currentType, type, disabled, color }: any) => {
 
     const { darkMode } = useTheme();
     const Colors = darkMode? DarkMode: LightMode;
@@ -12,28 +12,45 @@ export const SimpleButton = ({ styleButton, styleText, onPress, text, currentTyp
 
     return(
         <Pressable
-            style={[styles.smallButton, styleButton, {backgroundColor: Colors.darkest}, 
-                isSelectable && isActive && {backgroundColor: Colors.lightGreen}]}
+            style={[
+              styles.smallButton,
+              styleButton,
+              {
+                backgroundColor: color || (isActive ? Colors.primary : Colors.accentGreen),
+                opacity: disabled ? 0.6 : 1,
+              },
+              isSelectable && isActive && { backgroundColor: Colors.primary },
+            ]}
             onPress={onPress}
+            disabled={disabled}
         >
-            <Text style={[styles.buttonText, styleText, {color: Colors.textColorPrimary},
-                isSelectable && isActive? {color: "#000000"} : null
-            ]}>
+            <Text
+              style={[
+                styles.buttonText,
+                styleText,
+                { color: isActive ? "#fff" : Colors.textColorPrimary },
+              ]}
+            >
                 {text}
             </Text>
         </Pressable>
-        
     );
 }
 
 const styles = StyleSheet.create({
   smallButton: {
     paddingVertical: 12,
-    borderRadius: 10,
+    borderRadius: 12,
     width: "47%",
     alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   buttonText: {
     fontWeight: "bold",
+    fontSize: 15,
   },
 })

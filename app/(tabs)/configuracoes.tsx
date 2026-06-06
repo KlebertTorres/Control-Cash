@@ -1,10 +1,14 @@
 import { useCategories } from "@/src/hooks/useCategories";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useTransaction } from "@/src/hooks/useTransaction";
+import { useAuth } from "@/src/hooks/useAuth";
 import { DeletarConta, Logout } from "@/src/services/authService";
 import { DarkMode, LightMode } from "@/src/styles/cores";
+import { HelpCenter } from "@/src/components/HelpCenter";
+import { EditProfileModal } from "@/src/components/EditProfileModal";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
 
 export default function SettingsScreen() {
@@ -12,6 +16,9 @@ export default function SettingsScreen() {
   const { darkMode, toggleTheme } = useTheme();
   const { categories } = useCategories();
   const { transactions } = useTransaction();
+  const { user } = useAuth();
+  const [helpVisible, setHelpVisible] = useState(false);
+  const [editProfileVisible, setEditProfileVisible] = useState(false);
 
   const Colors = darkMode? DarkMode: LightMode;
 
@@ -47,8 +54,8 @@ export default function SettingsScreen() {
 
       <View style={styles.profileSection}>
         <View style={[styles.avatar,{borderColor: Colors.accentGreen}]} />
-        <Text style={styles.username}>Usuário</Text>
-        <Pressable>
+        <Text style={styles.username}>{user?.name || "Usuário"}</Text>
+        <Pressable onPress={() => setEditProfileVisible(true)}>
           <Text style={[styles.editText, {color: Colors.accentGreen}]}>✎ Editar</Text>
         </Pressable>
       </View>
@@ -84,7 +91,7 @@ export default function SettingsScreen() {
           <Text style={styles.menuText}>Relatar erros</Text>
         </Pressable>
 
-        <Pressable style={styles.menuItem}>
+        <Pressable style={styles.menuItem} onPress={() => setHelpVisible(true)}>
           <Ionicons name="help" size={24} color="black" />
           <Text style={styles.menuText}>Ajuda</Text>
         </Pressable>
@@ -96,13 +103,25 @@ export default function SettingsScreen() {
         <Ionicons name="exit-outline" size={24} color="black" />
         <Text style={styles.logoutText}>Sair</Text>
       </Pressable>
-      
+
       <Pressable style={styles.logoutButton}
         onPress = {() => deletarUsuario()}
       >
         <Ionicons name="trash-outline" size={24} color="black" />
         <Text style={styles.logoutText}>Deletar Conta</Text>
       </Pressable>
+
+      <HelpCenter
+        darkMode={darkMode}
+        visible={helpVisible}
+        onClose={() => setHelpVisible(false)}
+      />
+
+      <EditProfileModal
+        visible={editProfileVisible}
+        onClose={() => setEditProfileVisible(false)}
+        darkMode={darkMode}
+      />
     </ScrollView>
   );
 }

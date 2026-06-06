@@ -4,18 +4,31 @@ import {
 import { auth } from "./firebaseconfig";
 import { CreateUserDoc, DeleteUserDoc, GetUserDoc } from "./userService";
 import { DeleteTransactionDoc } from "./transactionService";
-import { DeleteCategoryDoc } from "./categoryService";
+import { DeleteCategoryDoc, CreateCategoryDoc } from "./categoryService";
 import { Transaction } from "../types/TransactionType";
 import { Category } from "../types/CategoryType";
 
+const DEFAULT_CATEGORIES = [
+  { name: "Alimentação", color: "#FF6B6B", icon: "🍔", type: "expense" as const },
+  { name: "Transporte", color: "#4ECDC4", icon: "🚗", type: "expense" as const },
+  { name: "Moradia", color: "#45B7D1", icon: "🏠", type: "expense" as const },
+  { name: "Saúde", color: "#96CEB4", icon: "⚕️", type: "expense" as const },
+  { name: "Educação", color: "#FFEAA7", icon: "📚", type: "expense" as const },
+  { name: "Lazer", color: "#DDA15E", icon: "🎮", type: "expense" as const },
+  { name: "Utilidades", color: "#BC6C25", icon: "💡", type: "expense" as const },
+  { name: "Investimentos", color: "#2ECC71", icon: "📈", type: "income" as const },
+  { name: "Salário", color: "#27AE60", icon: "💼", type: "income" as const },
+  { name: "Freelance", color: "#F39C12", icon: "💻", type: "income" as const },
+];
+
 export async function Registrar( email: string, name: string, senha: string) {
-    
+
   try {
     console.log("Criando auth...");
 
     const userCredential =
       await createUserWithEmailAndPassword(auth, email, senha);
-        
+
     console.log("Auth criado!");
 
     console.log("UID:", userCredential.user.uid);
@@ -27,6 +40,24 @@ export async function Registrar( email: string, name: string, senha: string) {
     });
 
     console.log("Firestore criado!");
+
+    // Create default categories
+    console.log("Criando categorias padrão...");
+    for (const category of DEFAULT_CATEGORIES) {
+      try {
+        await CreateCategoryDoc(userCredential.user.uid, {
+          name: category.name,
+          color: category.color,
+          icon: category.icon,
+          type: category.type,
+          isDefault: true,
+        });
+      } catch (error) {
+        console.error(`Erro ao criar categoria ${category.name}:`, error);
+      }
+    }
+
+    console.log("Categorias padrão criadas!");
 
     return userCredential.user;
 

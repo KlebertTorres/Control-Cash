@@ -53,7 +53,7 @@ export default function HomeScreen() {
     setModalVisible(true);
   };
 
-  const recentTransactions = transactions.slice(0, 5);
+  const recentTransactions = transactions?.slice(0, 5);
 
   return (
     <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>

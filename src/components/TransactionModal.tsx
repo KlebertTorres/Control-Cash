@@ -3,7 +3,7 @@ import { useTheme } from "@/src/hooks/useTheme";
 import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Transaction } from "@/src/types/TransactionType";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Alert,
     Modal,
@@ -13,8 +13,10 @@ import {
     TextInput,
     TouchableOpacity,
     View,
+    ActivityIndicator,
 } from "react-native";
 import { SimpleButton } from "./SimpleButton";
+import { CategoryDropdown } from "./CategoryDropdown";
 
 interface TransactionModalProps {
   visible: boolean;
@@ -31,14 +33,23 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 }) => {
   const { darkMode } = useTheme();
   const Colors = darkMode ? DarkMode : LightMode;
-  const { updateTransaction } = useTransaction();
+  const { updateTransaction, removeTransaction } = useTransaction();
   const { categories } = useCategories();
 
-  const [description, setDescription] = useState(transaction?.description || "");
-  const [amount, setAmount] = useState(transaction?.amount.toString() || "");
-  const [date, setDate] = useState(transaction?.date || "");
-  const [categoryId, setCategoryId] = useState(transaction?.categoryId || "");
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [date, setDate] = useState("");
+  const [categoryId, setCategoryId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (visible && transaction) {
+      setDescription(transaction.description);
+      setAmount(transaction.amount.toString());
+      setDate(transaction.date);
+      setCategoryId(transaction.categoryId);
+    }
+  }, [visible, transaction]);
 
   const handleSave = async () => {
     if (!description || !amount || !date || !categoryId) {
@@ -62,6 +73,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           categoryId,
         });
       }
+      Alert.alert("Sucesso", "Transação atualizada com sucesso!");
       onSave();
       onClose();
     } catch (error) {
@@ -77,7 +89,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 
     Alert.alert(
       "Confirmar exclusão",
-      "Deseja realmente deletar esta transação?",
+      "Deseja realmente deletar esta transação? Esta ação não pode ser desfeita.",
       [
         { text: "Cancelar", onPress: () => {} },
         {
@@ -85,7 +97,8 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           onPress: async () => {
             try {
               setLoading(true);
-              // TODO: implementar deleteTransaction
+              await removeTransaction(transaction.id);
+              Alert.alert("Sucesso", "Transação deletada!");
               onSave();
               onClose();
             } catch (error) {
@@ -95,6 +108,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
               setLoading(false);
             }
           },
+          style: "destructive",
         },
       ]
     );
@@ -121,9 +135,10 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             placeholderTextColor={"#4f6d5e"}
             value={description}
             onChangeText={setDescription}
+            editable={!loading}
           />
 
-          <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Valor</Text>
+          <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Valor (R$)</Text>
           <TextInput
             style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.darkest }]}
             placeholder="0.00"
@@ -131,48 +146,50 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             value={amount}
             onChangeText={setAmount}
             keyboardType="decimal-pad"
+            editable={!loading}
           />
 
-          <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Data</Text>
+          <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Data (YYYY-MM-DD)</Text>
           <TextInput
             style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.darkest }]}
-            placeholder="YYYY-MM-DD"
+            placeholder="2024-01-01"
             placeholderTextColor={"#4f6d5e"}
             value={date}
             onChangeText={setDate}
+            editable={!loading}
           />
 
           <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Categoria</Text>
-          <ScrollView horizontal style={styles.categoriesContainer}>
-            {categories.map((cat) => (
-              <TouchableOpacity
-                key={cat.id}
-                style={[
-                  styles.categoryButton,
-                  { backgroundColor: cat.color },
-                  categoryId === cat.id && styles.categoryButtonActive,
-                ]}
-                onPress={() => setCategoryId(cat.id)}
-              >
-                <Text style={styles.categoryText}>{cat.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+          <CategoryDropdown
+            categories={categories}
+            selectedId={categoryId}
+            onSelect={setCategoryId}
+            darkMode={darkMode}
+            transactionType={transaction?.type || "expense"}
+          />
 
           <View style={styles.buttonGroup}>
-            <SimpleButton
-              title="Salvar"
-              onPress={handleSave}
-              disabled={loading}
-              color={Colors.accentGreen}
-            />
-            {transaction && (
-              <SimpleButton
-                title="Deletar"
-                onPress={handleDelete}
-                disabled={loading}
-                color="red"
-              />
+            {loading ? (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color={Colors.primary} />
+              </View>
+            ) : (
+              <>
+                <SimpleButton
+                  title="Salvar"
+                  onPress={handleSave}
+                  disabled={loading}
+                  color={Colors.accentGreen}
+                />
+                {transaction && (
+                  <SimpleButton
+                    title="Deletar"
+                    onPress={handleDelete}
+                    disabled={loading}
+                    color="red"
+                  />
+                )}
+              </>
             )}
           </View>
         </ScrollView>
@@ -219,26 +236,13 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     fontSize: 14,
   },
-  categoriesContainer: {
-    marginVertical: 10,
-  },
-  categoryButton: {
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 8,
-    marginRight: 10,
-    borderWidth: 2,
-    borderColor: "transparent",
-  },
-  categoryButtonActive: {
-    borderColor: "white",
-  },
-  categoryText: {
-    color: "white",
-    fontWeight: "600",
-  },
   buttonGroup: {
     marginTop: 30,
     marginBottom: 20,
+  },
+  loadingContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 20,
   },
 });

@@ -127,7 +127,7 @@ export const LineChart: React.FC<LineChartProps> = ({
   const Colors = darkMode ? DarkMode : LightMode;
 
   const max = Math.max(...data.map((d) => d.value), 1);
-  const width = 300;
+  const width = 320;
   const height = 200;
   const padding = 10;
 
@@ -151,17 +151,22 @@ export const LineChart: React.FC<LineChartProps> = ({
                 {
                   left: point.x - 4,
                   top: point.y - 4,
-                  backgroundColor: Colors.textColorPrimary,
+                  backgroundColor: lineColor,
                 },
               ]}
             />
-            <Text
-              style={[
-                styles.pointLabel,
-                { color: Colors.textColorPrimary, fontSize: 10 },
-              ]}
-            >
+          </View>
+        ))}
+      </View>
+      {/* Legend below chart */}
+      <View style={styles.chartLegend}>
+        {points.map((point, index) => (
+          <View key={index} style={styles.chartLegendItem}>
+            <Text style={[styles.chartLegendLabel, { color: Colors.textColorPrimary }]}>
               {point.label}
+            </Text>
+            <Text style={[styles.chartLegendValue, { color: Colors.lightGreen }]}>
+              R$ {point.value.toFixed(0)}
             </Text>
           </View>
         ))}
@@ -254,6 +259,7 @@ const styles = StyleSheet.create({
     position: "relative",
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
+    marginBottom: 12,
   },
   pointWrapper: {
     position: "absolute",
@@ -271,5 +277,23 @@ const styles = StyleSheet.create({
     bottom: -20,
     width: 40,
     textAlign: "center",
+  },
+  chartLegend: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+  },
+  chartLegendItem: {
+    alignItems: "center",
+    marginVertical: 4,
+    minWidth: "25%",
+  },
+  chartLegendLabel: {
+    fontSize: 11,
+    marginBottom: 2,
+  },
+  chartLegendValue: {
+    fontSize: 12,
+    fontWeight: "bold",
   },
 });
