@@ -8,7 +8,7 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { UpdateUserDoc } from "@/src/services/userService";
-import { CreateCategoryDoc } from "@/src/services/categoryService";
+import { useCategories } from "@/src/hooks/useCategories";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -17,9 +17,11 @@ export default function Onboarding() {
 
   const { darkMode } = useTheme();
   const Colors = darkMode? DarkMode: LightMode;
+  const { categories, addCategory, getCategoryByName } = useCategories();
 
   const { addTransaction } = useTransaction();
 
+  const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);
   const [data, setData] = useState({
     salary: "",
@@ -104,24 +106,57 @@ export default function Onboarding() {
     },
   ];
 
-    const handleNext = () => {
-        if (step < steps.length - 1) {
-        setStep(step + 1);
-        } else {
-        handleFinish();
-        }
-    };
+  const handleNext = () => {
+      if (step < steps.length - 1) {
+      setStep(step + 1);
+      } else {
+      handleFinish();
+      }
+  };
 
-    const handleBack = () => {
-        if (step > 0) {
-            setStep(step - 1);
-        }
-    };
+  const handleBack = () => {
+      if (step > 0) {
+          setStep(step - 1);
+      }
+  };
+
+  const DEFAULT_CATEGORIES = [
+    { name: "Alimentação", color: "#FF6B6B", icon: "🍔", type: "expense" as const },
+    { name: "Transporte", color: "#4ECDC4", icon: "🚗", type: "expense" as const },
+    { name: "Moradia", color: "#45B7D1", icon: "🏠", type: "expense" as const },
+    { name: "Saúde", color: "#96CEB4", icon: "⚕️", type: "expense" as const },
+    { name: "Educação", color: "#FFEAA7", icon: "📚", type: "expense" as const },
+    { name: "Lazer", color: "#DDA15E", icon: "🎮", type: "expense" as const },
+    { name: "Utilidades", color: "#BC6C25", icon: "💡", type: "expense" as const },
+    { name: "Investimentos", color: "#2ECC71", icon: "📈", type: "income" as const },
+    { name: "Salário", color: "#27AE60", icon: "💼", type: "income" as const },
+    { name: "Freelance", color: "#F39C12", icon: "💻", type: "income" as const },
+  ];
 
   const handleFinish = async () => {
 
-    const novaCategoria1 = await CreateCategoryDoc(user.uid, {name: "Moradia", color: "red"});
-    const novaCategoria2 = await CreateCategoryDoc(user.uid, {name: "Renda", color: "blue"});
+    setLoading(true);
+
+    // Create default categories
+    console.log("Criando categorias padrão...");
+    for (const category of DEFAULT_CATEGORIES) {
+      try {
+        await addCategory({ 
+          name: category.name,
+          color: category.color,
+          icon: category.icon,
+          type: category.type,
+          isDefault: true,
+        });
+      } catch (error) {
+        console.error(`Erro ao criar categoria ${category.name}:`, error);
+      }
+    }
+
+    console.log("Categorias padrão criadas!");
+
+    const categoriaMoradia = await getCategoryByName("Moradia");
+    const categoriaSalario = await getCategoryByName("Salário");
 
     const numericData = {
       salary: parseFloat(data.salary) || 0,
@@ -132,15 +167,16 @@ export default function Onboarding() {
     };
 
     // Adicionar transações iniciais
-    const now = new Date().toISOString().split("T")[0];;
+    const now = new Date().toISOString().split("T")[0];
     if (numericData.salary > 0) {
       addTransaction({
         type: "income",
         amount: numericData.salary,
         description: "Salário",
         date: now,
-        categoryId: novaCategoria2.id,
+        categoryId: categoriaSalario.id,
       });
+      await UpdateUserDoc(user.uid, { monthlyLimit: numericData.salary });
     }
     if (numericData.extraIncome > 0) {
       addTransaction({
@@ -148,7 +184,7 @@ export default function Onboarding() {
         amount: numericData.extraIncome,
         description: "Renda Extra",
         date: now,
-        categoryId: novaCategoria2.id,
+        categoryId: categoriaSalario.id,
       });
     }
     if (numericData.waterBill > 0) {
@@ -157,7 +193,7 @@ export default function Onboarding() {
         amount: numericData.waterBill,
         description: "Conta de Água",
         date: now,
-        categoryId: novaCategoria1.id,
+        categoryId: categoriaMoradia.id,
       });
     }
     if (numericData.electricityBill > 0) {
@@ -166,7 +202,7 @@ export default function Onboarding() {
         amount: numericData.electricityBill,
         description: "Conta de Luz",
         date: now,
-        categoryId: novaCategoria1.id,
+        categoryId: categoriaMoradia.id,
       });
     }
     if (numericData.internetBill > 0) {
@@ -175,7 +211,7 @@ export default function Onboarding() {
         amount: numericData.internetBill,
         description: "Internet",
         date: now,
-        categoryId: novaCategoria1.id,
+        categoryId: categoriaMoradia.id,
       });
     }
 
@@ -219,10 +255,11 @@ export default function Onboarding() {
         ))}
 
         <SimpleButton 
-            styleButton={styles.button} 
-            onPress={handleNext}
-            styleText={styles.buttonText}
-            text={step < steps.length - 1 ? "Próximo" : "Finalizar"}
+          styleButton={[styles.button, loading && { paddingHorizontal: 30 }]} 
+          onPress={handleNext}
+          styleText={styles.buttonText}
+          text={step < steps.length - 1 ? "Próximo" : loading ? "Carregando..." : "Finalizar"}
+          disabled={loading}
         />
 
         {step > 0 && <SimpleButton 

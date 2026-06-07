@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withRepeat,
-  withTiming,
-  interpolate,
-  Extrapolate,
+    Extrapolate,
+    interpolate,
+    useAnimatedStyle,
+    useSharedValue,
+    withRepeat,
+    withTiming,
 } from "react-native-reanimated";
 import { DarkMode, LightMode } from "../styles/cores";
 
@@ -23,7 +23,7 @@ export const LoadingAnimation: React.FC<LoadingAnimationProps> = ({
 }) => {
   const Colors = darkMode ? DarkMode : LightMode;
   const animationValue = useSharedValue(0);
-  const finalColor = color || Colors.primary;
+  const finalColor = color || Colors.cardBackground;
 
   useEffect(() => {
     animationValue.value = withRepeat(

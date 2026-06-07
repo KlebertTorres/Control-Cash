@@ -84,7 +84,7 @@ export const SuccessAnimation: React.FC<SuccessAnimationProps> = ({
           {
             width: size,
             height: size,
-            backgroundColor: Colors.accentGreen,
+            backgroundColor: Colors.backgroundColor,
           },
         ]}
       >

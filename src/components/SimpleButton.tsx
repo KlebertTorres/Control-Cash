@@ -16,10 +16,10 @@ export const SimpleButton = ({ styleButton, styleText, onPress, text, currentTyp
               styles.smallButton,
               styleButton,
               {
-                backgroundColor: color || (isActive ? Colors.primary : Colors.accentGreen),
+                backgroundColor: color || (isActive ? Colors.cardBackground : Colors.backgroundColor),
                 opacity: disabled ? 0.6 : 1,
               },
-              isSelectable && isActive && { backgroundColor: Colors.primary },
+              isSelectable && isActive && { backgroundColor: Colors.cardBackground },
             ]}
             onPress={onPress}
             disabled={disabled}

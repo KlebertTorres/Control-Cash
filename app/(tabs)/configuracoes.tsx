@@ -1,11 +1,11 @@
+import { EditProfileModal } from "@/src/components/EditProfileModal";
+import { HelpCenter } from "@/src/components/HelpCenter";
+import { useAuth } from "@/src/hooks/useAuth";
 import { useCategories } from "@/src/hooks/useCategories";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useTransaction } from "@/src/hooks/useTransaction";
-import { useAuth } from "@/src/hooks/useAuth";
 import { DeletarConta, Logout } from "@/src/services/authService";
 import { DarkMode, LightMode } from "@/src/styles/cores";
-import { HelpCenter } from "@/src/components/HelpCenter";
-import { EditProfileModal } from "@/src/components/EditProfileModal";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
@@ -47,69 +47,73 @@ export default function SettingsScreen() {
   };
 
   return (
-    <ScrollView style={[styles.container, {backgroundColor: Colors.lightGreen}]}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Configurações</Text>
+    <View style={[styles.container, {backgroundColor: Colors.backgroundColor}]}>
+      <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
+        <Text style={[styles.headerTitle, { color: Colors.textColorPrimary }]}>Configurações</Text>
       </View>
 
-      <View style={styles.profileSection}>
-        <View style={[styles.avatar,{borderColor: Colors.accentGreen}]} />
-        <Text style={styles.username}>{user?.name || "Usuário"}</Text>
+      <ScrollView>
+      <View style={[styles.profileSection, { backgroundColor: Colors.cardBackground, borderRadius: 10 }]}>
+        <View style={[styles.avatar, {borderColor: Colors.borderColor}]} />
+        <Text style={[styles.username, { color: Colors.textColorPrimary }]}>
+          {user?.name || "Usuário"}
+        </Text>
         <Pressable onPress={() => setEditProfileVisible(true)}>
-          <Text style={[styles.editText, {color: Colors.accentGreen}]}>✎ Editar</Text>
+          <Text style={[styles.editText, {color: Colors.textColorPrimary}]}>✎ Editar</Text>
         </Pressable>
       </View>
 
-      <View style={styles.menu}>
+      <View style={[styles.menu, { backgroundColor: Colors.cardBackground, borderRadius: 10 }]}>
         <View style={styles.menuItem}>
-          <Ionicons name="moon-outline" size={24} color="black" />
-          <Text style={styles.menuText}>Modo escuro</Text>
+          <Ionicons name="moon-outline" size={24} color={ Colors.textColorPrimary } />
+          <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Modo escuro</Text>
           <Switch 
             style={styles.switch}
-            trackColor={{ true: Colors.accentGreen }}
+            trackColor={{ true: Colors.borderColor, false: Colors.borderColor }}
             value={darkMode} 
             onValueChange={toggleTheme}
           />
         </View>
 
-        <View style={styles.menuItem}>
-          <Ionicons name="notifications-outline" size={24} color="black" />
-          <Text style={styles.menuText}>Notificações</Text>
-          <Switch
-            style={styles.switch}
-            value={true} 
-          />
+          <View style={styles.menuItem}>
+            <Ionicons name="notifications-outline" size={24} color={ Colors.textColorPrimary } />
+            <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Notificações</Text>
+            <Switch
+              style={styles.switch}
+              value={true} 
+            />
+          </View>
+
+          <Pressable style={styles.menuItem}>
+            <Ionicons name="mail-outline" size={24} color={ Colors.textColorPrimary } />
+            <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Contato</Text>
+          </Pressable>
+
+          <Pressable style={styles.menuItem}>
+            <Ionicons name="alert-circle-outline" size={24} color={ Colors.textColorPrimary } />
+            <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Relatar erros</Text>
+          </Pressable>
+
+          <Pressable style={styles.menuItem} onPress={() => setHelpVisible(true)}>
+            <Ionicons name="help" size={24} color={ Colors.textColorPrimary } />
+            <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Ajuda</Text>
+          </Pressable>
         </View>
 
-        <Pressable style={styles.menuItem}>
-          <Ionicons name="mail-outline" size={24} color="black" />
-          <Text style={styles.menuText}>Contato</Text>
+        <Pressable style={[styles.logoutButton, { backgroundColor: Colors.cardBackground } ]}
+          onPress = {() => deslogar()}
+        >
+          <Ionicons name="exit-outline" size={24} color={ Colors.textColorPrimary } />
+          <Text style={[styles.logoutText, { color: Colors.textColorPrimary }]}>Sair</Text>
         </Pressable>
 
-        <Pressable style={styles.menuItem}>
-          <Ionicons name="alert-circle-outline" size={24} color="black" />
-          <Text style={styles.menuText}>Relatar erros</Text>
+        <Pressable style={[styles.logoutButton, { backgroundColor: Colors.cardBackground } ]}
+          onPress = {() => deletarUsuario()}
+        >
+          <Ionicons name="trash-outline" size={24} color={ Colors.textColorPrimary } />
+          <Text style={[styles.logoutText, { color: Colors.textColorPrimary }]}>Deletar Conta</Text>
         </Pressable>
-
-        <Pressable style={styles.menuItem} onPress={() => setHelpVisible(true)}>
-          <Ionicons name="help" size={24} color="black" />
-          <Text style={styles.menuText}>Ajuda</Text>
-        </Pressable>
-      </View>
-
-      <Pressable style={styles.logoutButton}
-        onPress = {() => deslogar()}
-      >
-        <Ionicons name="exit-outline" size={24} color="black" />
-        <Text style={styles.logoutText}>Sair</Text>
-      </Pressable>
-
-      <Pressable style={styles.logoutButton}
-        onPress = {() => deletarUsuario()}
-      >
-        <Ionicons name="trash-outline" size={24} color="black" />
-        <Text style={styles.logoutText}>Deletar Conta</Text>
-      </Pressable>
+      </ScrollView>
 
       <HelpCenter
         darkMode={darkMode}
@@ -122,7 +126,7 @@ export default function SettingsScreen() {
         onClose={() => setEditProfileVisible(false)}
         darkMode={darkMode}
       />
-    </ScrollView>
+    </View>
   );
 }
 
@@ -131,19 +135,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: 100,
-    alignItems: "center",
     paddingHorizontal: 20,
-    paddingTop: 30,
-    marginTop: 50,
+    paddingVertical: 20,
+    paddingTop: 50,
   },
   headerTitle: {
-    color: "#000000",
-    fontSize: 32,
+    fontSize: 24,
+    fontWeight: "bold",
   },
   profileSection: {
     alignItems: "center",
+    padding: 10,
     marginVertical: 30,
+    marginHorizontal: 90,
   },
   avatar: {
     width: 120,
@@ -162,7 +166,9 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   menu: {
+    marginHorizontal: 20,
     paddingHorizontal: 60,
+    paddingVertical: 20
   },
   menuItem: {
     flexDirection: "row",
@@ -178,8 +184,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 20,
-    marginBottom: 30,
+    marginTop: 30,
+    padding: 20,
+    marginHorizontal: 90,
+    borderRadius: 10,
   },
   logoutText: {
     fontSize: 18,

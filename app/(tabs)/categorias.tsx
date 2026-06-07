@@ -3,7 +3,10 @@ import { useCategories } from "@/src/hooks/useCategories";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { useState } from "react";
-import { Alert, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { 
+  Alert, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View 
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
   
 // Icon mapping with emoji/unicode symbols
 const iconMap: Record<string, string> = {
@@ -111,9 +114,9 @@ export default function CategoriesScreen() {
   const iconOptions = ["tag", "shopping", "utensils", "car", "home", "heart", "book", "dumbbell", "school", "briefcase"];
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.lightGreen }]}>
+    <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: Colors.accentGreen }]}>
+      <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
         <Text style={styles.headerTitle}>Categorias</Text>
       </View>
 
@@ -127,7 +130,7 @@ export default function CategoriesScreen() {
               <View
                 style={[
                   styles.mainCategoryCard,
-                  { borderLeftColor: mainCat.color || Colors.accentGreen },
+                  { borderLeftColor: mainCat.color || Colors.cardBackground },
                 ]}
               >
                 <View style={styles.categoryLeft}>
@@ -153,13 +156,13 @@ export default function CategoriesScreen() {
                     style={styles.actionButton}
                     onPress={() => openEditModal(mainCat)}
                   >
-                    <Text style={{ fontSize: 18, color: Colors.accentGreen }}>✏️</Text>
+                    <Ionicons name="pencil" size={24} color={ Colors.textColorPrimary } />
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.actionButton}
                     onPress={() => handleDelete(mainCat.id, mainCat.name)}
                   >
-                    <Text style={{ fontSize: 18, color: "#FF6B6B" }}>🗑️</Text>
+                    <Ionicons name="trash-outline" size={24} color={ Colors.textColorPrimary } />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -172,7 +175,7 @@ export default function CategoriesScreen() {
                       key={subCat.id}
                       style={[
                         styles.subcategoryCard,
-                        { borderLeftColor: subCat.color || Colors.accentGreen },
+                        { borderLeftColor: subCat.color || Colors.cardBackground },
                       ]}
                     >
                       <View style={styles.categoryLeft}>
@@ -191,13 +194,14 @@ export default function CategoriesScreen() {
                           style={styles.actionButton}
                           onPress={() => openEditModal(subCat)}
                         >
-                          <Text style={{ fontSize: 16, color: Colors.accentGreen }}>✏️</Text>
+                          <Ionicons name="pencil" size={24} color={ Colors.textColorPrimary } />
                         </TouchableOpacity>
                         <TouchableOpacity
                           style={styles.actionButton}
                           onPress={() => handleDelete(subCat.id, subCat.name)}
                         >
-                          <Text style={{ fontSize: 16, color: "#FF6B6B" }}>🗑️</Text>
+                      
+                          <Ionicons name="trash-outline" size={24} color={ Colors.textColorPrimary } />
                         </TouchableOpacity>
                       </View>
                     </View>
@@ -211,7 +215,7 @@ export default function CategoriesScreen() {
 
       {/* Add Button */}
       <TouchableOpacity
-        style={[styles.fab, { backgroundColor: Colors.accentGreen }]}
+        style={[styles.fab, { backgroundColor: Colors.cardBackground }]}
         onPress={openAddModal}
       >
         <Text style={{ fontSize: 48, color: Colors.textColorPrimary }}>+</Text>
@@ -226,7 +230,7 @@ export default function CategoriesScreen() {
       >
         <View style={styles.modalOverlay}>
           <View
-            style={[styles.modalContent, { backgroundColor: Colors.lightGreen }]}
+            style={[styles.modalContent, { backgroundColor: Colors.mediumGreen }]}
           >
             {/* Modal Header */}
             <View style={styles.modalHeader}>
@@ -237,7 +241,7 @@ export default function CategoriesScreen() {
                 {isEditMode ? "Editar Categoria" : "Nova Categoria"}
               </Text>
               <TouchableOpacity onPress={handleSave}>
-                <Text style={[styles.saveButton, { color: Colors.accentGreen }]}>
+                <Text style={[styles.saveButton, { color: Colors.textColorPrimary }]}>
                   Salvar
                 </Text>
               </TouchableOpacity>
@@ -252,9 +256,9 @@ export default function CategoriesScreen() {
                 style={[
                   styles.textInput,
                   {
-                    borderColor: Colors.darkest,
+                    borderColor: Colors.borderColor,
                     color: Colors.textColorPrimary,
-                    backgroundColor: Colors.accentGreen,
+                    backgroundColor: Colors.cardBackground,
                   },
                 ]}
                 placeholder="Digite o nome..."
@@ -284,7 +288,7 @@ export default function CategoriesScreen() {
                     style={[
                       styles.iconOption,
                       selectedIcon === icon && {
-                        borderColor: Colors.accentGreen,
+                        borderColor: Colors.lightGreen,
                         borderWidth: 2,
                       },
                     ]}
@@ -293,7 +297,7 @@ export default function CategoriesScreen() {
                     <Text
                       style={{
                         fontSize: 28,
-                        color: selectedIcon === icon ? Colors.accentGreen : Colors.textColorPrimary,
+                        color: selectedIcon === icon ? Colors.cardBackground : Colors.textColorPrimary,
                       }}
                     >
                       {iconMap[icon]}
@@ -306,10 +310,10 @@ export default function CategoriesScreen() {
               <View
                 style={[
                   styles.previewCard,
-                  { backgroundColor: Colors.accentGreen, borderColor: Colors.darkest },
+                  { backgroundColor: Colors.cardBackground, borderColor: Colors.borderColor },
                 ]}
               >
-                <Text style={[styles.previewLabel, { color: "#4f6d5e" }]}>
+                <Text style={[styles.previewLabel, { color: Colors.textColorPrimary }]}>
                   Prévia
                 </Text>
                 <View style={styles.previewContent}>
@@ -341,7 +345,7 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 20,
     paddingTop: 50,
   },
   headerTitle: {

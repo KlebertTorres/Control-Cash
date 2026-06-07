@@ -1,14 +1,13 @@
+import { ErrorText } from "@/src/components/ErrorText";
+import { InputField } from "@/src/components/InputField";
+import { SimpleButton } from "@/src/components/SimpleButton";
+import { useTheme } from "@/src/hooks/useTheme";
+import { Login } from "@/src/services/authService";
+import { DarkMode, LightMode } from "@/src/styles/cores";
+import { validarLogin } from "@/src/utils/validar";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, View, } from "react-native";
-import { InputField } from "@/src/components/InputField";
-import { SimpleButton } from "@/src/components/SimpleButton";
-import { ErrorText } from "@/src/components/ErrorText";
-import { useAuth } from "@/src/hooks/useAuth"
-import { useTheme } from "@/src/hooks/useTheme"
-import { Login } from "@/src/services/authService"
-import { validarLogin } from "@/src/utils/validar";
-import { DarkMode, LightMode } from "@/src/styles/cores";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -59,7 +58,7 @@ export default function LoginScreen() {
   }
 
   return (
-    <View style={[styles.container, {backgroundColor: Colors.accentGreen}]}>
+    <View style={[styles.container, {backgroundColor: Colors.backgroundColor}]}>
       <Text style={styles.emoji}>💸</Text>
       <Text style={styles.title}>Control Cash</Text>
       <Text style={styles.subtitle}>Mais dinheiro na sua mão</Text>

@@ -29,12 +29,12 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
       <View style={styles.header}>
         <Text style={[styles.label, { color: Colors.textColorPrimary }]}>{label}</Text>
         {showPercentage && (
-          <Text style={[styles.percentage, { color: "#4f6d5e" }]}>
+          <Text style={[styles.percentage, { color: Colors.accentGreen }]}>
             {Math.round(displayPercentage)}%
           </Text>
         )}
       </View>
-      <View style={[styles.backgroundBar, { backgroundColor: Colors.darkest }]}>
+      <View style={[styles.backgroundBar, { backgroundColor: Colors.cardBackground }]}>
         <View
           style={[
             styles.filledBar,
@@ -45,8 +45,8 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           ]}
         />
       </View>
-      <Text style={[styles.value, { color: "#4f6d5e" }]}>
-        R$ {Math.abs(value)} de R$ {total.toFixed(2)}
+      <Text style={[styles.value, { color: Colors.accentGreen }]}>
+        R$ {Math.abs(value).toFixed(2)} de R$ {total.toFixed(2)}
       </Text>
     </View>
   );

@@ -70,6 +70,15 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
         return categories.filter((cat) => cat.parentId === parentId);
       };
 
+      const getCategoryByName = async (name: string): Promise<Category> => {
+        const categories = await GetCategoriesDoc(user?.uid);
+        const category = categories.find((cat) => cat.name === name);
+        if (!category) {
+          throw new Error(`Categoria com nome "${name}" não encontrada`);
+        }
+        return category;
+      }
+
       return (
           <CategoryContext.Provider
               value={({
@@ -78,6 +87,7 @@ export const CategoryProvider: React.FC<{ children: ReactNode }> = ({
                   addCategory,
                   removeCategory,
                   updateCategory,
+                  getCategoryByName,
                   getSubCategories,
               })}
           >

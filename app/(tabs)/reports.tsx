@@ -6,12 +6,12 @@ import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { useEffect, useState } from "react";
 import {
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+    RefreshControl,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
 export default function ReportsScreen() {
@@ -80,7 +80,7 @@ export default function ReportsScreen() {
       return {
         label: cat.name.substring(0, 8),
         value: amount,
-        color: cat.color || Colors.accentGreen,
+        color: cat.color || Colors.cardBackground,
       };
     })
     .filter((d) => d.value > 0)
@@ -104,7 +104,7 @@ export default function ReportsScreen() {
       return {
         label: cat.name.substring(0, 8),
         value: amount,
-        color: cat.color || Colors.accentGreen,
+        color: cat.color || Colors.cardBackground,
       };
     })
     .filter((d) => d.value > 0)
@@ -115,9 +115,9 @@ export default function ReportsScreen() {
   const totalExpense = dashboardData?.monthlyExpense || 0;
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
+    <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: Colors.accentGreen }]}>
+      <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
         <Text style={styles.headerTitle}>Relatórios</Text>
       </View>
 
@@ -128,7 +128,7 @@ export default function ReportsScreen() {
             key={p}
             style={[
               styles.periodButton,
-              period === p && { backgroundColor: Colors.accentGreen },
+              period === p && { backgroundColor: Colors.cardBackground },
             ]}
             onPress={() => setPeriod(p)}
           >
@@ -158,17 +158,17 @@ export default function ReportsScreen() {
           <RefreshControl
             refreshing={refreshing || loadingReports}
             onRefresh={loadReports}
-            tintColor={Colors.accentGreen}
+            tintColor={Colors.cardBackground}
           />
         }
       >
         {/* Summary Cards */}
         <View style={styles.summaryRow}>
-          <View style={[styles.summaryCard, { backgroundColor: Colors.accentGreen }]}>
+          <View style={[styles.summaryCard, { backgroundColor: Colors.cardBackground }]}>
             <Text style={styles.summaryLabel}>Receitas</Text>
             <Text style={styles.summaryValue}>R$ {totalIncome.toFixed(2)}</Text>
           </View>
-          <View style={[styles.summaryCard, { backgroundColor: Colors.accentGreen }]}>
+          <View style={[styles.summaryCard, { backgroundColor: Colors.cardBackground }]}>
             <Text style={styles.summaryLabel}>Despesas</Text>
             <Text style={[styles.summaryValue, { color: "#FF6B6B" }]}>R$ {totalExpense.toFixed(2)}</Text>
           </View>
@@ -180,7 +180,7 @@ export default function ReportsScreen() {
               styles.summaryCard,
               {
                 backgroundColor:
-                  totalIncome - totalExpense >= 0 ? Colors.accentGreen : "#FF6B6B",
+                  totalIncome - totalExpense >= 0 ? Colors.cardBackground : "#FF6B6B",
               },
             ]}
           >
@@ -189,7 +189,7 @@ export default function ReportsScreen() {
               R$ {(totalIncome - totalExpense).toFixed(2)}
             </Text>
           </View>
-          <View style={[styles.summaryCard, { backgroundColor: Colors.accentGreen }]}>
+          <View style={[styles.summaryCard, { backgroundColor: Colors.cardBackground }]}>
             <Text style={styles.summaryLabel}>Taxa Economia</Text>
             <Text style={[styles.summaryValue, { color: "#FFD700" }]}>
               {totalIncome > 0
@@ -221,7 +221,7 @@ export default function ReportsScreen() {
           <LineChart
             data={monthlyTrendData}
             title="Evolução do Saldo (últimos 6 meses)"
-            lineColor={Colors.accentGreen}
+            lineColor={Colors.cardBackground}
           />
         )}
 
@@ -269,7 +269,7 @@ export default function ReportsScreen() {
                   key={cat.id}
                   style={[
                     styles.categoryRow,
-                    { borderBottomColor: Colors.darkest },
+                    { borderBottomColor: Colors.borderColor },
                   ]}
                 >
                   <View style={styles.categoryInfo}>

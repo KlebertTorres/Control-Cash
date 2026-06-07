@@ -46,7 +46,7 @@ export default function HomeScreen() {
     }
   };
 
-  const balanceColor = balance >= 0 ? Colors.accentGreen : "#FF6B6B";
+  const balanceColor = balance >= 0 ? Colors.cardBackground : "#FF6B6B";
 
   const handleTransactionPress = (transaction: Transaction) => {
     setSelectedTransaction(transaction);
@@ -56,7 +56,7 @@ export default function HomeScreen() {
   const recentTransactions = transactions?.slice(0, 5);
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
+    <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -92,21 +92,21 @@ export default function HomeScreen() {
             title="Receitas"
             value={`R$ ${monthlyIncome.toFixed(2)}`}
             icon="📈"
-            color={Colors.accentGreen}
+            color={Colors.cardBackground}
           />
           
           <DashboardCard
             title="Despesas"
             value={`R$ ${Math.abs(monthlyExpense).toFixed(2)}`}
             icon="📉"
-            color={Colors.accentGreen}
+            color={Colors.cardBackground}
           />
 
           <DashboardCard
             title="Economizado"
             value={`R$ ${Math.max(0, monthlyIncome + monthlyExpense).toFixed(2)}`}
             icon="💰"
-            color={Colors.accentGreen}
+            color={Colors.cardBackground}
           />
         </View>
 
@@ -123,21 +123,21 @@ export default function HomeScreen() {
 
         {/* Key Metrics */}
         <View style={styles.metricsGrid}>
-          <View style={[styles.metricCard, { backgroundColor: Colors.accentGreen }]}>
+          <View style={[styles.metricCard, { backgroundColor: Colors.cardBackground }]}>
             <Text style={styles.metricIcon}>📅</Text>
             <Text style={styles.metricValue}>{dashboardData?.overdueAccounts || 0}</Text>
             <Text style={styles.metricLabel}>Contas Vencidas</Text>
           </View>
           
-          <View style={[styles.metricCard, { backgroundColor: "#FFA500" }]}>
+          <View style={[styles.metricCard, { backgroundColor: Colors.cardBackground }]}>
             <Text style={styles.metricIcon}>⏰</Text>
-            <Text style={styles.metricValue}>{dashboardData?.upcomingAccounts || 0}</Text>
+            <Text style={[styles.metricValue, { color: "#FFA500" }]}>{dashboardData?.upcomingAccounts || 0}</Text>
             <Text style={styles.metricLabel}>Próximas</Text>
           </View>
           
-          <View style={[styles.metricCard, { backgroundColor: "#2196F3" }]}>
+          <View style={[styles.metricCard, { backgroundColor: Colors.cardBackground }]}>
             <Text style={styles.metricIcon}>📤</Text>
-            <Text style={styles.metricValue}>R$ {(dashboardData?.receivables || 0).toFixed(0)}</Text>
+            <Text style={[styles.metricValue, { color: "#2196F3" }]}>R$ {(dashboardData?.receivables || 0).toFixed(0)}</Text>
             <Text style={styles.metricLabel}>A Receber</Text>
           </View>
         </View>
@@ -145,7 +145,10 @@ export default function HomeScreen() {
         {/* Recent Transactions */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>Últimas Movimentações</Text>
+            <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>
+              Últimas Movimentações
+            </Text>
+
             <TouchableOpacity onPress={() => router.push("/(tabs)/stats")}>
               <Text style={[styles.viewAll, { color: Colors.textColorPrimary }]}>Ver Mais →</Text>
             </TouchableOpacity>
@@ -162,7 +165,7 @@ export default function HomeScreen() {
           <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>Ações Rápidas</Text>
           <View style={styles.quickActionsGrid}>
             <TouchableOpacity
-              style={[styles.quickAction, { backgroundColor: Colors.lightGreen }]}
+              style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}
               onPress={() => router.push("/add-transaction")}
             >
               <Text style={styles.quickActionIcon}>➕</Text>
@@ -170,7 +173,7 @@ export default function HomeScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.quickAction, { backgroundColor: Colors.accentGreen }]}
+              style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}
               onPress={() => router.push("/(tabs)/stats")}
             >
               <Text style={styles.quickActionIcon}>📊</Text>
@@ -178,7 +181,7 @@ export default function HomeScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.quickAction, { backgroundColor: "#9C27B0" }]}
+              style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}
               onPress={() => router.push("/(tabs)/agenda")}
             >
               <Text style={styles.quickActionIcon}>📅</Text>
@@ -186,7 +189,7 @@ export default function HomeScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.quickAction, { backgroundColor: "#FF9800" }]}
+              style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}
               onPress={() => router.push("/(tabs)/configuracoes")}
             >
               <Text style={styles.quickActionIcon}>⚙️</Text>

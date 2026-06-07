@@ -21,7 +21,7 @@ export const BarChart: React.FC<BarChartProps> = ({
   const chartHeight = 200;
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.accentGreen }]}>
+    <View style={[styles.container, { backgroundColor: Colors.cardBackground }]}>
       {title && (
         <Text style={[styles.title, { color: Colors.textColorPrimary }]}>{title}</Text>
       )}
@@ -75,7 +75,7 @@ export const PieChart: React.FC<PieChartProps> = ({ data, title }) => {
   const total = data.reduce((sum, item) => sum + item.value, 0);
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.accentGreen }]}>
+    <View style={[styles.container, { backgroundColor: Colors.cardBackground }]}>
       {title && (
         <Text style={[styles.title, { color: Colors.textColorPrimary }]}>{title}</Text>
       )}
@@ -138,7 +138,7 @@ export const LineChart: React.FC<LineChartProps> = ({
   });
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.accentGreen }]}>
+    <View style={[styles.container, { backgroundColor: Colors.cardBackground }]}>
       {title && (
         <Text style={[styles.title, { color: Colors.textColorPrimary }]}>{title}</Text>
       )}

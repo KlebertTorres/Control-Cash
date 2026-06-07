@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { ChatMessage } from "../contexts/ChatContext";
 import { DarkMode, LightMode } from "../styles/cores";
 
@@ -30,7 +30,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message, darkMode }) => 
         style={[
           styles.bubble,
           {
-            backgroundColor: isUser ? Colors.primary : Colors.cardBackground,
+            backgroundColor: isUser ? Colors.cardBackground : Colors.cardBackground,
             borderColor: Colors.borderColor,
           },
         ]}
@@ -39,7 +39,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message, darkMode }) => 
           style={[
             styles.messageText,
             {
-              color: isUser ? "#fff" : Colors.text,
+              color: isUser ? Colors.textColorPrimary : Colors.accentGreen,
             },
           ]}
         >
@@ -49,7 +49,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message, darkMode }) => 
           style={[
             styles.timestamp,
             {
-              color: isUser ? "#fff" : Colors.secondary,
+              color: isUser ? Colors.textColorPrimary : Colors.accentGreen,
             },
           ]}
         >

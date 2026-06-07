@@ -1,16 +1,10 @@
-import React, { useState, useCallback } from "react";
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  FlatList,
-  Pressable,
-  Text,
-  ScrollView,
-} from "react-native";
+import React, { useCallback, useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Text,  TextInput, View } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { DarkMode, LightMode } from "../styles/cores";
 import { Category } from "../types/CategoryType";
 import { Transaction } from "../types/TransactionType";
-import { DarkMode, LightMode } from "../styles/cores";
+import { formatLocalDate } from "@/src/utils/formatarData";
 
 interface SearchFilterProps {
   transactions: Transaction[];
@@ -38,11 +32,15 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
   const [selectedType, setSelectedType] = useState<"all" | "income" | "expense">(
     "all"
   );
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const filterTransactions = useCallback(() => {
     let filtered = transactions;
+    const newStartDate = startDate.toISOString().split("T")[0];
+    const newEndDate = endDate.toISOString().split("T")[0];
 
     // Filter by search text (description)
     if (searchText.trim()) {
@@ -65,10 +63,10 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
 
     // Filter by date range
     if (startDate) {
-      filtered = filtered.filter((t) => t.date >= startDate);
+      filtered = filtered.filter((t) => t.date >= newStartDate);
     }
     if (endDate) {
-      filtered = filtered.filter((t) => t.date <= endDate);
+      filtered = filtered.filter((t) => t.date <= newEndDate);
     }
 
     onFilteredResults(filtered);
@@ -86,20 +84,31 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
     );
   };
 
+  const handleStartDateChange = (event:any, selectedDate?: Date) => {
+    if (selectedDate) {
+      setStartDate(selectedDate);
+    }
+    setShowStartDatePicker(false);
+  };
+    const handleEndDateChange = (event:any, selectedDate?: Date) => {
+    if (selectedDate) {
+      setEndDate(selectedDate);
+    }
+    setShowEndDatePicker(false);
+  };
+
   const clearFilters = () => {
     setSearchText("");
     setSelectedCategories([]);
     setSelectedType("all");
-    setStartDate("");
-    setEndDate("");
+    setStartDate(new Date());
+    setEndDate(new Date());
   };
 
   const hasActiveFilters =
     searchText ||
     selectedCategories.length > 0 ||
-    selectedType !== "all" ||
-    startDate ||
-    endDate;
+    selectedType !== "all" 
 
   return (
     <View style={[styles.container, { backgroundColor: Colors.cardBackground }]}>
@@ -109,12 +118,12 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
           styles.searchInput,
           {
             backgroundColor: Colors.backgroundColor,
-            color: Colors.text,
+            color: Colors.textColorPrimary,
             borderColor: Colors.borderColor,
           },
         ]}
         placeholder="Buscar por descrição..."
-        placeholderTextColor={Colors.secondary}
+        placeholderTextColor={Colors.textColorPrimary}
         value={searchText}
         onChangeText={setSearchText}
       />
@@ -122,7 +131,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
       {/* Type Filter */}
       {showTypeFilter && (
         <View style={styles.filterSection}>
-          <Text style={[styles.filterLabel, { color: Colors.text }]}>Tipo:</Text>
+          <Text style={[styles.filterLabel, { color: Colors.textColorPrimary }]}>Tipo:</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {["all", "income", "expense"].map((type) => (
               <Pressable
@@ -132,9 +141,9 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                   {
                     backgroundColor:
                       selectedType === type
-                        ? Colors.primary
+                        ? Colors.cardBackground
                         : Colors.backgroundColor,
-                    borderColor: Colors.primary,
+                    borderColor: Colors.borderColor,
                   },
                 ]}
                 onPress={() =>
@@ -145,7 +154,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                   style={[
                     styles.filterButtonText,
                     {
-                      color: selectedType === type ? "#fff" : Colors.text,
+                      color: selectedType === type ? Colors.textColorPrimary : Colors.text,
                     },
                   ]}
                 >
@@ -160,7 +169,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
       {/* Category Filter */}
       {showCategoryFilter && (
         <View style={styles.filterSection}>
-          <Text style={[styles.filterLabel, { color: Colors.text }]}>
+          <Text style={[styles.filterLabel, { color: Colors.textColorPrimary }]}>
             Categorias:
           </Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
@@ -187,7 +196,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                       styles.filterButtonText,
                       {
                         color: selectedCategories.includes(category.id)
-                          ? "#fff"
+                          ? Colors.textColorPrimary
                           : Colors.text,
                       },
                     ]}
@@ -203,38 +212,50 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
       {/* Date Range Filter */}
       {showDateRangeFilter && (
         <View style={styles.filterSection}>
-          <Text style={[styles.filterLabel, { color: Colors.text }]}>
+          <Text style={[styles.filterLabel, { color: Colors.textColorPrimary }]}>
             Período:
           </Text>
           <View style={styles.dateInputContainer}>
-            <TextInput
+            <Pressable
               style={[
-                styles.dateInput,
-                {
-                  backgroundColor: Colors.backgroundColor,
-                  color: Colors.text,
-                  borderColor: Colors.borderColor,
-                },
+                styles.dateButton,
+                { backgroundColor: Colors.cardBackground, borderColor: Colors.borderColor },
               ]}
-              placeholder="De (YYYY-MM-DD)"
-              placeholderTextColor={Colors.secondary}
+              onPress={() => setShowStartDatePicker(prev => !prev)}
+            >
+              <Text style={[styles.dateButtonText, { color: Colors.textColorPrimary }]}>
+                📅 Data: {formatLocalDate(startDate)}
+              </Text>
+            </Pressable>
+      
+            {showStartDatePicker && (
+              <DateTimePicker
               value={startDate}
-              onChangeText={setStartDate}
+              mode="date"
+              display="default"
+              onChange={handleStartDateChange}
             />
-            <TextInput
+            )}
+            <Pressable
               style={[
-                styles.dateInput,
-                {
-                  backgroundColor: Colors.backgroundColor,
-                  color: Colors.text,
-                  borderColor: Colors.borderColor,
-                },
+                styles.dateButton,
+                { backgroundColor: Colors.cardBackground, borderColor: Colors.borderColor },
               ]}
-              placeholder="Até (YYYY-MM-DD)"
-              placeholderTextColor={Colors.secondary}
-              value={endDate}
-              onChangeText={setEndDate}
-            />
+              onPress={() => setShowEndDatePicker(prev => !prev)}
+            >
+              <Text style={[styles.dateButtonText, { color: Colors.textColorPrimary }]}>
+                📅 Data: {formatLocalDate(endDate)}
+              </Text>
+            </Pressable>
+      
+            {showEndDatePicker && (
+              <DateTimePicker
+                value={endDate}
+                mode="date"
+                display="default"
+                onChange={handleEndDateChange}
+              />
+            )}
           </View>
         </View>
       )}
@@ -242,7 +263,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
       {/* Clear Filters Button */}
       {hasActiveFilters && (
         <Pressable
-          style={[styles.clearButton, { backgroundColor: Colors.primary }]}
+          style={[styles.clearButton, { backgroundColor: Colors.cardBackground }]}
           onPress={clearFilters}
         >
           <Text style={styles.clearButtonText}>Limpar Filtros</Text>
@@ -310,5 +331,17 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "600",
     fontSize: 12,
+  },
+    dateButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    marginVertical: 8,
+    borderWidth: 1,
+    alignItems: "center",
+  },
+  dateButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
   },
 });

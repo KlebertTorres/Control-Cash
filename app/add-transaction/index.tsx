@@ -1,14 +1,15 @@
+import { CategoryDropdown } from "@/src/components/CategoryDropdown";
 import { InputField } from "@/src/components/InputField";
 import { SimpleButton } from "@/src/components/SimpleButton";
-import { CategoryDropdown } from "@/src/components/CategoryDropdown";
+import { useCategories } from "@/src/hooks/useCategories";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useTransaction } from "@/src/hooks/useTransaction";
-import { useCategories } from "@/src/hooks/useCategories";
 import { DarkMode, LightMode } from "@/src/styles/cores";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import { formatLocalDate } from "@/src/utils/formatarData";
 
 export default function AddTransaction() {
   const router = useRouter();
@@ -28,12 +29,12 @@ export default function AddTransaction() {
 
   const handleDateChange = (event: any, selectedDate?: Date) => {
     if (selectedDate) {
+      selectedDate.setHours(0, 0, 0, 0); // Normaliza a data para evitar problemas de fuso horário
       setDate(selectedDate);
+      console.log("Data selecionada: ", selectedDate);
     }
     setShowDatePicker(false);
   };
-
-  const formatDate = (d: Date) => d.toISOString().split("T")[0];
 
   const handleSave = () => {
     if (!amount || !description || !category) {
@@ -51,7 +52,7 @@ export default function AddTransaction() {
       type,
       amount: numericAmount,
       description,
-      date: formatDate(date),
+      date: formatLocalDate(date),
       categoryId: category,
     });
 
@@ -60,7 +61,7 @@ export default function AddTransaction() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.accentGreen }]}>
+    <View style={[styles.container, { backgroundColor: Colors.cardBackground }]}>
       <Text style={styles.title}>Adicionar Transação</Text>
 
       <View style={styles.typeContainer}>
@@ -87,12 +88,12 @@ export default function AddTransaction() {
       <Pressable
         style={[
           styles.dateButton,
-          { backgroundColor: Colors.primary, borderColor: Colors.borderColor },
+          { backgroundColor: Colors.cardBackground, borderColor: Colors.borderColor },
         ]}
         onPress={() => setShowDatePicker(true)}
       >
-        <Text style={[styles.dateButtonText, { color: "#fff" }]}>
-          📅 Data: {formatDate(date)}
+        <Text style={[styles.dateButtonText, { color: Colors.textColorPrimary }]}>
+          📅 Data: {formatLocalDate(date)}
         </Text>
       </Pressable>
 
@@ -120,7 +121,7 @@ export default function AddTransaction() {
         transactionType={type}
       />
 
-      <Pressable style={[styles.saveButton, {backgroundColor: Colors.deepGreen}]} onPress={handleSave}>
+      <Pressable style={[styles.saveButton, {backgroundColor: Colors.backgroundColor}]} onPress={handleSave}>
         <Text style={styles.saveButtonText}>Salvar</Text>
       </Pressable>
 

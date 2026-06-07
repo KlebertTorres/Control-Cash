@@ -2,37 +2,31 @@ import { Platform } from "react-native";
 
 export const DarkMode = {
   // Background & Base Colors
-  darkest: "#0a0e27",
-  backgroundColor: "#121626",
-  cardBackground: "#1a1f3a",
-  overlay: "rgba(0, 0, 0, 0.7)",
+  backgroundColor: "#0B2B26",
+  cardBackground: "#163832",
+  overlay: "#051F20",
 
   // Primary Colors (Green Theme)
-  deepGreen: "#1e4d44",
-  mediumGreen: "#2a6b5c",
-  accentGreen: "#3dd68e",
+  mediumGreen: "#235347",
+  accentGreen: "#8EB69B",
   lightGreen: "#a8f0d9",
-  softGreen: "#e8fdf6",
 
   // Text Colors
   textColorPrimary: "#ffffff",
   text: "#e8eef2",
-  secondary: "#a0aab5",
+  textColorSecondary: "#000000",
 
   // UI Elements
-  borderColor: "#2a3f42",
-  primary: "#3dd68e",
+  borderColor: "#8EB69B",
 };
 
 export const LightMode = {
   // Background & Base Colors
-  darkest: "#f5f5f5",
   backgroundColor: "#fafbfc",
   cardBackground: "#ffffff",
   overlay: "rgba(0, 0, 0, 0.5)",
 
   // Primary Colors (Green Theme)
-  deepGreen: "#1b5e54",
   mediumGreen: "#2a8b7f",
   accentGreen: "#3dd68e",
   lightGreen: "#e8fdf6",
@@ -41,11 +35,10 @@ export const LightMode = {
   // Text Colors
   textColorPrimary: "#000000",
   text: "#1f2937",
-  secondary: "#6b7280",
+  textColorSecondary: "#6b7280",
 
   // UI Elements
   borderColor: "#e5e7eb",
-  primary: "#3dd68e",
 };
 
 export const Fonts = Platform.select({

@@ -37,8 +37,8 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   const [opened, setOpened] = useState(true);
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
-      <View style={[styles.header, { backgroundColor: Colors.accentGreen }]}>
+    <View style={[styles.container, { backgroundColor: Colors.cardBackground }]}>
+      <View style={[styles.header, { backgroundColor: Colors.backgroundColor }]}>
         <Text style={styles.title}>Escolher Cor</Text>
         <TouchableOpacity 
           onPress={() => {

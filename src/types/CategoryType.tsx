@@ -18,5 +18,6 @@ export interface CategoryContextType {
   addCategory: (category: Omit<Category, "id">) => void;
   removeCategory: (id:string) => void;
   updateCategory: (id:string, category: Partial<Category>) => void;
+  getCategoryByName: (name: string) => Promise<Category>;
   getSubCategories: (parentId: string) => Category[];
 }

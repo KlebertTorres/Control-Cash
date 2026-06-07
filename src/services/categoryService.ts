@@ -6,7 +6,6 @@ export async function CreateCategoryDoc(uid: string, categoryData: Omit<Category
     try{
 
         console.log("Criando categoria...")
-        console.log("db:", db);
         console.log("uid:", uid);
         console.log("categoryRef path:", "users", uid, "categories");
         console.log("categoryData:", categoryData);
@@ -23,6 +22,8 @@ export async function CreateCategoryDoc(uid: string, categoryData: Omit<Category
             )
 
         console.log("Categoria criada com sucesso!")
+
+        console.log("categoryData:", categoryData, "docRef.id:", docRef.id);
 
         return {id: docRef.id, ...categoryData}
 
@@ -62,7 +63,7 @@ export async function GetCategoriesDoc(uid: string){
 
         const q = query(
             categoriesRef,
-            orderBy("name", "desc")
+            orderBy("name", "asc")
         )
 
         const snapshot = await getDocs(q)

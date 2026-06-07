@@ -1,4 +1,4 @@
-import { View, StyleSheet, FlatList, Text, Pressable } from "react-native";
+import { View, StyleSheet, FlatList, Text, ScrollView } from "react-native";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useTransaction } from "@/src/hooks/useTransaction";
 import { useCategories } from "@/src/hooks/useCategories";
@@ -23,6 +23,9 @@ export default function SearchTab() {
 
   return (
     <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
+      <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
+        <Text style={styles.headerTitle}>Buscar Transação</Text>
+      </View>
       <SearchFilter
         transactions={transactions}
         categories={categories}
@@ -35,7 +38,7 @@ export default function SearchTab() {
 
       {filteredTransactions.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Text style={[styles.emptyText, { color: Colors.text }]}>
+          <Text style={[styles.emptyText, { color: Colors.textColorPrimary }]}>
             Nenhuma transação encontrada
           </Text>
         </View>
@@ -44,17 +47,19 @@ export default function SearchTab() {
           <Text
             style={[
               styles.resultCount,
-              { color: Colors.secondary, backgroundColor: Colors.cardBackground },
+              { color: Colors.textColorPrimary, backgroundColor: Colors.cardBackground },
             ]}
           >
             {filteredTransactions.length} transações encontradas
           </Text>
-          <FlatList
-            data={filteredTransactions}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <TransactionList transactions={[item]} />}
-            scrollEnabled={false}
-          />
+          <ScrollView>
+            <FlatList
+              data={filteredTransactions}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => <TransactionList transactions={[item]} />}
+              scrollEnabled={false}
+            />
+          </ScrollView>
         </View>
       )}
     </View>
@@ -64,7 +69,16 @@ export default function SearchTab() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 20,
+  },
+  header: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    paddingTop: 50,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "white",
   },
   emptyContainer: {
     flex: 1,

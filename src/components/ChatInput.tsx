@@ -1,12 +1,12 @@
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  View,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  ActivityIndicator,
+    ActivityIndicator,
+    Pressable,
+    StyleSheet,
+    TextInput,
+    View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { DarkMode, LightMode } from "../styles/cores";
 
 interface ChatInputProps {
@@ -42,24 +42,24 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           styles.input,
           {
             backgroundColor: Colors.backgroundColor,
-            color: Colors.text,
+            color: Colors.textColorPrimary,
             borderColor: Colors.borderColor,
           },
         ]}
         placeholder="Digite sua mensagem..."
-        placeholderTextColor={Colors.secondary}
+        placeholderTextColor={Colors.textColorPrimary}
         value={message}
         onChangeText={setMessage}
         editable={!isLoading}
         multiline
-        maxHeight={100}
+        maxLength={100}
       />
 
       <Pressable
         style={[
           styles.sendButton,
           {
-            backgroundColor: isLoading ? Colors.secondary : Colors.primary,
+            backgroundColor: isLoading ? Colors.textColorSecondary : Colors.cardBackground,
           },
         ]}
         onPress={handleSend}

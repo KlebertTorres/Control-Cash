@@ -4,11 +4,11 @@ import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Transaction } from "@/src/types/TransactionType";
 import React from "react";
 import {
-    FlatList,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 
 interface TransactionListProps {
@@ -39,7 +39,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({
 
     return (
       <TouchableOpacity
-        style={[styles.item, { borderBottomColor: Colors.darkest }]}
+        style={[styles.item, { borderBottomColor: Colors.borderColor }]}
         onPress={() => onTransactionPress?.(item)}
       >
         <View
@@ -52,7 +52,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({
           <Text style={[styles.description, { color: Colors.textColorPrimary }]}>
             {item.description}
           </Text>
-          <Text style={[styles.category, { color: "#4f6d5e" }]}>
+          <Text style={[styles.category, { color: Colors.accentGreen }]}>
             {category?.name || "Desconhecida"}
           </Text>
         </View>

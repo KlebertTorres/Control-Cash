@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  Pressable,
-  StyleSheet,
-  Modal,
-  FlatList,
-  ScrollView,
+    Modal,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View
 } from "react-native";
-import { Category } from "../types/CategoryType";
 import { DarkMode, LightMode } from "../styles/cores";
+import { Category } from "../types/CategoryType";
 
 interface CategoryDropdownProps {
   categories: Category[];
@@ -108,7 +107,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
             >
               {selectedParentId && (
                 <Pressable onPress={handleGoBack}>
-                  <Text style={[styles.backButton, { color: Colors.primary }]}>
+                  <Text style={[styles.backButton, { color: Colors.cardBackground }]}>
                     ← Voltar
                   </Text>
                 </Pressable>
@@ -129,7 +128,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                   setSelectedParentId(null);
                 }}
               >
-                <Text style={[styles.closeButton, { color: Colors.primary }]}>
+                <Text style={[styles.closeButton, { color: Colors.cardBackground }]}>
                   ✕
                 </Text>
               </Pressable>
@@ -147,7 +146,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                         {
                           backgroundColor:
                             selectedId === category.id
-                              ? Colors.primary + "20"
+                              ? Colors.cardBackground + "20"
                               : "transparent",
                         },
                       ]}
@@ -168,7 +167,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                         {category.icon ? `${category.icon} ` : ""}{category.name}
                       </Text>
                       {selectedId === category.id && (
-                        <Text style={[styles.checkmark, { color: Colors.primary }]}>
+                        <Text style={[styles.checkmark, { color: Colors.cardBackground }]}>
                           ✓
                         </Text>
                       )}
@@ -189,7 +188,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                       {
                         backgroundColor:
                           selectedId === category.id
-                            ? Colors.primary + "20"
+                            ? Colors.cardBackground + "20"
                             : "transparent",
                       },
                     ]}
@@ -216,13 +215,13 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                       {category.icon ? `${category.icon} ` : ""}{category.name}
                     </Text>
                     {selectedId === category.id && (
-                      <Text style={[styles.checkmark, { color: Colors.primary }]}>
+                      <Text style={[styles.checkmark, { color: Colors.cardBackground }]}>
                         ✓
                       </Text>
                     )}
                     {categories.some((cat) => cat.parentId === category.id) && (
                       <Text
-                        style={[styles.arrowIcon, { color: Colors.secondary }]}
+                        style={[styles.arrowIcon, { color: Colors.textColorSecondary }]}
                       >
                         →
                       </Text>

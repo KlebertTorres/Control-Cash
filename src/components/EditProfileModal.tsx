@@ -1,19 +1,19 @@
+import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import {
-  View,
-  Text,
-  Modal,
-  StyleSheet,
-  TextInput,
-  Pressable,
-  Alert,
-  ActivityIndicator,
-  ScrollView,
+    ActivityIndicator,
+    Alert,
+    Modal,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { DarkMode, LightMode } from "../styles/cores";
 import { useAuth } from "../hooks/useAuth";
 import { UpdateUserDoc } from "../services/userService";
+import { DarkMode, LightMode } from "../styles/cores";
 
 interface EditProfileModalProps {
   visible: boolean;
@@ -92,7 +92,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               <Ionicons
                 name="close-outline"
                 size={24}
-                color={Colors.secondary}
+                color={Colors.textColorPrimary}
               />
             </Pressable>
           </View>
@@ -111,13 +111,13 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 },
               ]}
               placeholder="Seu nome"
-              placeholderTextColor={Colors.secondary}
+              placeholderTextColor={Colors.textColorSecondary}
               value={name}
               onChangeText={setName}
               editable={!loading}
             />
 
-            <Text style={[styles.info, { color: Colors.secondary }]}>
+            <Text style={[styles.info, { color: Colors.textColorPrimary }]}>
               Email e Senha não podem ser alterados por motivos de segurança.
             </Text>
 
@@ -125,27 +125,22 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               style={[
                 styles.button,
                 {
-                  backgroundColor: loading ? Colors.secondary : Colors.primary,
+                  backgroundColor: loading ? Colors.textColorSecondary : Colors.backgroundColor,
+                  borderColor: Colors.borderColor,
                 },
               ]}
               onPress={handleSave}
               disabled={loading}
             >
               {loading ? (
-                <ActivityIndicator size="small" color="#fff" />
+                <ActivityIndicator size="small" color={Colors.textColorPrimary} />
               ) : (
                 <Text style={styles.buttonText}>Salvar Alterações</Text>
               )}
             </Pressable>
 
             <Pressable
-              style={[
-                styles.cancelButton,
-                {
-                  backgroundColor: Colors.backgroundColor,
-                  borderColor: Colors.borderColor,
-                },
-              ]}
+              style={styles.cancelButton}
               onPress={onClose}
               disabled={loading}
             >
@@ -201,6 +196,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   info: {
+    paddingLeft: 10,
     fontSize: 12,
     fontStyle: "italic",
     marginBottom: 16,

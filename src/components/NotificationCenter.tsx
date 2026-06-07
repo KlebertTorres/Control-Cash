@@ -1,16 +1,16 @@
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Pressable,
-  SafeAreaView,
-  Modal,
-  Switch,
-  ScrollView,
+    FlatList,
+    Modal,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Switch,
+    Text,
+    View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { DarkMode, LightMode } from "../styles/cores";
 import { Notification, NotificationSettings } from "../types/NotificationType";
 
@@ -52,7 +52,7 @@ const getNotificationColor = (type: string, colors: typeof DarkMode): string => 
     case "upcoming":
       return "#ffd43b";
     case "received":
-      return colors.primary;
+      return Colors.cardBackground;
     case "installment":
       return "#748ffc";
     case "alert":
@@ -172,7 +172,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
               <View
                 style={[
                   styles.badgeContainer,
-                  { backgroundColor: Colors.primary },
+                  { backgroundColor: Colors.cardBackground },
                 ]}
               >
                 <Text style={styles.badgeText}>{unreadCount}</Text>
@@ -180,7 +180,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
             )}
           </View>
           <Pressable onPress={onClose} hitSlop={8}>
-            <Ionicons name="close-outline" size={24} color={Colors.primary} />
+            <Ionicons name="close-outline" size={24} color={Colors.cardBackground} />
           </Pressable>
         </View>
 
@@ -189,7 +189,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
             style={[
               styles.tab,
               activeTab === "notifications" && {
-                borderBottomColor: Colors.primary,
+                borderBottomColor: Colors.cardBackground,
                 borderBottomWidth: 3,
               },
             ]}
@@ -201,7 +201,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 {
                   color:
                     activeTab === "notifications"
-                      ? Colors.primary
+                      ? Colors.cardBackground
                       : Colors.secondary,
                   fontWeight: activeTab === "notifications" ? "bold" : "600",
                 },
@@ -215,7 +215,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
             style={[
               styles.tab,
               activeTab === "settings" && {
-                borderBottomColor: Colors.primary,
+                borderBottomColor: Colors.cardBackground,
                 borderBottomWidth: 3,
               },
             ]}
@@ -227,7 +227,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 {
                   color:
                     activeTab === "settings"
-                      ? Colors.primary
+                      ? Colors.cardBackground
                       : Colors.secondary,
                   fontWeight: activeTab === "settings" ? "bold" : "600",
                 },
@@ -257,11 +257,11 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                   <Pressable
                     style={[
                       styles.clearButton,
-                      { backgroundColor: Colors.primary + "20" },
+                      { backgroundColor: Colors.cardBackground + "20" },
                     ]}
                     onPress={onMarkAllAsRead}
                   >
-                    <Text style={[styles.clearButtonText, { color: Colors.primary }]}>
+                    <Text style={[styles.clearButtonText, { color: Colors.cardBackground }]}>
                       Marcar tudo como lido
                     </Text>
                   </Pressable>
@@ -292,7 +292,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 onValueChange={(value) =>
                   onUpdateSettings({ enableOverdueNotifications: value })
                 }
-                trackColor={{ false: Colors.secondary, true: Colors.primary }}
+                trackColor={{ false: Colors.secondary, true: Colors.cardBackground }}
                 thumbColor="#fff"
               />
             </View>
@@ -311,7 +311,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 onValueChange={(value) =>
                   onUpdateSettings({ enableUpcomingNotifications: value })
                 }
-                trackColor={{ false: Colors.secondary, true: Colors.primary }}
+                trackColor={{ false: Colors.secondary, true: Colors.cardBackground }}
                 thumbColor="#fff"
               />
             </View>
@@ -330,7 +330,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 onValueChange={(value) =>
                   onUpdateSettings({ enableReceivedNotifications: value })
                 }
-                trackColor={{ false: Colors.secondary, true: Colors.primary }}
+                trackColor={{ false: Colors.secondary, true: Colors.cardBackground }}
                 thumbColor="#fff"
               />
             </View>
@@ -349,7 +349,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 onValueChange={(value) =>
                   onUpdateSettings({ enableInstallmentNotifications: value })
                 }
-                trackColor={{ false: Colors.secondary, true: Colors.primary }}
+                trackColor={{ false: Colors.secondary, true: Colors.cardBackground }}
                 thumbColor="#fff"
               />
             </View>
@@ -368,7 +368,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 onValueChange={(value) =>
                   onUpdateSettings({ enableSound: value })
                 }
-                trackColor={{ false: Colors.secondary, true: Colors.primary }}
+                trackColor={{ false: Colors.secondary, true: Colors.cardBackground }}
                 thumbColor="#fff"
               />
             </View>
@@ -387,7 +387,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                 onValueChange={(value) =>
                   onUpdateSettings({ enableVibration: value })
                 }
-                trackColor={{ false: Colors.secondary, true: Colors.primary }}
+                trackColor={{ false: Colors.secondary, true: Colors.cardBackground }}
                 thumbColor="#fff"
               />
             </View>

@@ -4,14 +4,8 @@ import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Transaction } from "@/src/types/TransactionType";
 import React, { useMemo, useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from "react-native";
-
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+  
 type ViewMode = "month" | "week" | "day";
 
 interface CalendarViewProps {
@@ -39,10 +33,14 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
 
   const getDayTransactions = (day: number): Transaction[] => {
-    const date = new Date(currentYear, currentMonth, day);
-    const dateStr = date.toISOString().split("T")[0];
+    const dateStr =
+    `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     return transactions.filter((t) => t.date === dateStr);
   };
+
+  const selectedTransactions = transactions.filter(
+    (t) => t.date === selectedDate
+  );
 
   const monthDays = useMemo(() => {
     const days: (number | null)[] = [];
@@ -102,8 +100,8 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   };
 
   const handleDayPress = (day: number) => {
-    const date = new Date(currentYear, currentMonth, day);
-    const dateStr = date.toISOString().split("T")[0];
+    const dateStr =
+  `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     onDateSelect?.(dateStr);
   };
 
@@ -111,6 +109,8 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
     if (day === null) {
       return <View style={styles.emptyCell} />;
     }
+
+    day++; // Ajuste para exibir o dia correto
 
     const dayTransactions = getDayTransactions(day);
     const hasTransactions = dayTransactions.length > 0;
@@ -132,18 +132,18 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             backgroundColor: selected
               ? Colors.lightGreen
               : today
-              ? Colors.accentGreen + "20"
-              : Colors.accentGreen,
-            borderColor: today ? Colors.accentGreen : "transparent",
+              ? Colors.backgroundColor
+              : Colors.cardBackground,
+            borderColor: today ? Colors.borderColor : Colors.accentGreen,
           },
         ]}
-        onPress={() => handleDayPress(day)}
-      >
+          onPress={() => handleDayPress(day)}
+        >
         <Text
           style={[
             styles.dayNumber,
             {
-              color: selected ? "white" : today ? Colors.accentGreen : Colors.textColorPrimary,
+              color: selected ? Colors.textColorPrimary : today ? Colors.lightGreen : Colors.textColorPrimary,
               fontWeight: today || selected ? "bold" : "normal",
             },
           ]}
@@ -161,7 +161,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
           </View>
         )}
         {hasTransactions && (
-          <Text style={[styles.transactionCount, { color: "#4f6d5e" }]}>
+          <Text style={[styles.transactionCount, { color: Colors.textColorPrimary }]}>
             {dayTransactions.length}
           </Text>
         )}
@@ -170,9 +170,9 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
+    <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: Colors.deepGreen }]}>
+      <View style={[styles.header, { backgroundColor: Colors.backgroundColor }]}>
         <TouchableOpacity onPress={handlePrevMonth}>
           <Text style={styles.navButton}>◀</Text>
         </TouchableOpacity>
@@ -183,37 +183,37 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       </View>
 
       {/* View Mode Selector */}
-      <View style={[styles.modeSelector, { backgroundColor: Colors.darkest }]}>
+      <View style={[styles.modeSelector, { backgroundColor: Colors.backgroundColor }]}>
         <TouchableOpacity
           style={[
             styles.modeButton,
-            viewMode === "day" && { backgroundColor: Colors.accentGreen },
+            viewMode === "day" && { backgroundColor: Colors.cardBackground },
           ]}
           onPress={() => setViewMode("day")}
         >
-          <Text style={[styles.modeText, { color: Colors.lightGreen },viewMode === "day" && { color: "white" }]}>
+          <Text style={[styles.modeText, { color: Colors.lightGreen },viewMode === "day" && { color: Colors.textColorPrimary }]}>
             Dia
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.modeButton,
-            viewMode === "week" && { backgroundColor: Colors.accentGreen },
+            viewMode === "week" && { backgroundColor: Colors.cardBackground },
           ]}
           onPress={() => setViewMode("week")}
         >
-          <Text style={[styles.modeText, { color: Colors.lightGreen }, viewMode === "week" && { color: "white" }]}>
+          <Text style={[styles.modeText, { color: Colors.lightGreen }, viewMode === "week" && { color: Colors.textColorPrimary }]}>
             Semana
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.modeButton,
-            viewMode === "month" && { backgroundColor: Colors.accentGreen },
+            viewMode === "month" && { backgroundColor: Colors.cardBackground },
           ]}
           onPress={() => setViewMode("month")}
         >
-          <Text style={[styles.modeText, { color: Colors.lightGreen }, viewMode === "month" && { color: "white" }]}>
+          <Text style={[styles.modeText, { color: Colors.lightGreen }, viewMode === "month" && { color: Colors.textColorPrimary }]}>
             Mês
           </Text>
         </TouchableOpacity>
@@ -227,7 +227,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"].map((day) => (
               <Text
                 key={day}
-                style={[styles.weekHeaderText, { color: "#4f6d5e" }]}
+                style={[styles.weekHeaderText, { color: Colors.textColorPrimary }]}
               >
                 {day}
               </Text>
@@ -249,12 +249,12 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
           <Text style={[styles.detailsTitle, { color: Colors.textColorPrimary }]}>
             Transações de {new Date(selectedDate).toLocaleDateString("pt-BR")}
           </Text>
-          {getDayTransactions(parseInt(selectedDate.split("-")[2])).map((t) => {
+          {selectedTransactions.map((t) => {
             const category = categories.find((c) => c.id === t.categoryId);
             return (
               <View
                 key={t.id}
-                style={[styles.transactionItem, { borderBottomColor: Colors.darkest }]}
+                style={[styles.transactionItem, { borderBottomColor: Colors.borderColor }]}
               >
                 <View
                   style={[
@@ -266,7 +266,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                   <Text style={[styles.transactionDesc, { color: Colors.textColorPrimary }]}>
                     {t.description}
                   </Text>
-                  <Text style={[styles.transactionCat, { color: "#4f6d5e" }]}>
+                  <Text style={[styles.transactionCat, { color: Colors.accentGreen }]}>
                     {category?.name}
                   </Text>
                 </View>
@@ -346,6 +346,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   daysGrid: {
+    paddingLeft: 10,
+    marginRight: -12,
     flexDirection: "row",
     flexWrap: "wrap",
   },
@@ -354,7 +356,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
   },
   dayCell: {
-    padding: 10,
+    padding: 15,
     width: "14.28%",
     aspectRatio: 1,
     borderRadius: 8,

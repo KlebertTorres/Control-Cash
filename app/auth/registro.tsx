@@ -62,7 +62,7 @@ export default function RegistroScreen() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.accentGreen }]}>
+    <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
       <Text style={[styles.title, { color: Colors.textColorPrimary }]}>
         Cadastrar-se:
       </Text>

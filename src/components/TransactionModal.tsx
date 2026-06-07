@@ -5,18 +5,18 @@ import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Transaction } from "@/src/types/TransactionType";
 import React, { useEffect, useState } from "react";
 import {
-    Alert,
-    Modal,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-    ActivityIndicator,
+  ActivityIndicator,
+  Alert,
+  Modal,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { SimpleButton } from "./SimpleButton";
 import { CategoryDropdown } from "./CategoryDropdown";
+import { SimpleButton } from "./SimpleButton";
 
 interface TransactionModalProps {
   visible: boolean;
@@ -116,7 +116,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 
   return (
     <Modal visible={visible} transparent animationType="slide">
-      <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
+      <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
         <View style={[styles.header, { backgroundColor: Colors.textColorPrimary }]}>
           <TouchableOpacity onPress={onClose}>
             <Text style={styles.closeButton}>✕</Text>
@@ -130,7 +130,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
         <ScrollView style={styles.content}>
           <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Descrição</Text>
           <TextInput
-            style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.darkest }]}
+            style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.borderColor }]}
             placeholder="Descrição"
             placeholderTextColor={"#4f6d5e"}
             value={description}
@@ -140,7 +140,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 
           <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Valor (R$)</Text>
           <TextInput
-            style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.darkest }]}
+            style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.borderColor }]}
             placeholder="0.00"
             placeholderTextColor={"#4f6d5e"}
             value={amount}
@@ -151,7 +151,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 
           <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Data (YYYY-MM-DD)</Text>
           <TextInput
-            style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.darkest }]}
+            style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.borderColor }]}
             placeholder="2024-01-01"
             placeholderTextColor={"#4f6d5e"}
             value={date}
@@ -171,7 +171,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           <View style={styles.buttonGroup}>
             {loading ? (
               <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color={Colors.primary} />
+                <ActivityIndicator size="large" color={Colors.cardBackground} />
               </View>
             ) : (
               <>
@@ -179,7 +179,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
                   title="Salvar"
                   onPress={handleSave}
                   disabled={loading}
-                  color={Colors.accentGreen}
+                  color={Colors.backgroundColor}
                 />
                 {transaction && (
                   <SimpleButton

@@ -1,15 +1,14 @@
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  StyleSheet,
-  Modal,
-  ScrollView,
-  Pressable,
-  FlatList,
-  SafeAreaView,
+    FlatList,
+    Modal,
+    Pressable,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    View
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { DarkMode, LightMode } from "../styles/cores";
 
 interface FAQ {
@@ -143,7 +142,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
         {
           backgroundColor:
             expandedFAQ === item.id
-              ? Colors.primary + "20"
+              ? Colors.cardBackground + "20"
               : Colors.cardBackground,
           borderColor: Colors.borderColor,
         },
@@ -156,7 +155,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
         <Text
           style={[
             styles.faqQuestion,
-            { color: Colors.text, flex: 1 },
+            { color: Colors.textColorPrimary, flex: 1 },
           ]}
         >
           {item.question}
@@ -164,12 +163,12 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
         <Ionicons
           name={expandedFAQ === item.id ? "chevron-up" : "chevron-down"}
           size={20}
-          color={Colors.primary}
+          color={Colors.textColorPrimary}
         />
       </View>
 
       {expandedFAQ === item.id && (
-        <Text style={[styles.faqAnswer, { color: Colors.secondary }]}>
+        <Text style={[styles.faqAnswer, { color: Colors.textColorPrimary }]}>
           {item.answer}
         </Text>
       )}
@@ -186,21 +185,21 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       <View
         style={[
           styles.tipIconContainer,
-          { backgroundColor: Colors.primary + "20" },
+          { backgroundColor: Colors.cardBackground + "20" },
         ]}
       >
         <Ionicons
           name={item.icon as any}
           size={28}
-          color={Colors.primary}
+          color={Colors.textColorPrimary}
         />
       </View>
       <View style={styles.tipContent}>
-        <Text style={[styles.tipTitle, { color: Colors.text }]}>
+        <Text style={[styles.tipTitle, { color: Colors.textColorPrimary }]}>
           {item.title}
         </Text>
         <Text
-          style={[styles.tipDescription, { color: Colors.secondary }]}
+          style={[styles.tipDescription, { color: Colors.textColorPrimary }]}
         >
           {item.description}
         </Text>
@@ -224,11 +223,11 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
             { backgroundColor: Colors.cardBackground, borderColor: Colors.borderColor },
           ]}
         >
-          <Text style={[styles.title, { color: Colors.text }]}>
+          <Text style={[styles.title, { color: Colors.textColorPrimary }]}>
             Central de Ajuda
           </Text>
           <Pressable onPress={onClose} hitSlop={8}>
-            <Ionicons name="close-outline" size={24} color={Colors.primary} />
+            <Ionicons name="close-outline" size={24} color={Colors.textColorPrimary} />
           </Pressable>
         </View>
 
@@ -237,7 +236,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
             style={[
               styles.tab,
               activeTab === "faq" && {
-                borderBottomColor: Colors.primary,
+                borderBottomColor: Colors.cardBackground,
                 borderBottomWidth: 3,
               },
             ]}
@@ -247,7 +246,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
               style={[
                 styles.tabText,
                 {
-                  color: activeTab === "faq" ? Colors.primary : Colors.secondary,
+                  color: activeTab === "faq" ? Colors.textColorPrimary : Colors.accentGreen,
                   fontWeight: activeTab === "faq" ? "bold" : "600",
                 },
               ]}
@@ -260,7 +259,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
             style={[
               styles.tab,
               activeTab === "tips" && {
-                borderBottomColor: Colors.primary,
+                borderBottomColor: Colors.cardBackground,
                 borderBottomWidth: 3,
               },
             ]}
@@ -270,7 +269,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
               style={[
                 styles.tabText,
                 {
-                  color: activeTab === "tips" ? Colors.primary : Colors.secondary,
+                  color: activeTab === "tips" ? Colors.textColorPrimary : Colors.accentGreen,
                   fontWeight: activeTab === "tips" ? "bold" : "600",
                 },
               ]}

@@ -99,7 +99,7 @@ export default function StatsScreen() {
         return {
           id: cat.id,
           name: cat.name,
-          color: cat.color || Colors.accentGreen,
+          color: cat.color || Colors.cardBackground,
           income,
           expense,
           net: income - expense,
@@ -107,7 +107,7 @@ export default function StatsScreen() {
       })
       .filter((c) => c.income > 0 || c.expense > 0)
       .sort((a, b) => b.expense - a.expense);
-  }, [categories, filteredTransactions, Colors.accentGreen]);
+  }, [categories, filteredTransactions, Colors.cardBackground]);
 
   // Calculate totals
   const totals = useMemo(() => {
@@ -158,9 +158,9 @@ export default function StatsScreen() {
   }));
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.deepGreen }]}>
+    <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
       {/* Header */}
-      <View style={[styles.header, { backgroundColor: Colors.deepGreen }]}>
+      <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
         <Text style={styles.headerTitle}>Estatísticas</Text>
       </View>
 
@@ -218,7 +218,7 @@ export default function StatsScreen() {
           <View
             style={[
               styles.summaryCard,
-              { backgroundColor: Colors.accentGreen, opacity: 0.95 },
+              { backgroundColor: Colors.cardBackground, opacity: 0.95 },
             ]}
           >
             <Text style={styles.summaryLabel}>Receitas</Text>
@@ -227,7 +227,7 @@ export default function StatsScreen() {
           <View
             style={[
               styles.summaryCard,
-              { backgroundColor: Colors.accentGreen, opacity: 0.95 },
+              { backgroundColor: Colors.cardBackground, opacity: 0.95 },
             ]}
           >
             <Text style={styles.summaryLabel}>Despesas</Text>
@@ -241,7 +241,7 @@ export default function StatsScreen() {
               styles.summaryCard,
               {
                 backgroundColor:
-                  totals.balance >= 0 ? Colors.accentGreen : "#FF6B6B",
+                  totals.balance >= 0 ? Colors.cardBackground : "#FF6B6B",
                 opacity: 0.95,
               },
             ]}
@@ -252,7 +252,7 @@ export default function StatsScreen() {
           <View
             style={[
               styles.summaryCard,
-              { backgroundColor: Colors.accentGreen, opacity: 0.95 },
+              { backgroundColor: Colors.cardBackground, opacity: 0.95 },
             ]}
           >
             <Text style={styles.summaryLabel}>Taxa Economia</Text>
@@ -316,7 +316,7 @@ export default function StatsScreen() {
                 key={cat.id}
                 style={[
                   styles.categoryRow,
-                  { borderBottomColor: Colors.darkest },
+                  { borderBottomColor: Colors.borderColor },
                 ]}
               >
                 <View style={styles.categoryLeft}>
@@ -368,7 +368,7 @@ const styles = StyleSheet.create({
   },
   header: {
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 20,
     paddingTop: 50,
   },
   headerTitle: {

@@ -1,8 +1,8 @@
-import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { DarkMode, LightMode } from "../styles/cores";
+import React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Budget } from "../contexts/BudgetContext";
+import { DarkMode, LightMode } from "../styles/cores";
 
 interface BudgetCardProps {
   budget: Budget;
@@ -27,7 +27,7 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({
   const getStatusColor = () => {
     if (exceeded) return "#ff6b6b";
     if (percentage >= 80) return "#ffd43b";
-    return Colors.primary;
+    return Colors.cardBackground;
   };
 
   const getStatusText = () => {
@@ -52,7 +52,7 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({
           <Text style={[styles.categoryName, { color: Colors.text }]}>
             {budget.categoryName}
           </Text>
-          <Text style={[styles.period, { color: Colors.secondary }]}>
+          <Text style={[styles.period, { color: Colors.textColorSecondary }]}>
             Limite {budget.period === "monthly" ? "Mensal" : "Anual"}
           </Text>
         </View>
@@ -62,7 +62,7 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({
             <Ionicons
               name="trash-outline"
               size={20}
-              color={Colors.secondary}
+              color={Colors.textColorSecondary}
             />
           </Pressable>
         )}
@@ -92,7 +92,7 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({
 
       <View style={styles.stats}>
         <View style={styles.statItem}>
-          <Text style={[styles.statLabel, { color: Colors.secondary }]}>
+          <Text style={[styles.statLabel, { color: Colors.textColorSecondary }]}>
             Gasto
           </Text>
           <Text style={[styles.statValue, { color: Colors.text }]}>
@@ -101,7 +101,7 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({
         </View>
 
         <View style={styles.statItem}>
-          <Text style={[styles.statLabel, { color: Colors.secondary }]}>
+          <Text style={[styles.statLabel, { color: Colors.textColorSecondary }]}>
             Limite
           </Text>
           <Text style={[styles.statValue, { color: Colors.text }]}>
@@ -110,14 +110,14 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({
         </View>
 
         <View style={styles.statItem}>
-          <Text style={[styles.statLabel, { color: Colors.secondary }]}>
+          <Text style={[styles.statLabel, { color: Colors.textColorSecondary }]}>
             {exceeded ? "Acima" : "Restante"}
           </Text>
           <Text
             style={[
               styles.statValue,
               {
-                color: exceeded ? "#ff6b6b" : Colors.primary,
+                color: exceeded ? "#ff6b6b" : Colors.cardBackground,
               },
             ]}
           >

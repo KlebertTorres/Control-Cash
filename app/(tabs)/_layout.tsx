@@ -19,9 +19,10 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: Colors.accentGreen,
-          height: 70,
+          backgroundColor: Colors.cardBackground,
+          height: 80,
           borderTopWidth: 0,
+          paddingTop: 10,
         },
         tabBarActiveTintColor: "#fff",
         tabBarInactiveTintColor: Colors.lightGreen,
@@ -71,12 +72,12 @@ export default function TabLayout() {
                 borderRadius: 28,
                 justifyContent: "center",
                 alignItems: "center",
-                marginBottom: 20,
+                marginBottom: 40,
                 borderWidth: 3,
-                borderColor: Colors.accentGreen,
+                borderColor: Colors.backgroundColor,
               }}
             >
-              <Ionicons name="add" size={35} color={Colors.accentGreen} />
+              <Ionicons name="add" size={35} color={Colors.cardBackground} />
             </TouchableOpacity>
           ),
         }}

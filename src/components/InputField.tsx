@@ -11,7 +11,7 @@ export const InputField = ({ style, placeholder, onChangeText, value, erros, key
         <TextInput
                 style={[
                     styles.input, style,
-                    {borderColor: Colors.darkest}, 
+                    {borderColor: Colors.borderColor}, 
                     erros && styles.inputError
                 ]}
                 placeholder= {placeholder}
