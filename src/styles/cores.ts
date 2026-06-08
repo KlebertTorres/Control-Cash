@@ -12,7 +12,7 @@ export const DarkMode = {
   lightGreen: "#a8f0d9",
 
   // Text Colors
-  textColorPrimary: "#ffffff",
+  textColorPrimary: "#FFFFFF",
   text: "#e8eef2",
   textColorSecondary: "#000000",
 
@@ -22,23 +22,23 @@ export const DarkMode = {
 
 export const LightMode = {
   // Background & Base Colors
-  backgroundColor: "#fafbfc",
-  cardBackground: "#ffffff",
-  overlay: "rgba(0, 0, 0, 0.5)",
+  backgroundColor: "#DAF1DE",
+  cardBackground: "#8EB69B",
+  overlay: "#235347",
 
   // Primary Colors (Green Theme)
-  mediumGreen: "#2a8b7f",
-  accentGreen: "#3dd68e",
-  lightGreen: "#e8fdf6",
-  softGreen: "#f0fdf9",
+  mediumGreen: "#235347",
+  accentGreen: "#163832",
+  lightGreen: "#0B2B26",
+  softGreen: "#051F10",
 
   // Text Colors
-  textColorPrimary: "#000000",
-  text: "#1f2937",
-  textColorSecondary: "#6b7280",
+  textColorPrimary: "#e6e6e6",
+  text: "#e6e6e6",
+  textColorSecondary: "#cfcfcf",
 
   // UI Elements
-  borderColor: "#e5e7eb",
+  borderColor: "#163832",
 };
 
 export const Fonts = Platform.select({

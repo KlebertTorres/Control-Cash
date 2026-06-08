@@ -5,30 +5,33 @@ import { ReportProvider } from "@/src/contexts/ReportContext";
 import { TransactionProvider } from "@/src/contexts/TransactionContext";
 import { ChatProvider } from "@/src/contexts/ChatContext";
 import { BudgetProvider } from "@/src/contexts/BudgetContext";
-import { Stack } from "expo-router";
 import { AuthProvider } from "../src/contexts/AuthContext";
 import { ThemeProvider } from "../src/contexts/ThemeContext";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Stack } from "expo-router";
 
 export default function Layout() {
   return (
-    <AuthProvider>
-      <CategoryProvider>
-        <TransactionProvider>
-          <InstallmentProvider>
-            <NotificationProvider>
-              <ReportProvider>
-                <ChatProvider>
-                  <BudgetProvider>
-                    <ThemeProvider>
-                      <Stack screenOptions={{ headerShown: false }} />
-                    </ThemeProvider>
-                  </BudgetProvider>
-                </ChatProvider>
-              </ReportProvider>
-            </NotificationProvider>
-          </InstallmentProvider>
-        </TransactionProvider>
-      </CategoryProvider>
-    </AuthProvider>
+    <SafeAreaProvider>
+      <AuthProvider>
+        <CategoryProvider>
+          <TransactionProvider>
+            <InstallmentProvider>
+              <NotificationProvider>
+                <ReportProvider>
+                  <ChatProvider>
+                    <BudgetProvider>
+                      <ThemeProvider>
+                        <Stack screenOptions={{ headerShown: false }} />
+                      </ThemeProvider>
+                    </BudgetProvider>
+                  </ChatProvider>
+                </ReportProvider>
+              </NotificationProvider>
+            </InstallmentProvider>
+          </TransactionProvider>
+        </CategoryProvider>
+      </AuthProvider>
+    </SafeAreaProvider>
   );
 }

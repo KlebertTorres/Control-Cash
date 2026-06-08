@@ -1,14 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import {
-    FlatList,
-    Modal,
-    Pressable,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View
-} from "react-native";
+import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { DarkMode, LightMode } from "../styles/cores";
 
 interface FAQ {
@@ -136,7 +129,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
   const [expandedFAQ, setExpandedFAQ] = useState<string | null>(null);
 
   const renderFAQItem = ({ item }: { item: FAQ }) => (
-    <Pressable
+    <TouchableOpacity
       style={[
         styles.faqItem,
         {
@@ -172,7 +165,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
           {item.answer}
         </Text>
       )}
-    </Pressable>
+    </TouchableOpacity>
   );
 
   const renderTipItem = ({ item }: { item: Tip }) => (
@@ -226,13 +219,13 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
           <Text style={[styles.title, { color: Colors.textColorPrimary }]}>
             Central de Ajuda
           </Text>
-          <Pressable onPress={onClose} hitSlop={8}>
+          <TouchableOpacity onPress={onClose} hitSlop={8}>
             <Ionicons name="close-outline" size={24} color={Colors.textColorPrimary} />
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <View style={[styles.tabContainer, { backgroundColor: Colors.cardBackground }]}>
-          <Pressable
+          <TouchableOpacity
             style={[
               styles.tab,
               activeTab === "faq" && {
@@ -253,9 +246,9 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
             >
               FAQs
             </Text>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable
+          <TouchableOpacity
             style={[
               styles.tab,
               activeTab === "tips" && {
@@ -276,16 +269,25 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
             >
               Dicas
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
+        {activeTab === "faq"? 
         <FlatList
-          data={activeTab === "faq" ? FAQS : TIPS}
+          data={FAQS}
           keyExtractor={(item) => item.id}
-          renderItem={activeTab === "faq" ? renderFAQItem : renderTipItem}
+          renderItem={renderFAQItem}
+          contentContainerStyle={styles.listContent}
+          scrollEnabled
+        />:
+        <FlatList
+          data={TIPS}
+          keyExtractor={(item) => item.id}
+          renderItem={renderTipItem}
           contentContainerStyle={styles.listContent}
           scrollEnabled
         />
+        }
       </SafeAreaView>
     </Modal>
   );

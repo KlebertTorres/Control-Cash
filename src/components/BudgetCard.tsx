@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Budget } from "../contexts/BudgetContext";
 import { DarkMode, LightMode } from "../styles/cores";
 
@@ -37,7 +37,7 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({
   };
 
   return (
-    <Pressable
+    <TouchableOpacity
       style={[
         styles.card,
         {
@@ -58,13 +58,13 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({
         </View>
 
         {onDelete && (
-          <Pressable onPress={onDelete} hitSlop={8}>
+          <TouchableOpacity onPress={onDelete} hitSlop={8}>
             <Ionicons
               name="trash-outline"
               size={20}
               color={Colors.textColorSecondary}
             />
-          </Pressable>
+          </TouchableOpacity>
         )}
       </View>
 
@@ -143,7 +143,7 @@ export const BudgetCard: React.FC<BudgetCardProps> = ({
           </Text>
         </View>
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

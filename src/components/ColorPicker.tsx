@@ -44,7 +44,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
           onPress={() => {
             setOpened((prev) => !prev);}
         }>
-          <Text style={styles.closeButton}>▼</Text>
+          <Text style={[styles.closeButton, {color: Colors.textColorPrimary}]}>▼</Text>
         </TouchableOpacity>
       </View>
 

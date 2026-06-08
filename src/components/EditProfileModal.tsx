@@ -4,11 +4,11 @@ import {
     ActivityIndicator,
     Alert,
     Modal,
-    Pressable,
     ScrollView,
     StyleSheet,
     Text,
     TextInput,
+    TouchableOpacity,
     View,
 } from "react-native";
 import { useAuth } from "../hooks/useAuth";
@@ -88,13 +88,13 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
             <Text style={[styles.title, { color: Colors.text }]}>
               Editar Perfil
             </Text>
-            <Pressable onPress={onClose} hitSlop={8}>
+            <TouchableOpacity onPress={onClose} hitSlop={8}>
               <Ionicons
                 name="close-outline"
                 size={24}
                 color={Colors.textColorPrimary}
               />
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <ScrollView style={styles.content}>
@@ -121,7 +121,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               Email e Senha não podem ser alterados por motivos de segurança.
             </Text>
 
-            <Pressable
+            <TouchableOpacity
               style={[
                 styles.button,
                 {
@@ -137,9 +137,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               ) : (
                 <Text style={styles.buttonText}>Salvar Alterações</Text>
               )}
-            </Pressable>
+            </TouchableOpacity>
 
-            <Pressable
+            <TouchableOpacity
               style={styles.cancelButton}
               onPress={onClose}
               disabled={loading}
@@ -147,7 +147,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               <Text style={[styles.cancelButtonText, { color: Colors.text }]}>
                 Cancelar
               </Text>
-            </Pressable>
+            </TouchableOpacity>
           </ScrollView>
         </View>
       </View>

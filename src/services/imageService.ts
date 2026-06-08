@@ -1,10 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import {
-    deleteObject,
-    getDownloadURL,
-    ref,
-    uploadBytes
-} from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "./firebaseconfig";
 
 export type ImageType = "profile" | "category" | "proof";

@@ -2,9 +2,9 @@ import { CalendarView } from "@/src/components/CalendarView";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
-export default function AgendaScreen() {
+export default function CalendarScreen() {
   const { darkMode } = useTheme();
   const Colors = darkMode ? DarkMode : LightMode;
 

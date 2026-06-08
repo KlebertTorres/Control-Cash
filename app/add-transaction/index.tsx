@@ -5,11 +5,11 @@ import { useCategories } from "@/src/hooks/useCategories";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
+import { formatLocalDate } from "@/src/utils/formatarData";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
-import { formatLocalDate } from "@/src/utils/formatarData";
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function AddTransaction() {
   const router = useRouter();
@@ -85,7 +85,7 @@ export default function AddTransaction() {
         onChangeText={setDescription}
       />
 
-      <Pressable
+      <TouchableOpacity
         style={[
           styles.dateButton,
           { backgroundColor: Colors.cardBackground, borderColor: Colors.borderColor },
@@ -95,7 +95,7 @@ export default function AddTransaction() {
         <Text style={[styles.dateButtonText, { color: Colors.textColorPrimary }]}>
           📅 Data: {formatLocalDate(date)}
         </Text>
-      </Pressable>
+      </TouchableOpacity>
 
       {showDatePicker && (
         <DateTimePicker
@@ -121,16 +121,16 @@ export default function AddTransaction() {
         transactionType={type}
       />
 
-      <Pressable style={[styles.saveButton, {backgroundColor: Colors.backgroundColor}]} onPress={handleSave}>
+      <TouchableOpacity style={[styles.saveButton, {backgroundColor: Colors.backgroundColor}]} onPress={handleSave}>
         <Text style={styles.saveButtonText}>Salvar</Text>
-      </Pressable>
+      </TouchableOpacity>
 
-      <Pressable
+      <TouchableOpacity
         style={styles.cancelButton}
         onPress={() => router.back()}
       >
         <Text style={styles.cancelButtonText}>Cancelar</Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 }

@@ -101,7 +101,7 @@ export default function LoginScreen() {
 
       <Text style={styles.footer}>
         Ainda não possui conta?{" "}
-        <Text style={styles.link} onPress={() => router.push("./registro")}>
+        <Text style={styles.link} onPress={() => router.push("./register")}>
           Criar conta
         </Text>
       </Text>

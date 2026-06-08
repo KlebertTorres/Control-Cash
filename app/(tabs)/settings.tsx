@@ -9,7 +9,7 @@ import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -58,9 +58,9 @@ export default function SettingsScreen() {
         <Text style={[styles.username, { color: Colors.textColorPrimary }]}>
           {user?.name || "Usuário"}
         </Text>
-        <Pressable onPress={() => setEditProfileVisible(true)}>
+        <TouchableOpacity onPress={() => setEditProfileVisible(true)}>
           <Text style={[styles.editText, {color: Colors.textColorPrimary}]}>✎ Editar</Text>
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <View style={[styles.menu, { backgroundColor: Colors.cardBackground, borderRadius: 10 }]}>
@@ -84,35 +84,35 @@ export default function SettingsScreen() {
             />
           </View>
 
-          <Pressable style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem}>
             <Ionicons name="mail-outline" size={24} color={ Colors.textColorPrimary } />
             <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Contato</Text>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable style={styles.menuItem}>
+          <TouchableOpacity style={styles.menuItem}>
             <Ionicons name="alert-circle-outline" size={24} color={ Colors.textColorPrimary } />
             <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Relatar erros</Text>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable style={styles.menuItem} onPress={() => setHelpVisible(true)}>
+          <TouchableOpacity style={styles.menuItem} onPress={() => setHelpVisible(true)}>
             <Ionicons name="help" size={24} color={ Colors.textColorPrimary } />
             <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Ajuda</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
-        <Pressable style={[styles.logoutButton, { backgroundColor: Colors.cardBackground } ]}
+        <TouchableOpacity style={[styles.logoutButton, { backgroundColor: Colors.cardBackground } ]}
           onPress = {() => deslogar()}
         >
           <Ionicons name="exit-outline" size={24} color={ Colors.textColorPrimary } />
           <Text style={[styles.logoutText, { color: Colors.textColorPrimary }]}>Sair</Text>
-        </Pressable>
+        </TouchableOpacity>
 
-        <Pressable style={[styles.logoutButton, { backgroundColor: Colors.cardBackground } ]}
+        <TouchableOpacity style={[styles.logoutButton, { backgroundColor: Colors.cardBackground } ]}
           onPress = {() => deletarUsuario()}
         >
           <Ionicons name="trash-outline" size={24} color={ Colors.textColorPrimary } />
           <Text style={[styles.logoutText, { color: Colors.textColorPrimary }]}>Deletar Conta</Text>
-        </Pressable>
+        </TouchableOpacity>
       </ScrollView>
 
       <HelpCenter

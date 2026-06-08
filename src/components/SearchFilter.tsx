@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text,  TextInput, View } from "react-native";
+import { formatLocalDate } from "@/src/utils/formatarData";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import React, { useCallback, useState } from "react";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { DarkMode, LightMode } from "../styles/cores";
 import { Category } from "../types/CategoryType";
 import { Transaction } from "../types/TransactionType";
-import { formatLocalDate } from "@/src/utils/formatarData";
 
 interface SearchFilterProps {
   transactions: Transaction[];
@@ -134,7 +134,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
           <Text style={[styles.filterLabel, { color: Colors.textColorPrimary }]}>Tipo:</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {["all", "income", "expense"].map((type) => (
-              <Pressable
+              <TouchableOpacity
                 key={type}
                 style={[
                   styles.filterButton,
@@ -160,7 +160,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                 >
                   {type === "all" ? "Todos" : type === "income" ? "Receitas" : "Despesas"}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             ))}
           </ScrollView>
         </View>
@@ -176,7 +176,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
             {categories
               .filter((cat) => !cat.parentId)
               .map((category) => (
-                <Pressable
+                <TouchableOpacity
                   key={category.id}
                   style={[
                     styles.filterButton,
@@ -203,7 +203,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
                   >
                     {category.icon} {category.name}
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               ))}
           </ScrollView>
         </View>
@@ -216,7 +216,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
             Período:
           </Text>
           <View style={styles.dateInputContainer}>
-            <Pressable
+            <TouchableOpacity
               style={[
                 styles.dateButton,
                 { backgroundColor: Colors.cardBackground, borderColor: Colors.borderColor },
@@ -226,7 +226,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
               <Text style={[styles.dateButtonText, { color: Colors.textColorPrimary }]}>
                 📅 Data: {formatLocalDate(startDate)}
               </Text>
-            </Pressable>
+            </TouchableOpacity>
       
             {showStartDatePicker && (
               <DateTimePicker
@@ -236,7 +236,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
               onChange={handleStartDateChange}
             />
             )}
-            <Pressable
+            <TouchableOpacity
               style={[
                 styles.dateButton,
                 { backgroundColor: Colors.cardBackground, borderColor: Colors.borderColor },
@@ -246,7 +246,7 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
               <Text style={[styles.dateButtonText, { color: Colors.textColorPrimary }]}>
                 📅 Data: {formatLocalDate(endDate)}
               </Text>
-            </Pressable>
+            </TouchableOpacity>
       
             {showEndDatePicker && (
               <DateTimePicker
@@ -262,12 +262,12 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
 
       {/* Clear Filters Button */}
       {hasActiveFilters && (
-        <Pressable
+        <TouchableOpacity
           style={[styles.clearButton, { backgroundColor: Colors.cardBackground }]}
           onPress={clearFilters}
         >
           <Text style={styles.clearButtonText}>Limpar Filtros</Text>
-        </Pressable>
+        </TouchableOpacity>
       )}
     </View>
   );

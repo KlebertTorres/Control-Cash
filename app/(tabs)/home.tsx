@@ -11,6 +11,7 @@ import { Transaction } from "@/src/types/TransactionType";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   const { darkMode } = useTheme();
@@ -56,7 +57,7 @@ export default function HomeScreen() {
   const recentTransactions = transactions?.slice(0, 5);
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
+    <SafeAreaView style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -182,7 +183,7 @@ export default function HomeScreen() {
 
             <TouchableOpacity
               style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}
-              onPress={() => router.push("/(tabs)/agenda")}
+              onPress={() => router.push("/(tabs)/calendar")}
             >
               <Text style={styles.quickActionIcon}>📅</Text>
               <Text style={styles.quickActionLabel}>Calendário</Text>
@@ -190,7 +191,7 @@ export default function HomeScreen() {
 
             <TouchableOpacity
               style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}
-              onPress={() => router.push("/(tabs)/configuracoes")}
+              onPress={() => router.push("/(tabs)/settings")}
             >
               <Text style={styles.quickActionIcon}>⚙️</Text>
               <Text style={styles.quickActionLabel}>Config</Text>
@@ -207,7 +208,7 @@ export default function HomeScreen() {
         onClose={() => setModalVisible(false)}
         onSave={loadDashboardData}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 

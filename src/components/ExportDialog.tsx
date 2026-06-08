@@ -1,22 +1,22 @@
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  Modal,
-  StyleSheet,
-  Pressable,
-  Alert,
-  ActivityIndicator,
+    ActivityIndicator,
+    Alert,
+    Modal,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { DarkMode, LightMode } from "../styles/cores";
 import {
-  exportToJSON,
-  exportToCSV,
-  exportToText,
+    exportToCSV,
+    exportToJSON,
+    exportToText,
 } from "../services/reportExportService";
-import { Transaction } from "../types/TransactionType";
+import { DarkMode, LightMode } from "../styles/cores";
 import { Category } from "../types/CategoryType";
+import { Transaction } from "../types/TransactionType";
 
 interface ExportDialogProps {
   visible: boolean;
@@ -136,13 +136,13 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
             <Text style={[styles.title, { color: Colors.text }]}>
               Exportar Relatório
             </Text>
-            <Pressable onPress={onClose} hitSlop={8}>
+            <TouchableOpacity onPress={onClose} hitSlop={8}>
               <Ionicons
                 name="close-outline"
                 size={24}
                 color={Colors.secondary}
               />
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           <Text
@@ -156,7 +156,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
 
           <View style={styles.optionsContainer}>
             {EXPORT_OPTIONS.map((option) => (
-              <Pressable
+              <TouchableOpacity
                 key={option.id}
                 style={[
                   styles.optionButton,
@@ -209,11 +209,11 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                   size={20}
                   color={Colors.secondary}
                 />
-              </Pressable>
+              </TouchableOpacity>
             ))}
           </View>
 
-          <Pressable
+          <TouchableOpacity
             style={[
               styles.cancelButton,
               {
@@ -227,7 +227,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
             <Text style={[styles.cancelButtonText, { color: Colors.text }]}>
               Cancelar
             </Text>
-          </Pressable>
+          </TouchableOpacity>
 
           <Text
             style={[

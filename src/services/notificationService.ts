@@ -85,7 +85,7 @@ export async function MarkAllNotificationsAsRead(userId: string): Promise<void> 
       collection(db, `users/${userId}/${NOTIFICATIONS_COLLECTION}`)
     );
 
-    const batch = [];
+    const batch:any = [];
     querySnapshot.forEach((doc) => {
       batch.push(updateDoc(doc.ref, { read: true }));
     });

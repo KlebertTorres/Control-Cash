@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, {
-    Extrapolate,
+    Extrapolation,
     interpolate,
     useAnimatedStyle,
     useSharedValue,
@@ -38,7 +38,7 @@ export const LoadingAnimation: React.FC<LoadingAnimationProps> = ({
       animationValue.value,
       [0, 1],
       [0, 360],
-      Extrapolate.CLAMP
+      Extrapolation.CLAMP
     );
 
     return {
@@ -51,14 +51,14 @@ export const LoadingAnimation: React.FC<LoadingAnimationProps> = ({
       animationValue.value,
       [0, 0.5, 1],
       [1, 1.2, 1],
-      Extrapolate.CLAMP
+      Extrapolation.CLAMP
     );
 
     const opacity = interpolate(
       animationValue.value,
       [0, 0.5, 1],
       [0.3, 1, 0.3],
-      Extrapolate.CLAMP
+      Extrapolation.CLAMP
     );
 
     return {

@@ -2,11 +2,14 @@ import { ColorPicker } from "@/src/components/ColorPicker";
 import { useCategories } from "@/src/hooks/useCategories";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
-import { useState } from "react";
-import { 
-  Alert, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View 
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
+import {
+    Alert, Modal,
+    ScrollView, StyleSheet, Text, TextInput,
+    TouchableOpacity,
+    View
+} from "react-native";
   
 // Icon mapping with emoji/unicode symbols
 const iconMap: Record<string, string> = {

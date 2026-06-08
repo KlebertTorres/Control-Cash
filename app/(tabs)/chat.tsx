@@ -4,14 +4,7 @@ import { useChat } from "@/src/hooks/useChat";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Ionicons } from "@expo/vector-icons";
-import {
-    FlatList,
-    Pressable,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View,
-} from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function ChatScreen() {
   const { darkMode } = useTheme();
@@ -19,14 +12,14 @@ export default function ChatScreen() {
   const { messages, isLoading, sendMessage, clearChat } = useChat();
 
   return (
-    <SafeAreaView
+    <View
       style={[styles.container, { backgroundColor: Colors.backgroundColor }]}
     >
       <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
         <Text style={[styles.title, { color: Colors.text }]}>Assistente Financeiro</Text>
-        <Pressable onPress={clearChat} hitSlop={5}>
+        <TouchableOpacity onPress={clearChat} hitSlop={5}>
           <Ionicons name="trash-outline" size={22} color={Colors.textColorPrimary} />
-        </Pressable>
+        </TouchableOpacity>
       </View>
 
       <FlatList
@@ -44,7 +37,7 @@ export default function ChatScreen() {
         isLoading={isLoading}
         darkMode={darkMode}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

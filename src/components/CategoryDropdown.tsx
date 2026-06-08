@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import {
     Modal,
-    Pressable,
     ScrollView,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View
 } from "react-native";
 import { DarkMode, LightMode } from "../styles/cores";
@@ -63,10 +63,10 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
 
   return (
     <View>
-      <Pressable
+      <TouchableOpacity
         style={[
           styles.dropdownButton,
-          { backgroundColor: Colors.cardBackground, borderColor: Colors.text },
+          { backgroundColor: Colors.cardBackground, borderColor: Colors.borderColor },
         ]}
         onPress={() => setModalVisible(true)}
       >
@@ -81,7 +81,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
             ]}
           />
         )}
-      </Pressable>
+      </TouchableOpacity>
 
       <Modal
         visible={modalVisible}
@@ -106,11 +106,11 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
               ]}
             >
               {selectedParentId && (
-                <Pressable onPress={handleGoBack}>
-                  <Text style={[styles.backButton, { color: Colors.cardBackground }]}>
+                <TouchableOpacity onPress={handleGoBack}>
+                  <Text style={[styles.backButton, { color: Colors.textColorPrimary }]}>
                     ← Voltar
                   </Text>
-                </Pressable>
+                </TouchableOpacity>
               )}
               <Text
                 style={[
@@ -122,7 +122,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                   ? `Subcategorias de ${selectedParent?.name}`
                   : "Categorias"}
               </Text>
-              <Pressable
+              <TouchableOpacity
                 onPress={() => {
                   setModalVisible(false);
                   setSelectedParentId(null);
@@ -131,7 +131,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                 <Text style={[styles.closeButton, { color: Colors.cardBackground }]}>
                   ✕
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
 
             <ScrollView style={styles.categoryList}>
@@ -139,7 +139,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                 // Show subcategories
                 subcategories.length > 0 ? (
                   subcategories.map((category) => (
-                    <Pressable
+                    <TouchableOpacity
                       key={category.id}
                       style={[
                         styles.categoryItem,
@@ -171,7 +171,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                           ✓
                         </Text>
                       )}
-                    </Pressable>
+                    </TouchableOpacity>
                   ))
                 ) : (
                   <Text style={[styles.emptyText, { color: Colors.text }]}>
@@ -181,7 +181,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
               ) : (
                 // Show parent categories
                 parentCategories.map((category) => (
-                  <Pressable
+                  <TouchableOpacity
                     key={category.id}
                     style={[
                       styles.categoryItem,
@@ -226,7 +226,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                         →
                       </Text>
                     )}
-                  </Pressable>
+                  </TouchableOpacity>
                 ))
               )}
             </ScrollView>

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { DarkMode, LightMode } from "../styles/cores";
 
@@ -11,7 +11,7 @@ export const SimpleButton = ({ styleButton, styleText, onPress, text, currentTyp
     const isActive = currentType === type;
 
     return(
-        <Pressable
+        <TouchableOpacity
             style={[
               styles.smallButton,
               styleButton,
@@ -33,7 +33,7 @@ export const SimpleButton = ({ styleButton, styleText, onPress, text, currentTyp
             >
                 {text}
             </Text>
-        </Pressable>
+        </TouchableOpacity>
     );
 }
 

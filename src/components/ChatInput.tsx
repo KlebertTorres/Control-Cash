@@ -2,9 +2,9 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
     ActivityIndicator,
-    Pressable,
     StyleSheet,
     TextInput,
+    TouchableOpacity,
     View,
 } from "react-native";
 import { DarkMode, LightMode } from "../styles/cores";
@@ -55,7 +55,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         maxLength={100}
       />
 
-      <Pressable
+      <TouchableOpacity
         style={[
           styles.sendButton,
           {
@@ -70,7 +70,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         ) : (
           <Ionicons name="send" size={20} color="#fff" />
         )}
-      </Pressable>
+      </TouchableOpacity>
     </View>
   );
 };

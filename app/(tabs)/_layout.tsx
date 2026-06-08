@@ -1,8 +1,8 @@
+import { useTheme } from "@/src/hooks/useTheme";
+import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs, useRouter } from "expo-router";
 import { TouchableOpacity } from "react-native";
-import { useTheme } from "@/src/hooks/useTheme";
-import { DarkMode, LightMode } from "@/src/styles/cores";
 
 export default function TabLayout() {
   const router = useRouter();
@@ -29,7 +29,7 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="agenda"
+        name="calendar"
         options={{
           title: "",
           tabBarIcon: ({ color }) => (
@@ -94,7 +94,7 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="configuracoes"
+        name="settings"
         options={{
           title: "",
           tabBarIcon: ({ color }) => (

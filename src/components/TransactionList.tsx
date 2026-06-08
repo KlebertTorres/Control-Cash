@@ -3,14 +3,8 @@ import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Transaction } from "@/src/types/TransactionType";
 import React from "react";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
+import { FlatList, StyleSheet, Text, TouchableOpacity, View, } from "react-native";
+  
 interface TransactionListProps {
   transactions: Transaction[];
   onTransactionPress?: (transaction: Transaction) => void;

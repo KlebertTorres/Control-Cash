@@ -169,7 +169,7 @@ export default function StatsScreen() {
         <TouchableOpacity
           style={[
             styles.toggleButton,
-            monthView === "month" && { backgroundColor: Colors.mediumGreen },
+            monthView === "month" && { backgroundColor: Colors.cardBackground },
           ]}
           onPress={() => setMonthView("month")}
         >
@@ -186,7 +186,7 @@ export default function StatsScreen() {
         <TouchableOpacity
           style={[
             styles.toggleButton,
-            monthView === "year" && { backgroundColor: Colors.mediumGreen },
+            monthView === "year" && { backgroundColor: Colors.cardBackground },
           ]}
           onPress={() => setMonthView("year")}
         >
@@ -350,7 +350,7 @@ export default function StatsScreen() {
               </View>
             ))
           ) : (
-            <Text style={[styles.emptyText, { color: "#4f6d5e" }]}>
+            <Text style={[styles.emptyText, { color: Colors.textColorPrimary }]}>
               Sem movimentações neste período
             </Text>
           )}

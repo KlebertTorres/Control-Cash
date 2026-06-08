@@ -4,19 +4,14 @@ import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Transaction } from "@/src/types/TransactionType";
 import React, { useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import { CategoryDropdown } from "./CategoryDropdown";
 import { SimpleButton } from "./SimpleButton";
+import { formatLocalDate, parseLocalDate } from "@/src/utils/formatarData";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  ActivityIndicator, Alert, Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View
+} from "react-native";
 
 interface TransactionModalProps {
   visible: boolean;
@@ -38,21 +33,34 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
   const [categoryId, setCategoryId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showDatePicker, setShowDataPicker] = useState(false);
+
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    if (selectedDate) {
+      selectedDate.setHours(0, 0, 0, 0); // Normaliza a data para evitar problemas de fuso horário
+      setDate(selectedDate);
+      console.log("Data selecionada: ", selectedDate);
+    }
+    setShowDataPicker(false);
+  };
 
   useEffect(() => {
     if (visible && transaction) {
+      const date = parseLocalDate(transaction.date)
       setDescription(transaction.description);
       setAmount(transaction.amount.toString());
-      setDate(transaction.date);
+      setDate(date);
       setCategoryId(transaction.categoryId);
     }
   }, [visible, transaction]);
 
   const handleSave = async () => {
-    if (!description || !amount || !date || !categoryId) {
+
+    const newDate = date.toISOString();
+    if (!description || !amount || !newDate || !categoryId) {
       Alert.alert("Erro", "Preencha todos os campos");
       return;
     }
@@ -69,7 +77,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
         await updateTransaction(transaction.id, {
           description,
           amount: amountNum,
-          date,
+          date: formatLocalDate(date),
           categoryId,
         });
       }
@@ -116,12 +124,12 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 
   return (
     <Modal visible={visible} transparent animationType="slide">
-      <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
-        <View style={[styles.header, { backgroundColor: Colors.textColorPrimary }]}>
+      <SafeAreaView style={[styles.container, { backgroundColor: Colors.cardBackground }]}>
+        <View style={[styles.header, { backgroundColor: Colors.backgroundColor }]}>
           <TouchableOpacity onPress={onClose}>
-            <Text style={styles.closeButton}>✕</Text>
+            <Text style={[styles.closeButton, {color: Colors.textColorPrimary}]}>✕</Text>
           </TouchableOpacity>
-          <Text style={styles.title}>
+          <Text style={[styles.title, {color: Colors.textColorPrimary}]}>
             {transaction ? "Editar Transação" : "Nova Transação"}
           </Text>
           <View style={{ width: 30 }} />
@@ -149,15 +157,26 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             editable={!loading}
           />
 
-          <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Data (YYYY-MM-DD)</Text>
-          <TextInput
-            style={[styles.input, { color: Colors.textColorPrimary, borderColor: Colors.borderColor }]}
-            placeholder="2024-01-01"
-            placeholderTextColor={"#4f6d5e"}
-            value={date}
-            onChangeText={setDate}
-            editable={!loading}
-          />
+          <Text style={[styles.label, { color: Colors.textColorPrimary }]}>
+            Data (YYYY-MM-DD)
+          </Text>
+          <TouchableOpacity 
+            style={[styles.dateButton,{ borderColor: Colors.borderColor }]}
+            onPress={() => setShowDataPicker(true)}
+          >
+            <Text style={[styles.dateButtonText, { color: Colors.textColorPrimary }]}>
+              📅 {formatLocalDate(date)}
+            </Text>
+          </TouchableOpacity>
+
+          {showDatePicker &&
+            <DateTimePicker
+              value={date}
+              mode="date"
+              display="default"
+              onChange={handleDateChange}
+            />
+          }
 
           <Text style={[styles.label, { color: Colors.textColorPrimary }]}>Categoria</Text>
           <CategoryDropdown
@@ -169,31 +188,23 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           />
 
           <View style={styles.buttonGroup}>
-            {loading ? (
-              <View style={styles.loadingContainer}>
-                <ActivityIndicator size="large" color={Colors.cardBackground} />
-              </View>
-            ) : (
-              <>
-                <SimpleButton
-                  title="Salvar"
-                  onPress={handleSave}
-                  disabled={loading}
-                  color={Colors.backgroundColor}
-                />
-                {transaction && (
-                  <SimpleButton
-                    title="Deletar"
-                    onPress={handleDelete}
-                    disabled={loading}
-                    color="red"
-                  />
-                )}
-              </>
+            <SimpleButton
+              text={loading? <ActivityIndicator color={Colors.textColorPrimary} />: "Salvar"}
+              onPress={handleSave}
+              disabled={loading}
+              color={Colors.backgroundColor}
+            />
+            {transaction && (
+              <SimpleButton
+                text="Deletar"
+                onPress={handleDelete}
+                disabled={loading}
+                color="red"
+              />
             )}
           </View>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };
@@ -201,23 +212,20 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 30,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "white",
   },
   closeButton: {
     fontSize: 24,
-    color: "white",
   },
   content: {
     flex: 1,
@@ -237,6 +245,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   buttonGroup: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 30,
     marginBottom: 20,
   },
@@ -244,5 +255,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 20,
+  },
+    dateButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    marginVertical: 8,
+    borderWidth: 1,
+    alignItems: "center",
+  },
+  dateButtonText: {
+    fontSize: 14,
+    fontWeight: "600",
   },
 });

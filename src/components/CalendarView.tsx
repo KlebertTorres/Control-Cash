@@ -4,7 +4,8 @@ import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Transaction } from "@/src/types/TransactionType";
 import React, { useMemo, useState } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { TransactionModal } from "./TransactionModal";
   
 type ViewMode = "month" | "week" | "day";
 
@@ -21,6 +22,25 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   const Colors = darkMode ? DarkMode : LightMode;
   const { transactions } = useTransaction();
   const { categories } = useCategories();
+
+  const [modalVisible,setModalVisible] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const handleTransactionPress = (transaction: Transaction) => {
+    setSelectedTransaction(transaction);
+    setModalVisible(true);
+  };
+
+  const loadCalendarData = async () => {
+    try {
+      setRefreshing(true);
+    } catch (error) {
+      console.error("Erro ao recarregar pesquisas:", error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [viewMode, setViewMode] = useState<ViewMode>("month");
@@ -249,6 +269,10 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
           <Text style={[styles.detailsTitle, { color: Colors.textColorPrimary }]}>
             Transações de {new Date(selectedDate).toLocaleDateString("pt-BR")}
           </Text>
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={loadCalendarData}
+          />
           {selectedTransactions.map((t) => {
             const category = categories.find((c) => c.id === t.categoryId);
             return (
@@ -256,36 +280,44 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                 key={t.id}
                 style={[styles.transactionItem, { borderBottomColor: Colors.borderColor }]}
               >
-                <View
-                  style={[
-                    styles.categoryDot,
-                    { backgroundColor: category?.color || Colors.accentGreen },
-                  ]}
-                />
-                <View style={styles.transactionInfo}>
-                  <Text style={[styles.transactionDesc, { color: Colors.textColorPrimary }]}>
-                    {t.description}
+                <TouchableOpacity onPress={() => {handleTransactionPress}}>
+                  <View
+                    style={[
+                      styles.categoryDot,
+                      { backgroundColor: category?.color || Colors.accentGreen },
+                    ]}
+                  />
+                  <View style={styles.transactionInfo}>
+                    <Text style={[styles.transactionDesc, { color: Colors.textColorPrimary }]}>
+                      {t.description}
+                    </Text>
+                    <Text style={[styles.transactionCat, { color: Colors.accentGreen }]}>
+                      {category?.name}
+                    </Text>
+                  </View>
+                  <Text
+                    style={[
+                      styles.transactionAmount,
+                      {
+                        color:
+                          t.type === "income" ? Colors.lightGreen : "#FF6B6B",
+                      },
+                    ]}
+                  >
+                    {t.type === "income" ? "+" : "-"} R$ {t.amount.toFixed(2)}
                   </Text>
-                  <Text style={[styles.transactionCat, { color: Colors.accentGreen }]}>
-                    {category?.name}
-                  </Text>
-                </View>
-                <Text
-                  style={[
-                    styles.transactionAmount,
-                    {
-                      color:
-                        t.type === "income" ? Colors.lightGreen : "#FF6B6B",
-                    },
-                  ]}
-                >
-                  {t.type === "income" ? "+" : "-"} R$ {t.amount.toFixed(2)}
-                </Text>
+                </TouchableOpacity>
               </View>
             );
           })}
         </ScrollView>
       )}
+      <TransactionModal
+        visible={modalVisible}
+        transaction={selectedTransaction}
+        onClose={() => setModalVisible(false)}
+        onSave={() => {}}
+      />
     </View>
   );
 };

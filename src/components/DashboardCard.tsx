@@ -27,7 +27,7 @@ export const DashboardCard: React.FC<DashboardCardProps> = ({
         styles.card,
         {
           backgroundColor: color || Colors.cardBackground,
-          borderColor: Colors.darkest,
+          borderColor: Colors.borderColor,
         },
       ]}
     >
