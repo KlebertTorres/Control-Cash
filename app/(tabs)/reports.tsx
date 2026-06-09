@@ -13,8 +13,12 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { ExportDialog } from "@/src/components/ExportDialog";
+import { useAuth } from "@/src/hooks/useAuth";
 
 export default function ReportsScreen() {
+  const { user } = useAuth();
+
   const { darkMode } = useTheme();
   const Colors = darkMode ? DarkMode : LightMode;
 
@@ -26,9 +30,10 @@ export default function ReportsScreen() {
   const [period, setPeriod] = useState<"daily" | "weekly" | "monthly" | "annual">("monthly");
   const [refreshing, setRefreshing] = useState(false);
 
+  const [showExportDialog, setShowExportDialog] = useState(false);
+
   useEffect(() => {
     loadReports();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [period]);
 
   const loadReports = async () => {
@@ -56,9 +61,11 @@ export default function ReportsScreen() {
           startDate = yearStart.toISOString().split("T")[0];
           break;
       }
+      console.log(startDate);
+      console.log(endDate);
 
       await generateReport(period, startDate, endDate);
-      await getDashboardData();
+      await getDashboardData(user.uid, startDate, endDate);
     } catch (error) {
       console.error("Erro ao gerar relatório:", error);
     } finally {
@@ -66,14 +73,42 @@ export default function ReportsScreen() {
     }
   };
 
-  const currentMonth = new Date().toISOString().substring(0, 7);
-  const monthTransactions = transactions.filter((t) =>
-    t.date.startsWith(currentMonth)
-  );
+  const filteredTransactions = transactions.filter((t) => {
+    const transactionDate = new Date(t.date);
+    const today = new Date();
+
+    switch (period) {
+      case "daily":
+        return (
+          transactionDate.toDateString() ===
+          today.toDateString()
+        );
+
+      case "weekly":
+        const weekStart = new Date(today);
+        weekStart.setDate(today.getDate() - today.getDay());
+
+        return transactionDate >= weekStart;
+
+      case "monthly":
+        return (
+          transactionDate.getMonth() === today.getMonth() &&
+          transactionDate.getFullYear() === today.getFullYear()
+        );
+
+      case "annual":
+        return (
+          transactionDate.getFullYear() === today.getFullYear()
+        );
+
+      default:
+        return true;
+      }
+  });
 
   const categoryChartData = categories
     .map((cat) => {
-      const catTransactions = monthTransactions.filter((t) => t.categoryId === cat.id);
+      const catTransactions = filteredTransactions.filter((t) => t.categoryId === cat.id);
       const amount = catTransactions
         .filter((t) => t.type === "expense")
         .reduce((sum, t) => sum + t.amount, 0);
@@ -97,7 +132,7 @@ export default function ReportsScreen() {
 
   const incomeCategoryData = categories
     .map((cat) => {
-      const catTransactions = monthTransactions.filter((t) => t.categoryId === cat.id);
+      const catTransactions = filteredTransactions.filter((t) => t.categoryId === cat.id);
       const amount = catTransactions
         .filter((t) => t.type === "income")
         .reduce((sum, t) => sum + t.amount, 0);
@@ -111,8 +146,8 @@ export default function ReportsScreen() {
     .sort((a, b) => b.value - a.value)
     .slice(0, 5);
 
-  const totalIncome = dashboardData?.monthlyIncome || 0;
-  const totalExpense = dashboardData?.monthlyExpense || 0;
+  const totalIncome = dashboardData?.periodIncome || 0;
+  const totalExpense = dashboardData?.periodExpense || 0;
 
   return (
     <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
@@ -128,7 +163,8 @@ export default function ReportsScreen() {
             key={p}
             style={[
               styles.periodButton,
-              period === p && { backgroundColor: Colors.cardBackground },
+              period === p && { backgroundColor: Colors.cardBackground,
+              borderColor: Colors.borderColor },
             ]}
             onPress={() => setPeriod(p)}
           >
@@ -217,7 +253,7 @@ export default function ReportsScreen() {
           />
         )}
 
-        {monthlyTrendData.length > 0 && (
+        {(period === "monthly" || period === "annual") && monthlyTrendData.length > 0 && (
           <LineChart
             data={monthlyTrendData}
             title="Evolução do Saldo (últimos 6 meses)"
@@ -239,7 +275,7 @@ export default function ReportsScreen() {
           </Text>
           {categories
             .filter((cat) => {
-              const amount = monthTransactions
+              const amount = filteredTransactions
                 .filter(
                   (t) =>
                     t.categoryId === cat.id &&
@@ -249,7 +285,7 @@ export default function ReportsScreen() {
               return amount > 0;
             })
             .map((cat) => {
-              const amount = monthTransactions
+              const amount = filteredTransactions
                 .filter((t) => t.categoryId === cat.id)
                 .reduce(
                   (sum, t) =>
@@ -306,7 +342,45 @@ export default function ReportsScreen() {
         </View>
 
         <View style={styles.bottomPadding} />
+
+        <TouchableOpacity
+          style={[
+            styles.reportButton,
+            { backgroundColor: Colors.cardBackground, borderColor: Colors.borderColor },
+          ]}
+          onPress={() => setShowExportDialog(true)}
+        >
+          <Text
+            style={[
+              styles.periodText,
+              { color: Colors.textColorPrimary },
+            ]}
+          >
+            Gerar relatório 
+            {period === "daily"
+              ? " diário"
+              : period === "weekly"
+              ? " semanal"
+              : period === "monthly"
+              ? " mensal"
+              : " anual"}
+          </Text>
+        </TouchableOpacity>
+
       </ScrollView>
+      <ExportDialog
+        visible={showExportDialog}
+        transactions={transactions}
+        categories={categories}
+        period={period === "daily"
+              ? "diário"
+              : period === "weekly"
+              ? "semanal"
+              : period === "monthly"
+              ? "mensal"
+              : "anual"}
+        onClose={() => setShowExportDialog(false)}
+      />
     </View>
   );
 }
@@ -421,4 +495,12 @@ const styles = StyleSheet.create({
   bottomPadding: {
     height: 20,
   },
+  reportButton: {
+    alignItems: "center",
+    paddingVertical: 8,
+    borderRadius: 20,
+    margin: 8,
+    marginBottom: 40,
+    borderWidth: 1,
+  }
 });

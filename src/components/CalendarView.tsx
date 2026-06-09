@@ -4,7 +4,7 @@ import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { Transaction } from "@/src/types/TransactionType";
 import React, { useMemo, useState } from "react";
-import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TransactionModal } from "./TransactionModal";
   
 type ViewMode = "month" | "week" | "day";
@@ -25,21 +25,10 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
   const [modalVisible,setModalVisible] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
 
   const handleTransactionPress = (transaction: Transaction) => {
     setSelectedTransaction(transaction);
     setModalVisible(true);
-  };
-
-  const loadCalendarData = async () => {
-    try {
-      setRefreshing(true);
-    } catch (error) {
-      console.error("Erro ao recarregar pesquisas:", error);
-    } finally {
-      setRefreshing(false);
-    }
   };
 
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -269,10 +258,6 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
           <Text style={[styles.detailsTitle, { color: Colors.textColorPrimary }]}>
             Transações de {new Date(selectedDate).toLocaleDateString("pt-BR")}
           </Text>
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={loadCalendarData}
-          />
           {selectedTransactions.map((t) => {
             const category = categories.find((c) => c.id === t.categoryId);
             return (
@@ -280,7 +265,10 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                 key={t.id}
                 style={[styles.transactionItem, { borderBottomColor: Colors.borderColor }]}
               >
-                <TouchableOpacity onPress={() => {handleTransactionPress}}>
+                <TouchableOpacity 
+                  style={styles.button}
+                  onPress={() => handleTransactionPress(t)}
+                >
                   <View
                     style={[
                       styles.categoryDot,
@@ -300,10 +288,10 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                       styles.transactionAmount,
                       {
                         color:
-                          t.type === "income" ? Colors.lightGreen : "#FF6B6B",
+                        t.type === "income" ? Colors.lightGreen : "#FF6B6B",
                       },
                     ]}
-                  >
+                    >
                     {t.type === "income" ? "+" : "-"} R$ {t.amount.toFixed(2)}
                   </Text>
                 </TouchableOpacity>
@@ -446,6 +434,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "600",
     marginBottom: 4,
+    marginTop: -10,
   },
   transactionCat: {
     fontSize: 12,
@@ -454,4 +443,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
+  button: {
+    flex:1,
+    flexDirection:"row",
+  }
 });

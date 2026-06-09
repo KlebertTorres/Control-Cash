@@ -21,7 +21,6 @@ export default function SearchTab() {
 
   const [modalVisible,setModalVisible] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
-  const [refreshing, setRefreshing] = useState(false);
 
   const handleFilteredResults = (results: Transaction[]) => {
     setFilteredTransactions(results);
@@ -30,16 +29,6 @@ export default function SearchTab() {
   const handleTransactionPress = (transaction: Transaction) => {
     setSelectedTransaction(transaction);
     setModalVisible(true);
-  };
-
-  const loadSearchData = async () => {
-    try {
-      setRefreshing(true);
-    } catch (error) {
-      console.error("Erro ao recarregar pesquisas:", error);
-    } finally {
-      setRefreshing(false);
-    }
   };
 
   return (
@@ -76,10 +65,6 @@ export default function SearchTab() {
         </View>
       ) : (
         <View style={styles.resultContainer}>
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={loadSearchData}
-          />
           <Text
             style={[
               styles.resultCount,
@@ -95,7 +80,7 @@ export default function SearchTab() {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) =>
               <TransactionList 
-                onTransactionPress={() => handleTransactionPress}
+                onTransactionPress={handleTransactionPress}
                 transactions={[item]} 
               />}
             scrollEnabled={true}

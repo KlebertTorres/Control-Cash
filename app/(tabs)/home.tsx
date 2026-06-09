@@ -26,7 +26,6 @@ export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
-  const balance = getBalance();
   const currentMonth = new Date().toISOString().substring(0, 7);
   const monthlyIncome = getTotalIncome(currentMonth);
   const monthlyExpense = getTotalExpense(currentMonth);
@@ -39,7 +38,14 @@ export default function HomeScreen() {
   const loadDashboardData = async () => {
     try {
       setRefreshing(true);
-      await getDashboardData();
+      const today = new Date();
+      let startDate = "";
+      let endDate = today.toISOString().split("T")[0];
+
+      const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+      startDate = monthStart.toISOString().split("T")[0];
+
+      await getDashboardData(user.uid, startDate, endDate);
     } catch (error) {
       console.error("Erro ao carregar dashboard:", error);
     } finally {
@@ -47,6 +53,10 @@ export default function HomeScreen() {
     }
   };
 
+  const income = dashboardData?.periodIncome ?? 0;
+  const expense = dashboardData?.periodExpense ?? 0;
+
+  const balance = income - expense;
   const balanceColor = balance >= 0 ? Colors.cardBackground : "#FF6B6B";
 
   const handleTransactionPress = (transaction: Transaction) => {
@@ -219,7 +229,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 1,
-    paddingTop: 30,
   },
   header: {
     paddingHorizontal: 20,
@@ -265,7 +274,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     marginBottom: 12,
   },
   sectionTitle: {

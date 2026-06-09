@@ -25,8 +25,8 @@ export interface CategoryReport {
 
 export interface DashboardData {
   currentBalance: number;
-  monthlyIncome: number;
-  monthlyExpense: number;
+  periodIncome: number;
+  periodExpense: number;
   savedAmount: number;
   overdueAccounts: number;
   upcomingAccounts: number;
@@ -48,6 +48,6 @@ export interface ReportContextType {
   dashboardData: DashboardData | null;
   loadingReports: boolean;
   generateReport: (period: "daily" | "weekly" | "monthly" | "annual", startDate: string, endDate: string) => Promise<Report>;
-  getDashboardData: () => Promise<DashboardData>;
+  getDashboardData: (userId: string, startDate: string, endDate: string) => Promise<DashboardData>;
   getFilteredReport: (categoryId?: string, period?: string) => Report | null;
 }

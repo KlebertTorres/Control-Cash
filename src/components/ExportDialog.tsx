@@ -1,20 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    Modal,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+    ActivityIndicator, Alert, Modal, StyleSheet, Text, TouchableOpacity, View
 } from "react-native";
-import {
-    exportToCSV,
-    exportToJSON,
-    exportToText,
-} from "../services/reportExportService";
+import { exportToCSV, exportToJSON, exportToText } from "../services/reportExportService";
 import { DarkMode, LightMode } from "../styles/cores";
+import { useTheme } from "../hooks/useTheme";
 import { Category } from "../types/CategoryType";
 import { Transaction } from "../types/TransactionType";
 
@@ -24,7 +15,6 @@ interface ExportDialogProps {
   categories: Category[];
   period: string;
   onClose: () => void;
-  darkMode: boolean;
 }
 
 interface ExportOption {
@@ -69,8 +59,8 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
   categories,
   period,
   onClose,
-  darkMode,
 }) => {
+  const { darkMode } = useTheme();
   const Colors = darkMode ? DarkMode : LightMode;
   const [exporting, setExporting] = useState(false);
 
@@ -140,7 +130,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
               <Ionicons
                 name="close-outline"
                 size={24}
-                color={Colors.secondary}
+                color={Colors.textColorPrimary}
               />
             </TouchableOpacity>
           </View>
@@ -148,7 +138,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
           <Text
             style={[
               styles.subtitle,
-              { color: Colors.secondary, marginHorizontal: 16, marginTop: 16 },
+              { color: Colors.textColorPrimary, marginHorizontal: 16, marginTop: 16 },
             ]}
           >
             Escolha o formato desejado:
@@ -197,7 +187,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                   <Text
                     style={[
                       styles.optionDescription,
-                      { color: Colors.secondary },
+                      { color: Colors.textColorPrimary },
                     ]}
                   >
                     {option.description}
@@ -207,7 +197,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                 <Ionicons
                   name="chevron-forward-outline"
                   size={20}
-                  color={Colors.secondary}
+                  color={Colors.textColorPrimary}
                 />
               </TouchableOpacity>
             ))}
@@ -232,7 +222,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
           <Text
             style={[
               styles.info,
-              { color: Colors.secondary, marginHorizontal: 16 },
+              { color: Colors.textColorPrimary, marginHorizontal: 16 },
             ]}
           >
             {transactions.length} transações serão incluídas no relatório

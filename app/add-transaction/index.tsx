@@ -85,6 +85,13 @@ export default function AddTransaction() {
         onChangeText={setDescription}
       />
 
+      <InputField
+        placeholder="Valor (R$)"
+        value={amount}
+        onChangeText={setAmount}
+        keyboardType="numeric"
+      />
+
       <TouchableOpacity
         style={[
           styles.dateButton,
@@ -105,13 +112,6 @@ export default function AddTransaction() {
           onChange={handleDateChange}
         />
       )}
-
-      <InputField
-        placeholder="Valor (R$)"
-        value={amount}
-        onChangeText={setAmount}
-        keyboardType="numeric"
-      />
 
       <CategoryDropdown
         categories={categories}

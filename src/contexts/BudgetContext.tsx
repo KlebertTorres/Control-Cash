@@ -14,7 +14,7 @@ export interface Budget {
 
 export interface BudgetContextType {
   budgets: Budget[];
-  loading: boolean;
+  loadingBudgets: boolean;
   addBudget: (budget: Omit<Budget, "id" | "createdAt" | "updatedAt">) => Promise<void>;
   removeBudget: (id: string) => Promise<void>;
   updateBudget: (id: string, budget: Partial<Budget>) => Promise<void>;
@@ -36,7 +36,7 @@ export const BudgetProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const { transactions } = useTransaction();
 
   const [budgets, setBudgets] = useState<Budget[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loadingBudgets, setLoadingBudgets] = useState(true);
 
   const loadBudgets = useCallback(async () => {
     try {
@@ -45,21 +45,21 @@ export const BudgetProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         return;
       }
 
-      setLoading(true);
+      setLoadingBudgets(true);
       // Load from storage or Firebase in production
       const stored = budgetStorage[user.uid] || [];
       setBudgets(stored);
     } catch (error) {
       console.error("Erro ao carregar budgets:", error);
     } finally {
-      setLoading(false);
+      setLoadingBudgets(false);
     }
   }, [user?.uid]);
 
   useEffect(() => {
     if (!user?.uid) {
       setBudgets([]);
-      setLoading(false);
+      setLoadingBudgets(false);
       return;
     }
 
@@ -165,7 +165,7 @@ export const BudgetProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     <BudgetContext.Provider
       value={{
         budgets,
-        loading,
+        loadingBudgets,
         addBudget,
         removeBudget,
         updateBudget,

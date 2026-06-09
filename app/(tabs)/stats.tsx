@@ -4,13 +4,8 @@ import { useTheme } from "@/src/hooks/useTheme";
 import { useTransaction } from "@/src/hooks/useTransaction";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { useMemo, useState } from "react";
-import {
-    RefreshControl,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View
+import { 
+  RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View   
 } from "react-native";
 
 export default function StatsScreen() {

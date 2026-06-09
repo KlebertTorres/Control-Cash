@@ -35,7 +35,6 @@ export async function CreateCategoryDoc(uid: string, categoryData: Omit<Category
 
 export async function GetCategoryDoc(uid: string, categoryId:string){
     try{
-        console.log("Buscando categoria...")
 
         const categoryRef = doc(db, "users", uid, "categories", categoryId);
 
@@ -45,7 +44,7 @@ export async function GetCategoryDoc(uid: string, categoryId:string){
             return {
                 id: snapshot.id,
                 ...snapshot.data()
-            }
+            }as Category
         };
 
         return null;
@@ -57,7 +56,6 @@ export async function GetCategoryDoc(uid: string, categoryId:string){
 
 export async function GetCategoriesDoc(uid: string){
     try{
-        console.log("Buscando categorias...")
 
         const categoriesRef = collection(db, "users", uid, "categories")
 
@@ -72,11 +70,10 @@ export async function GetCategoriesDoc(uid: string){
         id: doc.id,
         name: doc.data().name,
         color: doc.data().color,
-        }));
-        
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    }catch(_){
-        console.log("Erro ao buscar categorias");
+        }as Category));
+
+    }catch(error){
+        console.log("Erro ao buscar categorias", error);
         return [];
     }
 }

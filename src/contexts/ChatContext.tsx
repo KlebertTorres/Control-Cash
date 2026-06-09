@@ -42,7 +42,6 @@ const FINANCIAL_INSIGHTS = {
 export const ChatProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const { user } = useAuth();
   const { transactions, getBalance, getTotalIncome, getTotalExpense } = useTransaction();
   const { categories } = useCategories();
 

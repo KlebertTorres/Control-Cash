@@ -1,4 +1,4 @@
-import * as FileSystem from "expo-file-system";
+import * as FileSystem from "expo-file-system/legacy";
 import * as Sharing from "expo-sharing";
 import { Transaction } from "../types/TransactionType";
 import { Category } from "../types/CategoryType";
@@ -75,8 +75,8 @@ export const generateCSV = (
   });
 
   const csvContent = [
-    headers.join(","),
-    ...rows.map((row) => row.join(",")),
+    headers.join(";"),
+    ...rows.map((row) => row.join(";")),
   ].join("\n");
 
   return csvContent;

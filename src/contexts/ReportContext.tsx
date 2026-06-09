@@ -29,10 +29,10 @@ export const ReportProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     }
   };
 
-  const getDashboardData = async (): Promise<DashboardData> => {
+  const getDashboardData = async (userId: string, startDate: string, endDate: string): Promise<DashboardData> => {
     try {
       setLoadingReports(true);
-      const data = await GetDashboardData(user?.uid);
+      const data = await GetDashboardData(userId, startDate, endDate);
       setDashboardData(data);
       return data;
     } catch (error) {

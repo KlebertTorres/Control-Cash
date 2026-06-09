@@ -3,9 +3,10 @@ import { Category } from "../types/CategoryType";
 import { CategoryReport, DashboardData, MonthlyTrend, Report } from "../types/ReportType";
 import { Transaction } from "../types/TransactionType";
 import { db } from "./firebaseconfig";
+import { GetTransactionsDoc } from "./transactionService";
+import { GetCategoriesDoc } from "./categoryService";
 
 const TRANSACTIONS_COLLECTION = "transactions";
-const CATEGORIES_COLLECTION = "categories";
 
 export async function GenerateReport(
   userId: string,
@@ -15,7 +16,7 @@ export async function GenerateReport(
 ): Promise<Report> {
   try {
     const transactions = await GetTransactionsForPeriod(userId, startDate, endDate);
-    const categories = await GetCategoriesForReport(userId);
+    const categories = await GetCategoriesDoc(userId);
 
     const totalIncome = transactions
       .filter((t) => t.type === "income")
@@ -48,39 +49,42 @@ export async function GenerateReport(
   }
 }
 
-export async function GetDashboardData(userId: string): Promise<DashboardData> {
+export async function GetDashboardData(userId: string, startDate: string, endDate: string): Promise<DashboardData> {
   try {
     const now = new Date();
-    const currentMonth = now.toISOString().substring(0, 7);
     const currentYear = now.getFullYear();
 
-    const transactions = await GetAllTransactions(userId);
-    const categories = await GetCategoriesForReport(userId);
+    const transactionsPeriod =
+      await GetTransactionsForPeriod(
+        userId,
+        startDate,
+        endDate
+      );
+    const categories = await GetCategoriesDoc(userId);
 
     // Cálculos do mês atual
-    const monthlyTransactions = transactions.filter((t) => t.date.startsWith(currentMonth));
-    const monthlyIncome = monthlyTransactions
+    const periodIncome = transactionsPeriod
       .filter((t) => t.type === "income")
       .reduce((sum, t) => sum + t.amount, 0);
-    const monthlyExpense = monthlyTransactions
+    const periodExpense = transactionsPeriod
       .filter((t) => t.type === "expense")
       .reduce((sum, t) => sum + t.amount, 0);
 
     // Saldo atual (total de todas as transações)
-    const currentBalance = transactions.reduce((balance, t) => {
+    const currentBalance = transactionsPeriod.reduce((balance, t) => {
       return t.type === "income" ? balance + t.amount : balance - t.amount;
     }, 0);
 
     // Valor economizado (mês atual)
-    const savedAmount = Math.max(0, monthlyIncome - monthlyExpense);
+    const savedAmount = Math.max(0, periodIncome - periodExpense);
 
     // Contas vencidas e próximas
     const today = new Date();
-    const overdueAccounts = monthlyTransactions.filter(
+    const overdueAccounts = transactionsPeriod.filter(
       (t) => t.status === "overdue" || (t.dueDate && new Date(t.dueDate) < today)
     ).length;
 
-    const upcomingAccounts = monthlyTransactions.filter(
+    const upcomingAccounts = transactionsPeriod.filter(
       (t) =>
         t.status === "pending" &&
         t.dueDate &&
@@ -89,15 +93,16 @@ export async function GetDashboardData(userId: string): Promise<DashboardData> {
     ).length;
 
     // Valores a receber
-    const receivables = transactions
+    const receivables = transactionsPeriod
       .filter((t) => t.type === "income" && t.status === "pending")
       .reduce((sum, t) => sum + t.amount, 0);
 
     // Tendência mensal (últimos 12 meses)
-    const monthlyTrend = GetMonthlyTrend(transactions, currentYear);
-
+    const allTransactions = await GetTransactionsDoc(userId);
+    const monthlyTrend = GetMonthlyTrend(allTransactions, currentYear);
+      
     // Top categorias
-    const allCategoryBreakdown = GroupTransactionsByCategory(transactions, categories);
+    const allCategoryBreakdown = GroupTransactionsByCategory(transactionsPeriod, categories);
     const topExpenseCategories = allCategoryBreakdown
       .filter((c) => {
         const catData = categories.find((cat) => cat.id === c.categoryId);
@@ -116,8 +121,8 @@ export async function GetDashboardData(userId: string): Promise<DashboardData> {
 
     return {
       currentBalance,
-      monthlyIncome,
-      monthlyExpense,
+      periodIncome,
+      periodExpense,
       savedAmount,
       overdueAccounts,
       upcomingAccounts,
@@ -154,44 +159,6 @@ async function GetTransactionsForPeriod(
     return transactions;
   } catch (error) {
     console.error("Erro ao buscar transações para período:", error);
-    throw error;
-  }
-}
-
-async function GetAllTransactions(userId: string): Promise<Transaction[]> {
-  try {
-    const querySnapshot = await getDocs(collection(db, `users/${userId}/${TRANSACTIONS_COLLECTION}`));
-    const transactions: Transaction[] = [];
-
-    querySnapshot.forEach((doc) => {
-      transactions.push({
-        id: doc.id,
-        ...doc.data(),
-      } as Transaction);
-    });
-
-    return transactions;
-  } catch (error) {
-    console.error("Erro ao buscar todas as transações:", error);
-    throw error;
-  }
-}
-
-async function GetCategoriesForReport(userId: string): Promise<Category[]> {
-  try {
-    const querySnapshot = await getDocs(collection(db, `users/${userId}/${CATEGORIES_COLLECTION}`));
-    const categories: Category[] = [];
-
-    querySnapshot.forEach((doc) => {
-      categories.push({
-        id: doc.id,
-        ...doc.data(),
-      } as Category);
-    });
-
-    return categories;
-  } catch (error) {
-    console.error("Erro ao buscar categorias para relatório:", error);
     throw error;
   }
 }
