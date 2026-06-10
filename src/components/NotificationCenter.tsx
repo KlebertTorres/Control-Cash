@@ -103,17 +103,21 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
           style={[
             styles.notificationTitle,
             {
-              color: Colors.textColorPrimary,
+              color: item.read ? Colors.text : Colors.textColorPrimary,
               fontWeight: item.read ? "500" : "bold",
             },
           ]}
         >
           {item.title}
         </Text>
-        <Text style={[styles.notificationMessage, { color: Colors.textColorSecondary }]}>
+        <Text 
+          style=
+          {[styles.notificationMessage, 
+            { color: item.read ? Colors.text : Colors.textColorPrimary }]}
+        >
           {item.message}
         </Text>
-        <Text style={[styles.notificationTime, { color: Colors.textColorSecondary }]}>
+        <Text style={[styles.notificationTime, { color: item.read ? Colors.text : Colors.textColorPrimary }]}>
           {new Date(item.createdAt).toLocaleDateString("pt-BR")}
         </Text>
       </View>
@@ -135,7 +139,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
         <Ionicons
           name="trash-outline"
           size={16}
-          color={Colors.textColorSecondary}
+          color={item.read ? Colors.text : Colors.textColorPrimary}
         />
       </TouchableOpacity>
     </TouchableOpacity>
@@ -250,7 +254,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                   <TouchableOpacity
                     style={[
                       styles.clearButton,
-                      { backgroundColor: Colors.cardBackground + "20" },
+                      { backgroundColor: Colors.cardBackground },
                     ]}
                     onPress={onMarkAllAsRead}
                   >
@@ -263,7 +267,7 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
                   data={notifications}
                   keyExtractor={(item) => item.id}
                   renderItem={renderNotificationItem}
-                  scrollEnabled={false}
+                  scrollEnabled={true}
                   contentContainerStyle={styles.listContent}
                 />
               </>
@@ -273,10 +277,10 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
           <ScrollView style={styles.settingsContent}>
             <View style={styles.settingItem}>
               <View>
-                <Text style={[styles.settingLabel, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingLabel, { color: Colors.text }]}>
                   Notificações de Vencidos
                 </Text>
-                <Text style={[styles.settingDesc, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingDesc, { color: Colors.text }]}>
                   Alertas para contas vencidas
                 </Text>
               </View>
@@ -292,10 +296,10 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
 
             <View style={styles.settingItem}>
               <View>
-                <Text style={[styles.settingLabel, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingLabel, { color: Colors.text }]}>
                   Notificações Próximas
                 </Text>
-                <Text style={[styles.settingDesc, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingDesc, { color: Colors.text }]}>
                   Alertas para contas próximas do vencimento
                 </Text>
               </View>
@@ -311,10 +315,10 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
 
             <View style={styles.settingItem}>
               <View>
-                <Text style={[styles.settingLabel, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingLabel, { color: Colors.text }]}>
                   Notificações de Recebimento
                 </Text>
-                <Text style={[styles.settingDesc, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingDesc, { color: Colors.text }]}>
                   Alertas para valores recebidos
                 </Text>
               </View>
@@ -330,10 +334,10 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
 
             <View style={styles.settingItem}>
               <View>
-                <Text style={[styles.settingLabel, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingLabel, { color: Colors.text }]}>
                   Notificações de Parcelas
                 </Text>
-                <Text style={[styles.settingDesc, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingDesc, { color: Colors.text }]}>
                   Alertas para parcelas futuras
                 </Text>
               </View>
@@ -349,10 +353,10 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
 
             <View style={styles.settingItem}>
               <View>
-                <Text style={[styles.settingLabel, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingLabel, { color: Colors.text }]}>
                   Som
                 </Text>
-                <Text style={[styles.settingDesc, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingDesc, { color: Colors.text }]}>
                   Reproduzir som ao receber notificação
                 </Text>
               </View>
@@ -368,10 +372,10 @@ export const NotificationCenter: React.FC<NotificationCenterProps> = ({
 
             <View style={styles.settingItem}>
               <View>
-                <Text style={[styles.settingLabel, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingLabel, { color: Colors.text }]}>
                   Vibração
                 </Text>
-                <Text style={[styles.settingDesc, { color: Colors.textColorPrimary }]}>
+                <Text style={[styles.settingDesc, { color: Colors.text }]}>
                   Vibrar ao receber notificação
                 </Text>
               </View>

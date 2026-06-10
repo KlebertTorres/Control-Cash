@@ -222,17 +222,17 @@ export default function Onboarding() {
       tutorialComplete: true,
     });
 
-    router.replace("/(tabs)/home");
+    router.replace("/(drawer)/(tabs)/home");
   };
 
   const currentStep = steps[step];
 
   return (
-    <View style={[styles.container, {backgroundColor: Colors.lightGreen}]}>
+    <View style={[styles.container, {backgroundColor: Colors.backgroundColor}]}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Text style={styles.emoji}>📊</Text>
-        <Text style={styles.title}>{currentStep.title}</Text>
-        <Text style={styles.description}>{currentStep.description}</Text>
+        <Text style={[styles.title, { color: Colors.text }]}>{currentStep.title}</Text>
+        <Text style={[styles.description, { color: Colors.text }]}>{currentStep.description}</Text>
 
         {currentStep.fields?.map((field) => (
             <InputField
@@ -248,7 +248,7 @@ export default function Onboarding() {
         ))}
 
         {currentStep.tutorial?.map((item) => (
-          <View key={item.title} style={styles.tutorialCard}>
+          <View key={item.title} style={[styles.tutorialCard, { backgroundColor: Colors.cardBackground }]}>
             <Text style={styles.tutorialTitle}>{item.title}</Text>
             <Text style={styles.tutorialDetail}>{item.detail}</Text>
           </View>
@@ -269,7 +269,7 @@ export default function Onboarding() {
             text="Voltar"
         />}
 
-        <Text style={styles.stepIndicator}>
+        <Text style={[styles.stepIndicator, { color: Colors.text }]}>
           {step + 1} de {steps.length}
         </Text>
       </ScrollView>

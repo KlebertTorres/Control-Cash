@@ -28,7 +28,7 @@ export const SimpleButton = ({ styleButton, styleText, onPress, text, currentTyp
               style={[
                 styles.buttonText,
                 styleText,
-                { color: isActive ? "#fff" : Colors.textColorPrimary },
+                { color: isActive ? Colors.textColorPrimary : Colors.text },
               ]}
             >
                 {text}

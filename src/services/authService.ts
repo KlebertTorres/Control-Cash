@@ -86,6 +86,8 @@ export async function DeletarConta(transactions: Transaction[], categories: Cate
         category.id
       );
     }
+    
+    Logout()
 
     //Apaga do firestore
     await DeleteUserDoc(user.uid);
@@ -93,7 +95,6 @@ export async function DeletarConta(transactions: Transaction[], categories: Cate
     //Apaga do authenticator
     await deleteUser(user)
 
-    Logout()
 
   }catch(error){
     console.error("Erro ao deletar:", error);

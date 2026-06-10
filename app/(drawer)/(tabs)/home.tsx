@@ -79,7 +79,7 @@ export default function HomeScreen() {
             <Text
               style={[styles.headerTitle, {color: Colors.textColorPrimary}]}
             >
-              Tela inicial
+              Início
             </Text>
           </View>
           <TouchableOpacity
@@ -99,7 +99,7 @@ export default function HomeScreen() {
           />
         }
       >
-        <Text style={[styles.welcome, { color: Colors.textColorPrimary }]}>
+        <Text style={[styles.welcome, { color: Colors.text }]}>
             Bem vindo, {user?.name || "Usuário"}! 👋
         </Text>
 
@@ -114,7 +114,9 @@ export default function HomeScreen() {
 
         {/* Monthly Summary */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>Resumo do Mês</Text>
+          <Text style={[styles.sectionTitle, { color: Colors.text }]}>
+            Resumo do Mês
+          </Text>
           
           <DashboardCard
             title="Receitas"
@@ -173,12 +175,12 @@ export default function HomeScreen() {
         {/* Recent Transactions */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>
+            <Text style={[styles.sectionTitle, { color: Colors.text }]}>
               Últimas Movimentações
             </Text>
 
             <TouchableOpacity onPress={() => router.push("/(drawer)/(tabs)/stats")}>
-              <Text style={[styles.viewAll, { color: Colors.textColorPrimary }]}>Ver Mais →</Text>
+              <Text style={[styles.viewAll, { color: Colors.text }]}>Ver Mais →</Text>
             </TouchableOpacity>
           </View>
           <TransactionList 
@@ -190,7 +192,9 @@ export default function HomeScreen() {
 
         {/* Quick Actions */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>Ações Rápidas</Text>
+          <Text style={[styles.sectionTitle, { color: Colors.text }]}>
+            Ações Rápidas
+            </Text>
           <View style={styles.quickActionsGrid}>
             <TouchableOpacity
               style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}

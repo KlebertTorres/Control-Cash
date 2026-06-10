@@ -18,7 +18,7 @@ export default function CustomDrawerContent(props: any) {
           // O onAuthStateChanged em seu index.tsx detectará que o usuário foi deslogado
           // e automaticamente redirecionará para a tela de login.
           Alert.alert("Sucesso", "Você foi deslogado com sucesso!");
-          router.replace("/")
+          router.replace("/auth/login")
         } catch (error: any) {
           console.error("Erro ao deslogar:", error.message);
           Alert.alert("Erro", "Não foi possível deslogar. Tente novamente.");

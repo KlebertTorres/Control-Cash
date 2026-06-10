@@ -7,7 +7,7 @@ import { DarkMode, LightMode } from "@/src/styles/cores";
 import { validarRegistro } from "@/src/utils/validar";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 
 export default function RegistroScreen() {
   const router = useRouter();
@@ -63,7 +63,19 @@ export default function RegistroScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
-      <Text style={[styles.title, { color: Colors.textColorPrimary }]}>
+
+      <Image
+        source={require("../../assets/images/splash-icon.png")} 
+        style={{
+            width: 200,
+            height: 200,
+            marginBottom: -20,
+            alignSelf: "center"
+        }}
+        resizeMode="contain"
+      />
+
+      <Text style={[styles.title, { color: Colors.mediumGreen }]}>
         Cadastrar-se:
       </Text>
 

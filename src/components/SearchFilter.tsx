@@ -118,12 +118,12 @@ export const SearchFilter: React.FC<SearchFilterProps> = ({
           styles.searchInput,
           {
             backgroundColor: Colors.backgroundColor,
-            color: Colors.textColorPrimary,
+            color: Colors.text,
             borderColor: Colors.borderColor,
           },
         ]}
         placeholder="Buscar por descrição..."
-        placeholderTextColor={Colors.textColorPrimary}
+        placeholderTextColor={Colors.text}
         value={searchText}
         onChangeText={setSearchText}
       />

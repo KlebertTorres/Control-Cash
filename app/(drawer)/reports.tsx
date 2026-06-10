@@ -265,7 +265,7 @@ export default function ReportsScreen() {
 
         {/* Detailed Breakdown */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>
+          <Text style={[styles.sectionTitle, { color: Colors.text }]}>
             Detalhamento por Categoria
           </Text>
           {categories
@@ -310,7 +310,7 @@ export default function ReportsScreen() {
                         { backgroundColor: cat.color },
                       ]}
                     />
-                    <Text style={[styles.categoryName, { color: Colors.textColorPrimary }]}>
+                    <Text style={[styles.categoryName, { color: Colors.text }]}>
                       {cat.name}
                     </Text>
                   </View>

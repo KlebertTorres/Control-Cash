@@ -71,8 +71,8 @@ export default function TabLayout() {
               justifyContent: "center",
               alignItems: "center",
               marginBottom: 40,
-              borderWidth: 3,
-              borderColor: Colors.backgroundColor,
+              borderWidth: 2,
+              borderColor: Colors.borderColor,
             }}
             >
               <Ionicons name="add" size={35} color={Colors.cardBackground} />

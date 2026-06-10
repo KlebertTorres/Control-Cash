@@ -19,7 +19,7 @@ export default function ChatScreen() {
       <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
         <View style={{flexDirection:"row"}}>
           <MenuButton/>
-          <Text style={[styles.title, { color: Colors.text}]}>
+          <Text style={[styles.title, { color: Colors.textColorPrimary }]}>
             Assistente Financeiro
           </Text>
         </View>

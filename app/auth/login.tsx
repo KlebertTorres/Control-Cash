@@ -7,7 +7,7 @@ import { DarkMode, LightMode } from "@/src/styles/cores";
 import { validarLogin } from "@/src/utils/validar";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, View, } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -59,10 +59,21 @@ export default function LoginScreen() {
 
   return (
     <View style={[styles.container, {backgroundColor: Colors.backgroundColor}]}>
-      <Text style={styles.emoji}>💸</Text>
-      <Text style={styles.title}>Control Cash</Text>
-      <Text style={styles.subtitle}>Mais dinheiro na sua mão</Text>
-      <Text style={styles.login}>Login</Text>
+      <Image
+        source={require("../../assets/images/splash-icon.png")} 
+        style={{
+            width: 200,
+            height: 200,
+            marginBottom: -20,
+        }}
+        resizeMode="contain"
+      />
+      <Text style={[styles.subtitle, { color: Colors.text} ]}>
+        Mais dinheiro na sua mão
+      </Text>
+      <Text style={[styles.login, { color: Colors.mediumGreen }]}>
+        Login
+      </Text>
 
       <InputField
         style={{width: "85%"}}
@@ -99,9 +110,11 @@ export default function LoginScreen() {
         disabled={loading}
       />
 
-      <Text style={styles.footer}>
+      <Text style={[styles.footer, { color: Colors.text }]}>
         Ainda não possui conta?{" "}
-        <Text style={styles.link} onPress={() => router.push("./register")}>
+        <Text 
+        style={[styles.link, {color: Colors.textColorSecondary}]} 
+        onPress={() => router.push("./register")}>
           Criar conta
         </Text>
       </Text>

@@ -149,6 +149,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
           style={[
             styles.faqQuestion,
             { color: Colors.textColorPrimary, flex: 1 },
+            expandedFAQ === item.id ? {color: Colors.text} : {}
           ]}
         >
           {item.question}
@@ -156,12 +157,12 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
         <Ionicons
           name={expandedFAQ === item.id ? "chevron-up" : "chevron-down"}
           size={20}
-          color={Colors.textColorPrimary}
+          color={expandedFAQ === item.id ? Colors.text : Colors.textColorPrimary}
         />
       </View>
 
       {expandedFAQ === item.id && (
-        <Text style={[styles.faqAnswer, { color: Colors.textColorPrimary }]}>
+        <Text style={[styles.faqAnswer, { color: Colors.text }]}>
           {item.answer}
         </Text>
       )}

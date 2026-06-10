@@ -128,7 +128,9 @@ export default function CategoriesScreen() {
               <View
                 style={[
                   styles.mainCategoryCard,
-                  { borderLeftColor: mainCat.color || Colors.cardBackground },
+                  { borderLeftColor: mainCat.color || Colors.cardBackground,
+                    backgroundColor: Colors.cardBackground,
+                   },
                 ]}
               >
                 <View style={styles.categoryLeft}>
@@ -228,7 +230,7 @@ export default function CategoriesScreen() {
       >
         <View style={styles.modalOverlay}>
           <View
-            style={[styles.modalContent, { backgroundColor: Colors.mediumGreen }]}
+            style={[styles.modalContent, { backgroundColor: Colors.cardBackground }]}
           >
             {/* Modal Header */}
             <View style={styles.modalHeader}>
@@ -308,7 +310,7 @@ export default function CategoriesScreen() {
               <View
                 style={[
                   styles.previewCard,
-                  { backgroundColor: Colors.cardBackground, borderColor: Colors.borderColor },
+                  { backgroundColor: Colors.mediumGreen, borderColor: Colors.borderColor },
                 ]}
               >
                 <Text style={[styles.previewLabel, { color: Colors.textColorPrimary }]}>
@@ -505,7 +507,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.02)",
   },
   previewCard: {
-    borderRadius: 12,
+    borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 16,
     marginVertical: 16,

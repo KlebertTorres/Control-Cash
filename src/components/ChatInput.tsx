@@ -42,12 +42,12 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           styles.input,
           {
             backgroundColor: Colors.backgroundColor,
-            color: Colors.textColorPrimary,
+            color: Colors.text,
             borderColor: Colors.borderColor,
           },
         ]}
         placeholder="Digite sua mensagem..."
-        placeholderTextColor={Colors.textColorPrimary}
+        placeholderTextColor={Colors.text}
         value={message}
         onChangeText={setMessage}
         editable={!isLoading}

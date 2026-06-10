@@ -37,8 +37,11 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   const [opened, setOpened] = useState(true);
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.cardBackground }]}>
-      <View style={[styles.header, { backgroundColor: Colors.backgroundColor }]}>
+    <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
+      <View 
+      style={[styles.header, opened && {borderEndEndRadius: 0,
+      borderStartEndRadius: 0} ,{ backgroundColor: Colors.mediumGreen }]}
+      >
         <Text style={styles.title}>Escolher Cor</Text>
         <TouchableOpacity 
           onPress={() => {
@@ -78,6 +81,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    borderRadius: 20,
   },
   header: {
     flexDirection: "row",
@@ -85,6 +89,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 15,
+    borderRadius: 20,
   },
   title: {
     fontSize: 18,

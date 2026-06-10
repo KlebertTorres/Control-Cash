@@ -43,7 +43,7 @@ export const TransactionList: React.FC<TransactionListProps> = ({
           ]}
         />
         <View style={styles.content}>
-          <Text style={[styles.description, { color: Colors.textColorPrimary }]}>
+          <Text style={[styles.description, { color: Colors.text }]}>
             {item.description}
           </Text>
           <Text style={[styles.category, { color: Colors.accentGreen }]}>

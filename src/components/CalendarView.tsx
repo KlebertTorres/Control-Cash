@@ -183,11 +183,11 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       {/* Header */}
       <View style={[styles.header, { backgroundColor: Colors.backgroundColor }]}>
         <TouchableOpacity onPress={handlePrevMonth}>
-          <Text style={styles.navButton}>◀</Text>
+          <Text style={[styles.navButton, { color: Colors.text }]}>◀</Text>
         </TouchableOpacity>
-        <Text style={styles.monthYear}>{formatMonthYear()}</Text>
+        <Text style={[styles.monthYear, { color: Colors.text }]}>{formatMonthYear()}</Text>
         <TouchableOpacity onPress={handleNextMonth}>
-          <Text style={styles.navButton}>▶</Text>
+          <Text style={[styles.navButton, { color: Colors.text }]}>▶</Text>
         </TouchableOpacity>
       </View>
 
@@ -198,7 +198,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
           {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"].map((day) => (
             <Text
               key={day}
-              style={[styles.weekHeaderText, { color: Colors.textColorPrimary }]}
+              style={[styles.weekHeaderText, { color: Colors.text }]}
             >
               {day}
             </Text>
@@ -216,7 +216,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       {/* Transaction Details */}
       {selectedDate && (
         <ScrollView style={styles.detailsContainer}>
-          <Text style={[styles.detailsTitle, { color: Colors.textColorPrimary }]}>
+          <Text style={[styles.detailsTitle, { color: Colors.text }]}>
             Transações de {formatDateBR(selectedDate)}
           </Text>
           {selectedTransactions.map((t) => {
@@ -237,7 +237,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                     ]}
                   />
                   <View style={styles.transactionInfo}>
-                    <Text style={[styles.transactionDesc, { color: Colors.textColorPrimary }]}>
+                    <Text style={[styles.transactionDesc, { color: Colors.text }]}>
                       {t.description}
                     </Text>
                     <Text style={[styles.transactionCat, { color: Colors.accentGreen }]}>

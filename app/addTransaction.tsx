@@ -121,15 +121,21 @@ export default function AddTransaction() {
         transactionType={type}
       />
 
-      <TouchableOpacity style={[styles.saveButton, {backgroundColor: Colors.backgroundColor}]} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Salvar</Text>
+      <TouchableOpacity 
+      style=
+      {[styles.saveButton, {backgroundColor: Colors.backgroundColor, borderColor: Colors.borderColor }]} 
+      onPress={handleSave}>
+        
+        <Text style={[styles.saveButtonText, { color: Colors.text }]}>
+          Salvar
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.cancelButton}
         onPress={() => router.back()}
       >
-        <Text style={styles.cancelButtonText}>Cancelar</Text>
+        <Text style={[styles.cancelButtonText, { color: Colors.textColorPrimary }]}>Cancelar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -175,6 +181,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginTop: 20,
     alignItems: "center",
+    borderWidth: 1,
   },
   saveButtonText: {
     color: "#fff",

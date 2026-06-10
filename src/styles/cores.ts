@@ -34,8 +34,8 @@ export const LightMode = {
 
   // Text Colors
   textColorPrimary: "#e6e6e6",
-  text: "#e6e6e6",
-  textColorSecondary: "#cfcfcf",
+  text: "#051F10",
+  textColorSecondary: "#919191",
 
   // UI Elements
   borderColor: "#163832",

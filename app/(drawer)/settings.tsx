@@ -39,18 +39,18 @@ export default function SettingsScreen() {
       <ScrollView>
       <View style={styles.profileSection}>
         <View style={[styles.avatar, {borderColor: Colors.borderColor}]} />
-        <Text style={[styles.username, { color: Colors.textColorPrimary }]}>
+        <Text style={[styles.username, { color: Colors.text }]}>
           {user?.name || "Usuário"}
         </Text>
         <TouchableOpacity onPress={() => setEditProfileVisible(true)}>
-          <Text style={[styles.editText, {color: Colors.textColorPrimary}]}>✎ Editar</Text>
+          <Text style={[styles.editText, {color: Colors.text}]}>✎ Editar</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.menu}>
         <View style={styles.menuItem}>
-          <Ionicons name="moon-outline" size={24} color={ Colors.textColorPrimary } />
-          <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Modo escuro</Text>
+          <Ionicons name="moon-outline" size={24} color={ Colors.text } />
+          <Text style={[styles.menuText, { color: Colors.text }]}>Modo escuro</Text>
           <Switch 
             style={styles.switch}
             trackColor={{ true: Colors.borderColor, false: Colors.borderColor }}
@@ -59,18 +59,9 @@ export default function SettingsScreen() {
           />
         </View>
 
-          <View style={styles.menuItem}>
-            <Ionicons name="notifications-outline" size={24} color={ Colors.textColorPrimary } />
-            <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Notificações</Text>
-            <Switch
-              style={styles.switch}
-              value={true} 
-            />
-          </View>
-
           <TouchableOpacity style={styles.menuItem} onPress={() => setHelpVisible(true)}>
-            <Ionicons name="help" size={24} color={ Colors.textColorPrimary } />
-            <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Ajuda</Text>
+            <Ionicons name="help" size={24} color={ Colors.text } />
+            <Text style={[styles.menuText, { color: Colors.text }]}>Ajuda</Text>
           </TouchableOpacity>
         </View>
 
@@ -79,8 +70,8 @@ export default function SettingsScreen() {
           {[styles.logoutButton, { marginBottom: 30 } ]}
           onPress = {() => deletarUsuario()}
         >
-          <Ionicons name="trash-outline" size={24} color={ Colors.textColorPrimary } />
-          <Text style={[styles.logoutText, { color: Colors.textColorPrimary }]}>Deletar Conta</Text>
+          <Ionicons name="trash-outline" size={24} color={ Colors.text } />
+          <Text style={[styles.logoutText, { color: Colors.text }]}>Deletar Conta</Text>
         </TouchableOpacity>
       </ScrollView>
 

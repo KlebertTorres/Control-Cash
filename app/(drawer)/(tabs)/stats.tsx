@@ -304,7 +304,7 @@ export default function StatsScreen() {
 
         {/* Category Detailed Breakdown */}
         <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: Colors.textColorPrimary }]}>
+          <Text style={[styles.sectionTitle, { color: Colors.text }]}>
             Detalhamento por Categoria
           </Text>
           {categoryBreakdown.length > 0 ? (
@@ -323,7 +323,7 @@ export default function StatsScreen() {
                       { backgroundColor: cat.color },
                     ]}
                   />
-                  <Text style={[styles.categoryName, { color: Colors.textColorPrimary }]}>
+                  <Text style={[styles.categoryName, { color: Colors.text }]}>
                     {cat.name}
                   </Text>
                 </View>
@@ -347,7 +347,7 @@ export default function StatsScreen() {
               </View>
             ))
           ) : (
-            <Text style={[styles.emptyText, { color: Colors.textColorPrimary }]}>
+            <Text style={[styles.emptyText, { color: Colors.text }]}>
               Sem movimentações neste período
             </Text>
           )}

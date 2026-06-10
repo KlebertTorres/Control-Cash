@@ -12,11 +12,13 @@ import {
 } from "../services/notificationService";
 import { Notification, NotificationContextType, NotificationSettings } from "../types/NotificationType";
 import { Transaction } from "../types/TransactionType";
+import { useTransaction } from "../hooks/useTransaction";
 
 export const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user } = useAuth();
+  const { transactions } = useTransaction();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [settings, setSettings] = useState<NotificationSettings>({
     enableOverdueNotifications: true,
@@ -83,7 +85,7 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
     }
 
     loadNotifications();
-  }, [user?.uid, loadNotifications]);
+  }, [user?.uid, loadNotifications, transactions]);
 
   const addNotification = async (notificationData: Omit<Notification, "id">) => {
     const newNotification = await CreateNotificationDoc(user?.uid, notificationData);

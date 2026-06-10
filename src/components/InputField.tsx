@@ -28,8 +28,8 @@ export const InputField = ({ style, placeholder, onChangeText, value, erros, key
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: "#b5cdbd",
-    borderWidth: 2,
+    backgroundColor: "#DAF1DE",
+    borderWidth: 0.5,
     borderRadius: 25,
     padding: 15,
     marginBottom: 15,

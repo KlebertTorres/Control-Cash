@@ -70,7 +70,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
         ]}
         onPress={() => setModalVisible(true)}
       >
-        <Text style={[styles.buttonText, { color: Colors.text }]}>
+        <Text style={[styles.buttonText, { color: Colors.textColorPrimary }]}>
           {selectedCategory ? selectedCategory.name : "Selecione uma categoria"}
         </Text>
         {selectedCategory && (
@@ -115,7 +115,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
               <Text
                 style={[
                   styles.modalTitle,
-                  { color: Colors.text, flex: 1, textAlign: "center" },
+                  { color: Colors.textColorPrimary, flex: 1, textAlign: "center" },
                 ]}
               >
                 {selectedParentId
@@ -128,7 +128,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                   setSelectedParentId(null);
                 }}
               >
-                <Text style={[styles.closeButton, { color: Colors.cardBackground }]}>
+                <Text style={[styles.closeButton, { color: Colors.textColorPrimary }]}>
                   ✕
                 </Text>
               </TouchableOpacity>
@@ -161,7 +161,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                       <Text
                         style={[
                           styles.categoryItemText,
-                          { color: Colors.text },
+                          { color: Colors.textColorPrimary },
                         ]}
                       >
                         {category.name}
@@ -210,18 +210,18 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                       ]}
                     />
                     <Text
-                      style={[styles.categoryItemText, { color: Colors.text }]}
+                      style={[styles.categoryItemText, { color: Colors.textColorPrimary }]}
                     >
                      {category.name}
                     </Text>
                     {selectedId === category.id && (
-                      <Text style={[styles.checkmark, { color: Colors.cardBackground }]}>
+                      <Text style={[styles.checkmark, { color: Colors.textColorPrimary }]}>
                         ✓
                       </Text>
                     )}
                     {categories.some((cat) => cat.parentId === category.id) && (
                       <Text
-                        style={[styles.arrowIcon, { color: Colors.textColorSecondary }]}
+                        style={[styles.arrowIcon, { color: Colors.textColorPrimary }]}
                       >
                         →
                       </Text>

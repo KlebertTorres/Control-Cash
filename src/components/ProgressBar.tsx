@@ -27,7 +27,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={[styles.label, { color: Colors.textColorPrimary }]}>{label}</Text>
+        <Text style={[styles.label, { color: Colors.text }]}>{label}</Text>
         {showPercentage && (
           <Text style={[styles.percentage, { color: Colors.accentGreen }]}>
             {Math.round(displayPercentage)}%
