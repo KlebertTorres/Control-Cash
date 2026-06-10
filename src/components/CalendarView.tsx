@@ -41,6 +41,11 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
 
+  const formatDateBR = (dateString: string) => {
+    const [year, month, day] = dateString.split("-");
+    return `${day}/${month}/${year}`;
+  };
+
   const getDayTransactions = (day: number): Transaction[] => {
     const dateStr =
     `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
@@ -118,13 +123,11 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
     if (day === null) {
       return <View style={styles.emptyCell} />;
     }
-
-    day++; // Ajuste para exibir o dia correto
-
-    const dayTransactions = getDayTransactions(day);
-    const hasTransactions = dayTransactions.length > 0;
+    
     const today = isToday(day);
     const selected = isSelected(day);
+    const dayTransactions = getDayTransactions(day);
+    const hasTransactions = dayTransactions.length > 0;
 
     const totalIncome = dayTransactions
       .filter((t) => t.type === "income")
@@ -256,7 +259,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
       {selectedDate && (
         <ScrollView style={styles.detailsContainer}>
           <Text style={[styles.detailsTitle, { color: Colors.textColorPrimary }]}>
-            Transações de {new Date(selectedDate).toLocaleDateString("pt-BR")}
+            Transações de {formatDateBR(selectedDate)}
           </Text>
           {selectedTransactions.map((t) => {
             const category = categories.find((c) => c.id === t.categoryId);

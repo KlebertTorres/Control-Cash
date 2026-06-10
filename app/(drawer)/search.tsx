@@ -33,9 +33,6 @@ export default function SearchTab() {
 
   return (
     <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
-      <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
-        <Text style={styles.headerTitle}>Buscar Transação</Text>
-      </View>
       <View style={[styles.subtittle, { backgroundColor: Colors.cardBackground }]}>
         <TouchableOpacity
           onPress={() => {
@@ -101,21 +98,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    paddingTop: 50,
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "white",
-  },
   subtittle: {
     alignItems: "center",
     fontSize: 16,
-    paddingLeft: 20,
-    paddingBottom: 15
+    padding: 15,
   },
   emptyContainer: {
     flex: 1,

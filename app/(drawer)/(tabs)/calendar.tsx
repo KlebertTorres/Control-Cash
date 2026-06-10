@@ -1,4 +1,5 @@
 import { CalendarView } from "@/src/components/CalendarView";
+import { MenuButton } from "@/src/components/MenuButton";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
 import { useState } from "react";
@@ -13,6 +14,7 @@ export default function CalendarScreen() {
   return (
     <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
       <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
+        <MenuButton/>
         <Text style={styles.headerTitle}>Agenda</Text>
       </View>
       <CalendarView 
@@ -28,6 +30,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
     header: {
+    flexDirection: "row",
     paddingHorizontal: 20,
     paddingVertical: 20,
     paddingTop: 50,

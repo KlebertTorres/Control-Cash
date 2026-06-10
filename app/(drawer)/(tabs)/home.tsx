@@ -11,14 +11,14 @@ import { Transaction } from "@/src/types/TransactionType";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { MenuButton } from "@/src/components/MenuButton";
 
 export default function HomeScreen() {
   const { darkMode } = useTheme();
   const Colors = darkMode ? DarkMode : LightMode;
 
   const { user } = useAuth();
-  const { getBalance, transactions, getTotalIncome, getTotalExpense } = useTransaction();
+  const { transactions, getTotalIncome, getTotalExpense } = useTransaction();
   const { dashboardData, getDashboardData } = useReport();
   const router = useRouter();
 
@@ -67,7 +67,17 @@ export default function HomeScreen() {
   const recentTransactions = transactions?.slice(0, 5);
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
+    <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
+        {/* Header */}
+        <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
+          <MenuButton/>
+          <Text
+            style={[styles.headerTitle, {color: Colors.textColorPrimary}]}
+          >
+            Menu inicial
+          </Text>
+        </View>
+
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -78,13 +88,9 @@ export default function HomeScreen() {
           />
         }
       >
-      
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={[styles.welcome, { color: Colors.textColorPrimary }]}>
+        <Text style={[styles.welcome, { color: Colors.textColorPrimary }]}>
             Bem vindo, {user?.name || "Usuário"}! 👋
-          </Text>
-        </View>
+        </Text>
 
         {/* Main Balance Card */}
         <View style={[styles.mainCard, { backgroundColor: balanceColor }]}>
@@ -160,7 +166,7 @@ export default function HomeScreen() {
               Últimas Movimentações
             </Text>
 
-            <TouchableOpacity onPress={() => router.push("/(tabs)/stats")}>
+            <TouchableOpacity onPress={() => router.push("/(drawer)/(tabs)/stats")}>
               <Text style={[styles.viewAll, { color: Colors.textColorPrimary }]}>Ver Mais →</Text>
             </TouchableOpacity>
           </View>
@@ -185,7 +191,7 @@ export default function HomeScreen() {
 
             <TouchableOpacity
               style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}
-              onPress={() => router.push("/(tabs)/stats")}
+              onPress={() => router.push("/(drawer)/(tabs)/stats")}
             >
               <Text style={styles.quickActionIcon}>📊</Text>
               <Text style={styles.quickActionLabel}>Relatórios</Text>
@@ -193,7 +199,7 @@ export default function HomeScreen() {
 
             <TouchableOpacity
               style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}
-              onPress={() => router.push("/(tabs)/calendar")}
+              onPress={() => router.push("/(drawer)/(tabs)/calendar")}
             >
               <Text style={styles.quickActionIcon}>📅</Text>
               <Text style={styles.quickActionLabel}>Calendário</Text>
@@ -201,7 +207,7 @@ export default function HomeScreen() {
 
             <TouchableOpacity
               style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}
-              onPress={() => router.push("/(tabs)/settings")}
+              onPress={() => router.push("/(drawer)/settings")}
             >
               <Text style={styles.quickActionIcon}>⚙️</Text>
               <Text style={styles.quickActionLabel}>Config</Text>
@@ -218,22 +224,28 @@ export default function HomeScreen() {
         onClose={() => setModalVisible(false)}
         onSave={loadDashboardData}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
   },
   scrollView: {
     flex: 1,
+    padding: 10
   },
   header: {
+    flexDirection: "row",
     paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 10,
+    paddingVertical: 20,
+    paddingTop: 50,
+  },
+    headerTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "white",
   },
   welcome: {
     fontSize: 26,

@@ -42,6 +42,6 @@ export default function Index() {
   }
 
   return (
-    <Redirect href="/(tabs)/home" />
+    <Redirect href="/(drawer)/(tabs)/home" />
   );
 }

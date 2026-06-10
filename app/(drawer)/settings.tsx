@@ -22,18 +22,6 @@ export default function SettingsScreen() {
 
   const Colors = darkMode? DarkMode: LightMode;
 
-  const deslogar = async () => {
-    try {
-      await Logout();
-      // O onAuthStateChanged em seu index.tsx detectará que o usuário foi deslogado
-      // e automaticamente redirecionará para a tela de login.
-      Alert.alert("Sucesso", "Você foi deslogado com sucesso!");
-      router.replace("/")
-    } catch (error: any) {
-      console.error("Erro ao deslogar:", error.message);
-      Alert.alert("Erro", "Não foi possível deslogar. Tente novamente.");
-    }
-  };
   const deletarUsuario = async () => {
     try {
       DeletarConta(transactions, categories);
@@ -48,12 +36,8 @@ export default function SettingsScreen() {
 
   return (
     <View style={[styles.container, {backgroundColor: Colors.backgroundColor}]}>
-      <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
-        <Text style={[styles.headerTitle, { color: Colors.textColorPrimary }]}>Configurações</Text>
-      </View>
-
       <ScrollView>
-      <View style={[styles.profileSection, { backgroundColor: Colors.cardBackground, borderRadius: 10 }]}>
+      <View style={styles.profileSection}>
         <View style={[styles.avatar, {borderColor: Colors.borderColor}]} />
         <Text style={[styles.username, { color: Colors.textColorPrimary }]}>
           {user?.name || "Usuário"}
@@ -63,7 +47,7 @@ export default function SettingsScreen() {
         </TouchableOpacity>
       </View>
 
-      <View style={[styles.menu, { backgroundColor: Colors.cardBackground, borderRadius: 10 }]}>
+      <View style={styles.menu}>
         <View style={styles.menuItem}>
           <Ionicons name="moon-outline" size={24} color={ Colors.textColorPrimary } />
           <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Modo escuro</Text>
@@ -100,14 +84,9 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={[styles.logoutButton, { backgroundColor: Colors.cardBackground } ]}
-          onPress = {() => deslogar()}
-        >
-          <Ionicons name="exit-outline" size={24} color={ Colors.textColorPrimary } />
-          <Text style={[styles.logoutText, { color: Colors.textColorPrimary }]}>Sair</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={[styles.logoutButton, { backgroundColor: Colors.cardBackground } ]}
+        <TouchableOpacity 
+          style=
+          {[styles.logoutButton, { marginBottom: 30 } ]}
           onPress = {() => deletarUsuario()}
         >
           <Ionicons name="trash-outline" size={24} color={ Colors.textColorPrimary } />
@@ -134,19 +113,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  header: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    paddingTop: 50,
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-  },
   profileSection: {
     alignItems: "center",
     padding: 10,
-    marginVertical: 30,
+    marginVertical: 20,
     marginHorizontal: 90,
   },
   avatar: {
@@ -163,12 +133,12 @@ const styles = StyleSheet.create({
   },
   editText: {
     textDecorationLine: "underline",
-    marginBottom: 30,
+    marginBottom: 20,
   },
   menu: {
     marginHorizontal: 20,
-    paddingHorizontal: 60,
-    paddingVertical: 20
+    paddingHorizontal: 40,
+    paddingVertical: 15
   },
   menuItem: {
     flexDirection: "row",

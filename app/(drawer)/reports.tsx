@@ -151,11 +151,6 @@ export default function ReportsScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
-        <Text style={styles.headerTitle}>Relatórios</Text>
-      </View>
-
       {/* Period Selector */}
       <View style={styles.periodSelector}> 
         {(["daily", "weekly", "monthly", "annual"] as const).map((p) => (
@@ -388,16 +383,6 @@ export default function ReportsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  header: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    paddingTop: 50,
-  },
-  headerTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "white",
   },
   periodSelector: {
     paddingHorizontal: 12,

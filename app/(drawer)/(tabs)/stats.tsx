@@ -1,4 +1,5 @@
 import { BarChart, LineChart, PieChart } from "@/src/components/Charts";
+import { MenuButton } from "@/src/components/MenuButton";
 import { useCategories } from "@/src/hooks/useCategories";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useTransaction } from "@/src/hooks/useTransaction";
@@ -156,6 +157,7 @@ export default function StatsScreen() {
     <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
       {/* Header */}
       <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
+        <MenuButton/>
         <Text style={styles.headerTitle}>Estatísticas</Text>
       </View>
 
@@ -362,6 +364,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
+    flexDirection: "row",
     paddingHorizontal: 20,
     paddingVertical: 20,
     paddingTop: 50,

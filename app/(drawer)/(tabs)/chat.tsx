@@ -1,5 +1,6 @@
 import { ChatBubble } from "@/src/components/ChatBubble";
 import { ChatInput } from "@/src/components/ChatInput";
+import { MenuButton } from "@/src/components/MenuButton";
 import { useChat } from "@/src/hooks/useChat";
 import { useTheme } from "@/src/hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores";
@@ -16,7 +17,8 @@ export default function ChatScreen() {
       style={[styles.container, { backgroundColor: Colors.backgroundColor }]}
     >
       <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
-        <Text style={[styles.title, { color: Colors.text }]}>Assistente Financeiro</Text>
+        <MenuButton/>
+        <Text style={[styles.title, { color: Colors.text, marginLeft: -20 }]}>Assistente Financeiro</Text>
         <TouchableOpacity onPress={clearChat} hitSlop={5}>
           <Ionicons name="trash-outline" size={22} color={Colors.textColorPrimary} />
         </TouchableOpacity>
