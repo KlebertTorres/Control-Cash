@@ -11,7 +11,7 @@ export default function TabLayout() {
   const Colors = darkMode? DarkMode: LightMode;
 
   const handleAddPress = () => {
-    router.push("/add-transaction");
+    router.push("/addTransaction");
   };
 
   return (
@@ -27,13 +27,56 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors.textColorPrimary,
         tabBarInactiveTintColor: Colors.lightGreen,
       }}
-    >
+      >
+
+      <Tabs.Screen
+        name="home"
+        options={{
+          title: "",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="home-outline" size={28} color={color} />
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="calendar"
         options={{
           title: "",
           tabBarIcon: ({ color }) => (
             <Ionicons name="calendar-outline" size={28} color={color} />
+          ),
+        }}
+      />
+
+      
+      <Tabs.Screen
+        name="add"
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            handleAddPress();
+          },
+        }}
+        options={{
+          title: "",
+          tabBarIcon: () => (
+            <TouchableOpacity
+            onPress={handleAddPress}
+            style={{
+              backgroundColor: "#e0e0e0",
+              width: 55,
+              height: 55,
+              borderRadius: 28,
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: 40,
+              borderWidth: 3,
+              borderColor: Colors.backgroundColor,
+            }}
+            >
+              <Ionicons name="add" size={35} color={Colors.cardBackground} />
+            </TouchableOpacity>
           ),
         }}
       />
@@ -49,31 +92,6 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="home"
-        options={{
-          title: "",
-          tabBarIcon: () => (
-            <TouchableOpacity
-              onPress={handleAddPress}
-              style={{
-                backgroundColor: "#e0e0e0",
-                width: 55,
-                height: 55,
-                borderRadius: 28,
-                justifyContent: "center",
-                alignItems: "center",
-                marginBottom: 40,
-                borderWidth: 3,
-                borderColor: Colors.backgroundColor,
-              }}
-            >
-              <Ionicons name="add" size={35} color={Colors.cardBackground} />
-            </TouchableOpacity>
-          ),
-        }}
-      />
-
-      <Tabs.Screen
         name="chat"
         options={{
           title: "",
@@ -83,5 +101,6 @@ export default function TabLayout() {
         }}
       />
     </Tabs>
+
   );
 }

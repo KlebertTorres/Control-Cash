@@ -17,11 +17,15 @@ export default function ChatScreen() {
       style={[styles.container, { backgroundColor: Colors.backgroundColor }]}
     >
       <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
-        <MenuButton/>
-        <Text style={[styles.title, { color: Colors.text, marginLeft: -20 }]}>Assistente Financeiro</Text>
-        <TouchableOpacity onPress={clearChat} hitSlop={5}>
-          <Ionicons name="trash-outline" size={22} color={Colors.textColorPrimary} />
-        </TouchableOpacity>
+        <View style={{flexDirection:"row"}}>
+          <MenuButton/>
+          <Text style={[styles.title, { color: Colors.text}]}>
+            Assistente Financeiro
+          </Text>
+        </View>
+          <TouchableOpacity onPress={clearChat} hitSlop={5}>
+            <Ionicons name="trash-outline" size={22} color={Colors.textColorPrimary} />
+          </TouchableOpacity>
       </View>
 
       <FlatList

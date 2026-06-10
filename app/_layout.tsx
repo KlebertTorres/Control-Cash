@@ -9,8 +9,15 @@ import { AuthProvider } from "../src/contexts/AuthContext";
 import { ThemeProvider } from "../src/contexts/ThemeContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
+import { useEffect } from "react";
+import { requestNotificationPermissions } from "@/src/services/notificationAlertService";
 
 export default function Layout() {
+
+  useEffect(() => {
+    requestNotificationPermissions();
+  }, []);
+
   return (
     <SafeAreaProvider>
       <AuthProvider>

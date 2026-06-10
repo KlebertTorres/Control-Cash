@@ -7,7 +7,6 @@ export interface Transaction {
   categoryId: string;
   subcategoryId?: string;
   installmentId?: string;
-  proofImage?: string; // URL da imagem de comprovante
   dueDate?: string; // Data de vencimento (para contas a pagar)
   status?: "pending" | "paid" | "overdue"; // Status da transação
   tags?: string[]; // Tags adicionais

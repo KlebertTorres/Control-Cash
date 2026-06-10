@@ -68,16 +68,6 @@ export default function SettingsScreen() {
             />
           </View>
 
-          <TouchableOpacity style={styles.menuItem}>
-            <Ionicons name="mail-outline" size={24} color={ Colors.textColorPrimary } />
-            <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Contato</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.menuItem}>
-            <Ionicons name="alert-circle-outline" size={24} color={ Colors.textColorPrimary } />
-            <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Relatar erros</Text>
-          </TouchableOpacity>
-
           <TouchableOpacity style={styles.menuItem} onPress={() => setHelpVisible(true)}>
             <Ionicons name="help" size={24} color={ Colors.textColorPrimary } />
             <Text style={[styles.menuText, { color: Colors.textColorPrimary }]}>Ajuda</Text>

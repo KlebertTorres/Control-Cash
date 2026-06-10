@@ -5,7 +5,7 @@ export interface Notification {
   message: string;
   relatedTransactionId?: string;
   relatedInstallmentId?: string;
-  date: string; // ISO date string
+  createdAt: string; // ISO date string
   read: boolean;
   actionType?: "pay" | "view" | "edit"; // Tipo de ação sugerida
 }

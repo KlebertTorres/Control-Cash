@@ -12,6 +12,9 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MenuButton } from "@/src/components/MenuButton";
+import { Ionicons } from "@expo/vector-icons";
+import { NotificationCenter } from "@/src/components/NotificationCenter";
+import { useNotification } from "@/src/hooks/useNotification";
 
 export default function HomeScreen() {
   const { darkMode } = useTheme();
@@ -21,6 +24,12 @@ export default function HomeScreen() {
   const { transactions, getTotalIncome, getTotalExpense } = useTransaction();
   const { dashboardData, getDashboardData } = useReport();
   const router = useRouter();
+
+  const { 
+  notifications, settings, markAsRead, markAllAsRead, removeNotification, updateSettings,
+  } = useNotification();
+
+  const [ notificationVisible, setNotificationVisible] = useState(false);
 
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -32,8 +41,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     loadDashboardData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [transactions]);
 
   const loadDashboardData = async () => {
     try {
@@ -53,11 +61,7 @@ export default function HomeScreen() {
     }
   };
 
-  const income = dashboardData?.periodIncome ?? 0;
-  const expense = dashboardData?.periodExpense ?? 0;
-
-  const balance = income - expense;
-  const balanceColor = balance >= 0 ? Colors.cardBackground : "#FF6B6B";
+  const balanceColor = (monthlyIncome + monthlyExpense) >= 0 ? Colors.cardBackground : "#FF6B6B";
 
   const handleTransactionPress = (transaction: Transaction) => {
     setSelectedTransaction(transaction);
@@ -70,12 +74,19 @@ export default function HomeScreen() {
     <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
         {/* Header */}
         <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
-          <MenuButton/>
-          <Text
-            style={[styles.headerTitle, {color: Colors.textColorPrimary}]}
+          <View style={{flexDirection:"row"}}>
+            <MenuButton/>
+            <Text
+              style={[styles.headerTitle, {color: Colors.textColorPrimary}]}
+            >
+              Tela inicial
+            </Text>
+          </View>
+          <TouchableOpacity
+            onPress={() => setNotificationVisible(true)}
           >
-            Menu inicial
-          </Text>
+            <Ionicons name="notifications-outline" size={24} color={ Colors.textColorPrimary } />
+          </TouchableOpacity>
         </View>
 
       <ScrollView
@@ -95,9 +106,9 @@ export default function HomeScreen() {
         {/* Main Balance Card */}
         <View style={[styles.mainCard, { backgroundColor: balanceColor }]}>
           <Text style={styles.mainCardLabel}>Saldo Atual</Text>
-          <Text style={styles.mainCardValue}>R$ {balance.toFixed(2)}</Text>
+          <Text style={styles.mainCardValue}>R$ {(monthlyIncome + monthlyExpense).toFixed(2)}</Text>
           <Text style={styles.mainCardSubtitle}>
-            {balance >= 0 ? "✓ Balanço positivo" : "⚠ Balanço negativo"}
+            {(monthlyIncome + monthlyExpense) >= 0 ? "✓ Balanço positivo" : "⚠ Balanço negativo"}
           </Text>
         </View>
 
@@ -183,10 +194,10 @@ export default function HomeScreen() {
           <View style={styles.quickActionsGrid}>
             <TouchableOpacity
               style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}
-              onPress={() => router.push("/add-transaction")}
+              onPress={() => router.push("/(drawer)/categories")}
             >
               <Text style={styles.quickActionIcon}>➕</Text>
-              <Text style={styles.quickActionLabel}>Adicionar</Text>
+              <Text style={styles.quickActionLabel}>Adicionar categoria</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -199,10 +210,10 @@ export default function HomeScreen() {
 
             <TouchableOpacity
               style={[styles.quickAction, { backgroundColor: Colors.cardBackground }]}
-              onPress={() => router.push("/(drawer)/(tabs)/calendar")}
+              onPress={() => router.push("/(drawer)/reports")}
             >
-              <Text style={styles.quickActionIcon}>📅</Text>
-              <Text style={styles.quickActionLabel}>Calendário</Text>
+              <Text style={styles.quickActionIcon}>📝</Text>
+              <Text style={styles.quickActionLabel}>Relatórios</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -224,6 +235,17 @@ export default function HomeScreen() {
         onClose={() => setModalVisible(false)}
         onSave={loadDashboardData}
       />
+      <NotificationCenter
+        darkMode={darkMode}
+        visible={notificationVisible}
+        notifications={notifications}
+        settings={settings}
+        onClose={() => setNotificationVisible(false)}
+        onMarkAsRead={markAsRead}
+        onMarkAllAsRead={markAllAsRead}
+        onDeleteNotification={removeNotification}
+        onUpdateSettings={updateSettings}
+      />
     </View>
   );
 }
@@ -237,6 +259,7 @@ const styles = StyleSheet.create({
     padding: 10
   },
   header: {
+    justifyContent: "space-between",
     flexDirection: "row",
     paddingHorizontal: 20,
     paddingVertical: 20,

@@ -6,8 +6,6 @@ import { Transaction } from "@/src/types/TransactionType";
 import React, { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { TransactionModal } from "./TransactionModal";
-  
-type ViewMode = "month" | "week" | "day";
 
 interface CalendarViewProps {
   onDateSelect?: (date: string) => void;
@@ -32,7 +30,6 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   };
 
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [viewMode, setViewMode] = useState<ViewMode>("month");
 
   const currentMonth = currentDate.getMonth();
   const currentYear = currentDate.getFullYear();
@@ -194,66 +191,27 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
         </TouchableOpacity>
       </View>
 
-      {/* View Mode Selector */}
-      <View style={[styles.modeSelector, { backgroundColor: Colors.backgroundColor }]}>
-        <TouchableOpacity
-          style={[
-            styles.modeButton,
-            viewMode === "day" && { backgroundColor: Colors.cardBackground },
-          ]}
-          onPress={() => setViewMode("day")}
-        >
-          <Text style={[styles.modeText, { color: Colors.lightGreen },viewMode === "day" && { color: Colors.textColorPrimary }]}>
-            Dia
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.modeButton,
-            viewMode === "week" && { backgroundColor: Colors.cardBackground },
-          ]}
-          onPress={() => setViewMode("week")}
-        >
-          <Text style={[styles.modeText, { color: Colors.lightGreen }, viewMode === "week" && { color: Colors.textColorPrimary }]}>
-            Semana
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.modeButton,
-            viewMode === "month" && { backgroundColor: Colors.cardBackground },
-          ]}
-          onPress={() => setViewMode("month")}
-        >
-          <Text style={[styles.modeText, { color: Colors.lightGreen }, viewMode === "month" && { color: Colors.textColorPrimary }]}>
-            Mês
-          </Text>
-        </TouchableOpacity>
-      </View>
-
       {/* Calendar Grid */}
-      {viewMode === "month" && (
-        <View style={styles.calendarGrid}>
-          {/* Day labels */}
-          <View style={styles.weekHeader}>
-            {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"].map((day) => (
-              <Text
-                key={day}
-                style={[styles.weekHeaderText, { color: Colors.textColorPrimary }]}
-              >
-                {day}
-              </Text>
-            ))}
-          </View>
-
-          {/* Calendar cells */}
-          <View style={styles.daysGrid}>
-            {monthDays.map((day, index) => (
-              <View key={index}>{renderDayCell(day)}</View>
-            ))}
-          </View>
+      <View style={styles.calendarGrid}>
+        {/* Day labels */}
+        <View style={styles.weekHeader}>
+          {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"].map((day) => (
+            <Text
+              key={day}
+              style={[styles.weekHeaderText, { color: Colors.textColorPrimary }]}
+            >
+              {day}
+            </Text>
+          ))}
         </View>
-      )}
+
+        {/* Calendar cells */}
+        <View style={styles.daysGrid}>
+          {monthDays.map((day, index) => (
+            <View key={index}>{renderDayCell(day)}</View>
+          ))}
+        </View>
+      </View>
 
       {/* Transaction Details */}
       {selectedDate && (
@@ -449,5 +407,6 @@ const styles = StyleSheet.create({
   button: {
     flex:1,
     flexDirection:"row",
+    marginTop: 10,
   }
 });

@@ -2,6 +2,7 @@ import { createContext, ReactNode, useCallback, useEffect, useState } from "reac
 import { useAuth } from "../hooks/useAuth";
 import {
     CreateNotificationDoc,
+    CreateNotificationFromTransaction,
     DeleteNotificationDoc,
     GetNotificationsDoc,
     GetNotificationSettings,
@@ -10,6 +11,7 @@ import {
     UpdateNotificationSettings
 } from "../services/notificationService";
 import { Notification, NotificationContextType, NotificationSettings } from "../types/NotificationType";
+import { Transaction } from "../types/TransactionType";
 
 export const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
@@ -86,6 +88,14 @@ export const NotificationProvider: React.FC<{ children: ReactNode }> = ({ childr
   const addNotification = async (notificationData: Omit<Notification, "id">) => {
     const newNotification = await CreateNotificationDoc(user?.uid, notificationData);
     setNotifications((prev) => [newNotification, ...prev]);
+  };
+
+  const addNotificationFromTransaction = async (transaction: Transaction) => {
+    const newNotification =
+    await CreateNotificationFromTransaction(
+      user!.uid,
+      transaction
+    );
   };
 
   const removeNotification = async (id: string) => {

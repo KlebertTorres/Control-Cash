@@ -8,10 +8,4 @@ export interface UserData {
   monthlyLimit?: number;
   createdAt?: string; // ISO timestamp
   updatedAt?: string; // ISO timestamp
-  preferences?: {
-    currency?: string;
-    language?: string;
-    dateFormat?: string;
-    emailNotifications?: boolean;
-  };
 }

@@ -4,17 +4,12 @@ import * as Notifications from 'expo-notifications';
 // Configure notification handler
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
     shouldPlaySound: true,
     shouldSetBadge: true,
   }),
 });
-
-interface NotificationSchedule {
-  trigger: {
-    seconds: number;
-  };
-}
 
 /**
  * Solicita permissão para enviar notificações
@@ -86,6 +81,7 @@ export const scheduleNotification = async (
         sound: 'default',
       },
       trigger: {
+        type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
         seconds: delayInSeconds,
       },
     });
@@ -158,13 +154,20 @@ export const checkUpcomingDue = async (
     if (!t.dueDate || t.status === 'paid') return false;
     const dueDate = new Date(t.dueDate);
     dueDate.setHours(0, 0, 0, 0);
-    return dueDate >= today && dueDate <= futureDate && dueDate !== today;
+    return (
+      dueDate.getTime() > today.getTime() &&
+      dueDate.getTime() <= futureDate.getTime()
+    );
   });
 
   if (upcomingTransactions.length > 0) {
+    const firstDueDate = upcomingTransactions[0].dueDate;
+
+    if (!firstDueDate) return;
+
     const daysRemaining = Math.ceil(
-      (new Date(upcomingTransactions[0].dueDate).getTime() - today.getTime()) /
-        (1000 * 60 * 60 * 24)
+      (new Date(firstDueDate).getTime() - today.getTime()) /
+      (1000 * 60 * 60 * 24)
     );
     
     await sendLocalNotification(
@@ -183,7 +186,7 @@ export const checkPendingIncome = async (transactions: Transaction[]): Promise<v
   today.setHours(0, 0, 0, 0);
 
   const pendingIncome = transactions.filter((t) => {
-    if (t.type !== 'income' || t.status === 'received') return false;
+    if (t.type !== 'income' || t.status === 'paid') return false;
     if (!t.dueDate) return false;
     const dueDate = new Date(t.dueDate);
     dueDate.setHours(0, 0, 0, 0);

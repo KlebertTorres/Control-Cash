@@ -2,6 +2,8 @@ import { CreateTransactionDoc, DeleteTransactionDoc, GetTransactionsDoc, UpdateT
 import { createContext, ReactNode, useCallback, useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { Transaction, TransactionContextType } from "../types/TransactionType";
+import { checkOverdueAccounts, checkPendingIncome, checkUpcomingDue } from "../services/notificationAlertService";
+import { CreateNotificationFromTransaction } from "../services/notificationService";
 
 export const TransactionContext = createContext<TransactionContextType | undefined>(
   undefined,
@@ -23,6 +25,18 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
       const transactionsData = await GetTransactionsDoc(user?.uid);
       
       setTransactions(transactionsData);
+
+      await checkOverdueAccounts(transactionsData);
+
+      await checkUpcomingDue(
+        transactionsData,
+        7
+      );
+
+      await checkPendingIncome(
+        transactionsData
+      );
+
     }catch(error){
       console.log(error);
     }finally {
@@ -43,6 +57,16 @@ export const TransactionProvider: React.FC<{ children: ReactNode }> = ({
   const addTransaction = async (transactionData: Omit<Transaction, "id">) => {
     const newTransaction = await CreateTransactionDoc(user.uid, transactionData);
     setTransactions((prev) => [...prev, newTransaction]);
+
+    await CreateNotificationFromTransaction(
+      user.uid,
+      newTransaction
+    );
+
+    await checkUpcomingDue(
+      [newTransaction],
+      7
+    );
   };
 
   const removeTransaction = async (id: string) => {

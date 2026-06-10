@@ -118,11 +118,6 @@ export default function CategoriesScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: Colors.backgroundColor }]}>
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
-        <Text style={styles.headerTitle}>Categorias</Text>
-      </View>
-
       {/* Main Content */}
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {mainCategories.map((mainCat) => {

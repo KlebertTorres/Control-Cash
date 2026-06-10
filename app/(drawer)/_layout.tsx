@@ -52,10 +52,20 @@ export default function DrawerLayout() {
             />
 
             <Drawer.Screen
+                name="categories"
+                options={{
+                    drawerIcon: ({ color }) => (
+                        <Ionicons name="albums-outline" size={28} color={color} />
+                    ),
+                    title: "Categorias",
+                    headerShown: true,
+                }}
+            />
+            <Drawer.Screen
                 name="reports"
                 options={{
                     drawerIcon: ({ color }) => (
-                        <Ionicons name="paper-plane-outline" size={28} color={color} />
+                        <Ionicons name="document-outline" size={28} color={color} />
                     ),
                     title: "Relatórios",
                     headerShown: true,

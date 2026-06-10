@@ -164,7 +164,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                           { color: Colors.text },
                         ]}
                       >
-                        {category.icon ? `${category.icon} ` : ""}{category.name}
+                        {category.name}
                       </Text>
                       {selectedId === category.id && (
                         <Text style={[styles.checkmark, { color: Colors.cardBackground }]}>
@@ -212,7 +212,7 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
                     <Text
                       style={[styles.categoryItemText, { color: Colors.text }]}
                     >
-                      {category.icon ? `${category.icon} ` : ""}{category.name}
+                     {category.name}
                     </Text>
                     {selectedId === category.id && (
                       <Text style={[styles.checkmark, { color: Colors.cardBackground }]}>
