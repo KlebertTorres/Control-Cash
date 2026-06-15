@@ -365,7 +365,7 @@ export default function ReportsScreen() {
       </ScrollView>
       <ExportDialog
         visible={showExportDialog}
-        transactions={transactions}
+        transactions={filteredTransactions}
         categories={categories}
         period={period === "daily"
               ? "diário"

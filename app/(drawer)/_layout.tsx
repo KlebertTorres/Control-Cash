@@ -43,11 +43,9 @@ export default function DrawerLayout() {
                 name="(tabs)"
                 options={{
                     drawerIcon: ({ color }) => (
-                        <Ionicons name="close-outline" size={28} color={color} />
+                        <Ionicons name="home-outline" size={28} color={color} />
                     ),
-                    title: "Fechar",
-                    drawerActiveTintColor: Colors.textColorPrimary,
-                    drawerActiveBackgroundColor: Colors.cardBackground,
+                    title: "Ínicio",
                 }}
             />
 

@@ -6,6 +6,7 @@ import { Logout } from "../services/authService";
 import { useTheme } from "../hooks/useTheme";
 import { DarkMode, LightMode } from "@/src/styles/cores"
 import { router } from "expo-router";
+import { replace } from "expo-router/build/global-state/routing";
 
 export default function CustomDrawerContent(props: any) {
     const { user } = useAuth();
@@ -39,22 +40,26 @@ export default function CustomDrawerContent(props: any) {
                         marginTop: 15,
                     }}
                 >
-                    <Image
-                        source={
-                            {uri: user?.photoURL,}
-                        }
-                        style={{
-                            marginLeft: 10,
-                            backgroundColor: "#D1C4E9",
-                            width: 30,
-                            height: 30,
-                            borderRadius: 40,
-                        }}
-                    />
+                    <TouchableOpacity style={{flexDirection:"row"}}
+                        onPress={() => router.replace("/(drawer)/settings")}
+                    >
+                        <Image
+                            source={
+                                {uri: user?.photoURL,}
+                            }
+                            style={{
+                                marginLeft: 10,
+                                backgroundColor: "#D1C4E9",
+                                width: 30,
+                                height: 30,
+                                borderRadius: 40,
+                            }}
+                        />
 
-                    <Text style={{ fontSize: 20, paddingHorizontal: 20, paddingTop: 5, color: Colors.textColorPrimary}}>
-                        {user?.name}
-                    </Text>
+                        <Text style={{ fontSize: 20, paddingHorizontal: 20, paddingTop: 5, color: Colors.textColorPrimary}}>
+                            {user?.name}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
 
             <DrawerItemList {...props} />

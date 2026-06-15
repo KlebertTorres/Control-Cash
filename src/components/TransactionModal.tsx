@@ -125,7 +125,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   return (
     <Modal visible={visible} transparent animationType="slide">
       <SafeAreaView style={[styles.container, { backgroundColor: Colors.cardBackground }]}>
-        <View style={[styles.header, { backgroundColor: Colors.backgroundColor }]}>
+        <View style={[styles.header, { backgroundColor: Colors.cardBackground }]}>
           <TouchableOpacity onPress={onClose}>
             <Text style={[styles.closeButton, {color: Colors.textColorPrimary}]}>✕</Text>
           </TouchableOpacity>
@@ -192,7 +192,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
               text={loading? <ActivityIndicator color={Colors.textColorPrimary} />: "Salvar"}
               onPress={handleSave}
               disabled={loading}
-              color={Colors.backgroundColor}
+              color={Colors.accentGreen}
             />
             {transaction && (
               <SimpleButton

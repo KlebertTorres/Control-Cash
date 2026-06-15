@@ -123,7 +123,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
               { borderBottomColor: Colors.borderColor },
             ]}
           >
-            <Text style={[styles.title, { color: Colors.text }]}>
+            <Text style={[styles.title, { color: Colors.textColorPrimary }]}>
               Exportar Relatório
             </Text>
             <TouchableOpacity onPress={onClose} hitSlop={8}>
@@ -187,7 +187,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                   <Text
                     style={[
                       styles.optionDescription,
-                      { color: Colors.textColorPrimary },
+                      { color: Colors.text },
                     ]}
                   >
                     {option.description}
@@ -197,7 +197,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
                 <Ionicons
                   name="chevron-forward-outline"
                   size={20}
-                  color={Colors.textColorPrimary}
+                  color={Colors.text}
                 />
               </TouchableOpacity>
             ))}
@@ -225,7 +225,7 @@ export const ExportDialog: React.FC<ExportDialogProps> = ({
               { color: Colors.textColorPrimary, marginHorizontal: 16 },
             ]}
           >
-            {transactions.length} transações serão incluídas no relatório
+            {transactions.length} {transactions.length > 1? "transações serão incluídas no relatório" : "transação sera incluída no relatório"}
           </Text>
         </View>
       </View>
