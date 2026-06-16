@@ -1,22 +1,92 @@
-## Get started
+# Control Cash
 
-1. Install dependencies
+```md
+# 💰 Finance App
+
+Aplicação de gestão financeira pessoal com controle de receitas, despesas, parcelamentos e notificações em tempo real utilizando React, TypeScript e Firebase.
+```
+
+![React](https://img.shields.io/badge/React-19-blue)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![Firebase](https://img.shields.io/badge/Firebase-orange)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+## ✨ Funcionalidades
+
+### Autenticação
+- Login
+- Cadastro
+
+### Transações
+- Receitas
+- Despesas
+- Filtros
+
+### Dashboard
+- Saldo total
+- Entradas
+- Saídas
+- Gráficos
+
+### Notificações
+- Contas vencidas
+- Próximos vencimentos
+- Receitas cadastradas
+
+## 🛠️ Tecnologias
+
+- React
+- TypeScript
+- Firebase
+- Firestore
+- Context API
+- React Router
+
+## 🏗️ Arquitetura
+
+- Context API para gerenciamento de estado
+- Firebase Authentication
+- Cloud Firestore
+- Services Layer
+- Custom Hooks
+- TypeScript Types
+
+## 📂 Estrutura do Projeto
+
+```bash
+src/
+├── components/
+├── contexts/
+├── hooks/
+├── pages/
+├── services/
+├── types/
+├── utils/
+└── routes/
+````
+
+## 📸 Preview
+
+## Instalação
+
+1. Clone o projeto
+   ```bash
+   git clone https://github.com/seuusuario/seuprojeto.git
+   ```
+   
+2. Entre na pasta
+   ```bash
+   cd seuprojeto
+   ```
+
+3. Instale as dependências
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Execute
 
    ```bash
    npx expo start
    ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
