@@ -209,7 +209,7 @@ export default function HomeScreen() {
               onPress={() => router.push("/(drawer)/(tabs)/stats")}
             >
               <Text style={styles.quickActionIcon}>📊</Text>
-              <Text style={styles.quickActionLabel}>Relatórios</Text>
+              <Text style={styles.quickActionLabel}>Gráficos</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
