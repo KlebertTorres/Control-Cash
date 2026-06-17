@@ -3,7 +3,8 @@
 ```md
 # 💰 Finance App
 
-Aplicação de gestão financeira pessoal com controle de receitas, despesas, parcelamentos e notificações em tempo real utilizando React, TypeScript e Firebase.
+Aplicação de gestão financeira pessoal com controle de receitas, despesas,
+parcelamentos e notificações em tempo real utilizando React, TypeScript e Firebase.
 ```
 
 ![React](https://img.shields.io/badge/React-19-blue)
@@ -65,7 +66,24 @@ src/
 └── routes/
 ````
 
-## 📸 Preview
+## 📸 Capturas
+### Tela de Login e Cadastro
+<p align="center">
+  <img src="./docs/images/TelaLogin-ModoClaro.png" width="40%">
+  <img src="./docs/images/TelaRegistro-ModoClaro.png" width="40%">
+</p>
+
+### Tela de Início e Menu Lateral no modo claro
+<p align="center">
+   <img src="./docs/images/MenuLateral-ModoClaro.png" width="40%">
+  <img src="./docs/images/TelaInicial-ModoClaro.png" width="40%">
+</p>
+
+### Tela de Início e Menu Lateral no modo escuro
+<p align="center">
+   <img src="./docs/images/MenuLateral-ModoEscuro.png" width="40%">
+  <img src="./docs/images/TelaInicial-ModoEscuro.png" width="40%">
+</p>
 
 ## Instalação
 
